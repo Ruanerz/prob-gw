@@ -67,7 +67,7 @@ function loginWithDiscord() {
 }
 
 window.Auth = {
-    currentUser,
+    get currentUser() { return currentUser; },
     loginWithGoogle,
     loginWithFacebook,
     loginWithDiscord,

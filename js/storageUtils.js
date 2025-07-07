@@ -67,24 +67,14 @@ function showToast(message, type = 'success') {
     if (!container) {
         container = document.createElement('div');
         container.id = 'toast-container';
-        container.style.position = 'fixed';
-        container.style.bottom = '20px';
-        container.style.right = '20px';
-        container.style.zIndex = '1000';
+        container.className = 'toast-container';
         document.body.appendChild(container);
     }
-    
+
     // Crear toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.style.padding = '12px 24px';
-    toast.style.marginBottom = '10px';
-    toast.style.borderRadius = '4px';
-    toast.style.background = type === 'error' ? '#ff4444' : '#4CAF50';
-    toast.style.color = 'white';
-    toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
     toast.style.opacity = '0';
-    toast.style.transition = 'opacity 0.3s';
     toast.textContent = message;
     
     // Agregar al DOM

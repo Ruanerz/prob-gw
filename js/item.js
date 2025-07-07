@@ -766,7 +766,7 @@ const precioVentaUnidadMercado = (mainNode && typeof mainNode.sell_price === 'nu
           if (e.target.classList.contains('chk-mode-buy')) ing.modeForParentCrafted = 'buy'; // no change
           else if (e.target.classList.contains('chk-mode-sell')) ing.modeForParentCrafted = 'sell';
           else if (e.target.classList.contains('chk-mode-crafted')) ing.modeForParentCrafted = 'crafted';
-          console.log('RADIO change', ing.name, 'uid', uid, 'nuevo modo', ing.modeForParentCrafted);
+          // console.log('RADIO change', ing.name, 'uid', uid, 'nuevo modo', ing.modeForParentCrafted);
         }
         // Recalcular y renderizar TODO el árbol
         const _expandSnapshot = snapshotExpandState(window.ingredientObjs);
@@ -887,6 +887,7 @@ const precioVentaUnidadMercado = (mainNode && typeof mainNode.sell_price === 'nu
   window.findIngredientByPath = findIngredientByPath;
   window.findIngredientByUid = findIngredientByUid;
   window.findIngredientById = findIngredientById;
+  window.calcPercent = calcPercent;
   
   
   

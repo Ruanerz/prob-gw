@@ -1,58 +1,5 @@
 // GW2 Item Tracker v2 - UI Y PRESENTACIÓN (item-ui.js)
 
-// --- Setter local para el arreglo de ingredientes (igual que en item.js) ---
-function setIngredientObjs(val) {
-  window.ingredientObjs = val;
-}
-
-// --- Setter local para la cantidad global (igual que en item.js) ---
-function setGlobalQty(val) {
-  window.globalQty = val;
-}
-
-// --- Helpers para guardar/restaurar el estado expandido (locales, igual que en item.js) ---
-function snapshotExpandState(ings) {
-  if (!ings) return [];
-  return ings.map(ing => ({
-    id: ing.id,
-    expanded: ing.expanded,
-    children: snapshotExpandState(ing.children || [])
-  }));
-}
-function restoreExpandState(ings, snapshot) {
-  if (!ings || !snapshot) return;
-  for (let i = 0; i < ings.length; i++) {
-    if (snapshot[i]) {
-      ings[i].expanded = snapshot[i].expanded;
-      restoreExpandState(ings[i].children, snapshot[i].children);
-    }
-  }
-}
-
-// --- Helper para recalcular todos los ingredientes (local, igual que en item.js) ---
-function recalcAll(ingredientObjs, globalQty) {
-  if (!ingredientObjs) return;
-  // Si el primer ingrediente es el nodo raíz, pásale isRoot=true
-  ingredientObjs.forEach((ing, idx) => {
-    if (idx === 0) {
-      ing.recalc(globalQty, null, null, true); // Nodo raíz
-    } else {
-      ing.recalc(globalQty);
-    }
-  });
-}
-
-// --- Helper para totales (local, igual que en compare-ui.js) ---
-function getTotals(ingredientObjs) {
-  let totalBuy = 0, totalSell = 0, totalCrafted = 0;
-  for (const ing of ingredientObjs) {
-    totalBuy += ing.total_buy || 0;
-    totalSell += ing.total_sell || 0;
-    totalCrafted += ing.total_crafted || 0;
-  }
-  return { totalBuy, totalSell, totalCrafted };
-} // ¡OJO! Siempre usar esto para el nodo raíz en la UI principal
-
 // --- Helpers para el input de cantidad global (definidos localmente) ---
 function setQtyInputValue(val) {
   const input = document.getElementById('qty-global');
@@ -69,73 +16,6 @@ function getQtyInputValue() {
   const input = document.getElementById('qty-global');
   return input ? parseInt(input.value, 10) : 1;
 }
-
-// --- Función local para buscar ingrediente por ID y _parentId (única versión, robusta) ---
-function findIngredientByIdAndParent(ings, id, parentId) {
-  for (const ing of ings) {
-    if (String(ing.id) === String(id) && String(ing._parentId) === String(parentId)) {
-      return ing;
-    }
-    if (Array.isArray(ing.children) && ing.children.length) {
-      const found = findIngredientByIdAndParent(ing.children, id, parentId);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-
-// --- Función local para buscar ingrediente por ID (recursiva, igual que en item.js) ---
-function findIngredientById(ings, id) {
-  if (!ings || !Array.isArray(ings)) return null;
-  for (const ing of ings) {
-    if (ing && ing.id == id) return ing;
-    if (ing.children) {
-      const found = findIngredientById(ing.children, id);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-
-// --- DEPURACIÓN: Verifica que todos los ingredientes y subingredientes tengan id válido ---
-function checkTreeForInvalidIds(ings, path = "") {
-  if (!Array.isArray(ings)) return;
-  for (const ing of ings) {
-    if (!ing || typeof ing.id === "undefined" || ing.id === null) {
-      console.warn("Ingrediente sin id válido en ruta:", path, ing);
-    }
-    if (Array.isArray(ing.children)) {
-      checkTreeForInvalidIds(ing.children, path + " > " + (ing.name || ing.id));
-    }
-  }
-}
-window.checkTreeForInvalidIds = checkTreeForInvalidIds;
-
-// Búsqueda robusta por path completo (único en toda la tabla)
-function findIngredientByUid(ings, uid) {
-  if (!ings) return null;
-  for (const ing of ings) {
-    if (String(ing._uid) === String(uid)) return ing;
-    if (Array.isArray(ing.children)) {
-      const found = findIngredientByUid(ing.children, uid);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-// (mantengo findIngredientByPath para otros usos)
-function findIngredientByPath(ings, pathArr) {
-  let current = ings;
-  let ing = null;
-  for (let i = 0; i < pathArr.length; i++) {
-    const uid = pathArr[i];
-    ing = (current || []).find(n => String(n._uid) === String(uid));
-    if (!ing) return null;
-    current = ing.children;
-  }
-  return ing;
-}
-window.findIngredientByPath = findIngredientByPath;
 
 // --- Helpers visuales ---
 
@@ -852,29 +732,6 @@ function installUIEvents() {
 
 
 
-
-// --- Helpers de estado de UI --- 
-function snapshotExpandState(ings) {
-  const map = {};
-  function walk(arr) {
-    arr.forEach(ing => {
-      map[ing._uid] = !!ing.expanded;
-      if (ing.children && ing.children.length) walk(ing.children);
-    });
-  }
-  walk(ings);
-  return map;
-}
-
-function restoreExpandState(ings, map) {
-  function walk(arr) {
-    arr.forEach(ing => {
-      ing.expanded = !!map[ing._uid];
-      if (ing.children && ing.children.length) walk(ing.children);
-    });
-  }
-  walk(ings);
-}
 
 // --- Inicialización de eventos y render seguro ---
 function safeRenderTable() {

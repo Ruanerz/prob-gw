@@ -80,46 +80,20 @@ function showAccountMenu() {
     
     modal = document.createElement('div');
     modal.id = 'account-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100vw';
-    modal.style.height = '100vh';
-    modal.style.background = 'rgba(0,0,0,0.6)';
-    modal.style.display = 'flex';
-    modal.style.alignItems = 'center';
-    modal.style.justifyContent = 'center';
-    modal.style.zIndex = '1000';
+    modal.className = 'modal-overlay';
     
     modal.innerHTML = `
-        <div style="background:#1e1e1e;padding:24px;border-radius:8px;text-align:center;min-width:280px;box-shadow:0 4px 20px rgba(0,0,0,0.3);border:1px solid #333;">
-            <img src="${user.picture || 'https://via.placeholder.com/50'}" 
-                 alt="avatar" 
-                 style="border-radius:50%;width:64px;height:64px;margin-bottom:12px;object-fit:cover;border:2px solid #93f9e1;">
-            <div style='color:#fff;font-size:16px;font-weight:500;margin-bottom:4px;'>${user.name || 'Usuario'}</div>
-            <div style='color:#aaa;font-size:13px;margin-bottom:20px;'>${user.email || ''}</div>
-            
-            <a href="cuenta.html" 
-               style="display:block;background:#2a2a2a;color:#93f9e1;text-decoration:none;padding:10px;border-radius:4px;margin-bottom:10px;transition:all 0.2s;"
-               onmouseover="this.style.background='#333';this.style.color='#b8fff0';"
-               onmouseout="this.style.background='#2a2a2a';this.style.color='#93f9e1';">
-                Mi Cuenta
-            </a>
-            
-            <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" 
-                    style="width:100%;background:#c00;color:#fff;padding:10px;border:none;border-radius:4px;cursor:pointer;font-weight:500;transition:background 0.2s;"
-                    onmouseover="this.style.background='#e60000'"
-                    onmouseout="this.style.background='#c00'">
-                Cerrar sesión
-            </button>
-            
-            <div style="margin-top:16px;">
-                <button onclick="document.getElementById('account-modal').remove()" 
-                        style="background:none;color:#aaa;border:1px solid #444;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:13px;transition:all 0.2s;"
-                        onmouseover="this.style.background='#2a2a2a';this.style.color='#fff';"
-                        onmouseout="this.style.background='none';this.style.color='#aaa';">
-                    Cerrar
-                </button>
+        <div class="account-modal-content">
+            <img src="${user.picture || 'https://via.placeholder.com/50'}" class="account-avatar" alt="avatar">
+            <div class="account-name">${user.name || 'Usuario'}</div>
+            <div class="account-email">${user.email || ''}</div>
+
+            <a href="cuenta.html" class="account-link">Mi Cuenta</a>
+
+            <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" class="logout-btn">Cerrar sesión</button>
+
+            <div class="close-wrapper">
+                <button onclick="document.getElementById('account-modal').remove()" class="close-account-btn">Cerrar</button>
             </div>
         </div>
     `;
@@ -167,21 +141,21 @@ function showAuthOptions() {
     if (!modal) {
         modal = document.createElement('div');
         modal.id = 'auth-modal';
-        modal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        modal.className = 'modal-overlay';
         modal.innerHTML = `
-            <div style="background:#222;padding:32px 28px 24px 28px;border-radius:12px;min-width:300px;box-shadow:0 2px 14px #000a;display:flex;flex-direction:column;align-items:center;">
+            <div class="auth-modal-content">
                 <h3 style='margin-bottom:18px;color:#fff;'>Iniciar sesión</h3>
                 <button id="google-login-btn" class="auth-btn google-btn">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" style="width:20px;margin-right:8px;vertical-align:middle;"> Google
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="google"> Google
                 </button>
-                <button id="facebook-login-btn" class="auth-btn facebook-btn" style="margin-top: 12px;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" style="width:20px;margin-right:8px;vertical-align:middle;"> Facebook
+                <button id="facebook-login-btn" class="auth-btn facebook-btn">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="facebook"> Facebook
                 </button>
-                <button id="discord-login-btn" class="auth-btn discord-btn" style="margin-top: 12px; background-color: #5865F2; color: #fff;">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" style="width:20px;margin-right:8px;vertical-align:middle;"> Discord
+                <button id="discord-login-btn" class="auth-btn discord-btn">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="discord"> Discord
                 </button>
-                <a href="login.html" style="margin-top:8px; color:#fff; text-decoration:underline; font-size:14px;">¿Prefieres iniciar sesión clásico?</a>
-                <button onclick="document.getElementById('auth-modal').remove()" style="margin-top:14px;background:#444;color:#fff;padding:6px 18px;border:none;border-radius:4px;cursor:pointer;">Cancelar</button>
+                <a href="login.html" class="auth-classic-link">¿Prefieres iniciar sesión clásico?</a>
+                <button onclick="document.getElementById('auth-modal').remove()" class="auth-cancel-btn">Cancelar</button>
             </div>
         `;
         document.body.appendChild(modal);

@@ -85,6 +85,10 @@ const donesContent = document.getElementById('dones-content');
 const loader = document.getElementById('loader');
 const errorMsg = document.getElementById('error-message');
 
+// Cachés en memoria y en sessionStorage para ítems y precios
+const itemCache = new Map();
+const priceCache = new Map();
+
 
 // --- Fin de formatGold ---
 
@@ -117,21 +121,40 @@ function shouldSkipMarketCheck(id){
 }
 
 async function fetchItemData(id) {
+  if (itemCache.has(id)) return itemCache.get(id);
+  const stored = sessionStorage.getItem('item:' + id);
+  if (stored) {
+    const data = JSON.parse(stored);
+    itemCache.set(id, data);
+    return data;
+  }
   const res = await fetch(API_ITEM + id);
   if (!res.ok) throw new Error('No se pudo obtener info de item ' + id);
-  return res.json();
+  const json = await res.json();
+  itemCache.set(id, json);
+  try { sessionStorage.setItem('item:' + id, JSON.stringify(json)); } catch(e) {}
+  return json;
 }
+
 async function fetchPriceData(id) {
-  // Precio fijo
   if (FIXED_PRICE_ITEMS[id] !== undefined) {
     const value = FIXED_PRICE_ITEMS[id];
     return {buys:{unit_price:value}, sells:{unit_price:value}};
   }
   if(shouldSkipMarketCheck(id)) return null;
-  if(shouldSkipMarketCheck(id)) return null;
+  if (priceCache.has(id)) return priceCache.get(id);
+  const stored = sessionStorage.getItem('price:' + id);
+  if (stored) {
+    const data = JSON.parse(stored);
+    priceCache.set(id, data);
+    return data;
+  }
   const res = await fetch(API_PRICES + id);
   if (!res.ok) return null;
-  return res.json();
+  const json = await res.json();
+  priceCache.set(id, json);
+  try { sessionStorage.setItem('price:' + id, JSON.stringify(json)); } catch(e) {}
+  return json;
 }
 
 async function renderDon(don, container) {
@@ -392,46 +415,44 @@ async function renderDraconicTribute() {
   }
 }
 
-// Inicio
-(async () => {
+// Exponer funciones de carga perezosa para cada pestaña
+const _loadedTabs = {
+  special: false,
+  tributo: false,
+  draco: false,
+  gen1: false
+};
+
+async function loadSpecialDons() {
+  if (_loadedTabs.special) return;
+  _loadedTabs.special = true;
   await renderSpecialDons();
+}
+
+async function loadTributo() {
+  if (_loadedTabs.tributo) return;
+  _loadedTabs.tributo = true;
   await renderTributo();
+}
+
+async function loadDraconicTribute() {
+  if (_loadedTabs.draco) return;
+  _loadedTabs.draco = true;
   await renderDraconicTribute();
-  await renderLegendaryWeaponGifts(); // Carga los dones de 1ra gen en su propia pestaña
-})();
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const tabButtons = document.querySelectorAll('.item-tab-btn');
-  const tabContainers = document.querySelectorAll('.container-don');
+async function loadDones1Gen() {
+  if (_loadedTabs.gen1) return;
+  _loadedTabs.gen1 = true;
+  await renderLegendaryWeaponGifts();
+}
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const tabId = button.getAttribute('data-tab');
-
-      // Ocultar todos los contenedores
-      tabContainers.forEach(container => {
-        container.style.display = 'none';
-      });
-
-      // Mostrar el contenedor correcto
-      const targetContainer = document.getElementById(tabId);
-      if (targetContainer) {
-        targetContainer.style.display = 'block';
-      }
-
-      // Actualizar clase activa en botones
-      tabButtons.forEach(btn => {
-        btn.classList.remove('active');
-      });
-      button.classList.add('active');
-    });
-  });
-
-  // Activar la primera pestaña por defecto
-  if (tabButtons.length > 0) {
-    tabButtons[0].click();
-  }
-});
+window.DonesPages = {
+  loadSpecialDons,
+  loadTributo,
+  loadDraconicTribute,
+  loadDones1Gen
+};
 
 // === Tributo Dracónico ===
 async function renderTributoDraconico() {
@@ -505,8 +526,10 @@ async function renderTributoDraconico() {
         subdonDiv.appendChild(subdonTitle);
         // Obtener datos de ingredientes
         const ingredientes = await Promise.all(subdon.ingredients.map(async ing => {
-          const info = await fetchItemData(ing.id);
-          const price = await fetchPriceData(ing.id);
+          const [info, price] = await Promise.all([
+            fetchItemData(ing.id),
+            fetchPriceData(ing.id)
+          ]);
           return {
             id: ing.id,
             name: info.name,
@@ -776,10 +799,14 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   let info = null, price = null;
   const prelimName = ing.name?.toLowerCase() || '';
   let isGift = prelimName.startsWith('don de ') || prelimName.startsWith('don del ') || prelimName.startsWith('don de la ');
-  // Si el ID no es un número válido (por ejemplo, IDs virtuales como 'DON_DE_SANGRE'), no llamar a la API
-  if (typeof ing.id === 'number' && ing.id < 1000000) {
-    try { info = await fetchItemData(ing.id); } catch (e) {}
-  }
+
+  const itemPromise = (typeof ing.id === 'number' && ing.id < 1000000) ? fetchItemData(ing.id) : Promise.resolve(null);
+  const pricePromise = shouldSkipMarketCheck(ing.id) ? Promise.resolve(null) : fetchPriceData(ing.id);
+
+  try {
+    [info, price] = await Promise.all([itemPromise, pricePromise]);
+  } catch(e) {}
+
   const finalName = (info && info.name) ? info.name : ing.name;
   if (!isGift) isGift = isGiftName(finalName);
 
@@ -792,9 +819,6 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   const isCalculatedFromChildren = isTrebolMistico || (isGift && hasComponents);
   const isSinPrecio = (isGift && !hasComponents) || shouldSkipMarketCheck(ing.id) || isNameExcluded;
 
-  if (!isCalculatedFromChildren && !isSinPrecio) {
-    try { price = await fetchPriceData(ing.id); } catch(e) {}
-  }
 
   const icon = info && info.icon ? info.icon : '';
   const count = ing.count;

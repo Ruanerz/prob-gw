@@ -63,9 +63,21 @@ async function obtenerHistorialHorario(itemID) {
     }
 }
 async function obtenerEstadoActual(itemID) {
-    // TODO: Llamar a /v1/items/json?itemID=ID
-    // Retornar datos parseados
-    return {};
+    try {
+        const fields = 'buy_price,sell_price,buy_quantity,sell_quantity,last_updated';
+        const url = `https://api.datawars2.ie/gw2/v1/items/json?fields=${fields}&ids=${itemID}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error al obtener estado actual: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (Array.isArray(data)) {
+            return data[0] || {};
+        }
+        return data || {};
+    } catch (err) {
+        throw new Error(`Error al obtener estado actual: ${err.message}`);
+    }
 }
 function mostrarGraficoVentasCompras(history) {
     const { ventasComprasChartCtx } = getMejoresHorasElements();
@@ -240,8 +252,68 @@ function mostrarGraficoVentasCompras(history) {
 }
 
 function mostrarHoraPunta(history) {
-    // TODO: Detectar y mostrar hora punta
+    const { horaPuntaDiv } = getMejoresHorasElements();
+    if (!horaPuntaDiv) return;
+    horaPuntaDiv.innerHTML = '';
+    if (!history || history.length === 0) return;
+
+    let maxTotal = -Infinity;
+    let datoMax = null;
+    history.forEach(d => {
+        const total = (d.sell_sold || 0) + (d.buy_sold || 0);
+        if (total > maxTotal) {
+            maxTotal = total;
+            datoMax = d;
+        }
+    });
+
+    if (datoMax) {
+        let fecha = datoMax.date || '';
+        let dateObj = fecha ? new Date(fecha) : null;
+        if (dateObj && !isNaN(dateObj)) {
+            const yyyy = dateObj.getFullYear();
+            const mm = (dateObj.getMonth()+1).toString().padStart(2,'0');
+            const dd = dateObj.getDate().toString().padStart(2,'0');
+            const hh = dateObj.getHours().toString().padStart(2,'0');
+            fecha = `${yyyy}-${mm}-${dd} ${hh}:00`;
+        }
+        horaPuntaDiv.innerHTML = `<b>Hora punta:</b> ${fecha} &nbsp;|&nbsp; Vendidos: ${datoMax.sell_sold ?? '-'} &nbsp;|&nbsp; Comprados: ${datoMax.buy_sold ?? '-'}`;
+    }
 }
 function mostrarPromedios(history) {
-    // TODO: Calcular y mostrar promedios horarios y diarios
+    const { promedioHoraDiv, promedioDiaDiv } = getMejoresHorasElements();
+    if (!promedioHoraDiv || !promedioDiaDiv) return;
+    promedioHoraDiv.innerHTML = '';
+    promedioDiaDiv.innerHTML = '';
+    if (!history || history.length === 0) return;
+
+    let totalSell = 0;
+    let totalBuy = 0;
+    const dias = {};
+
+    history.forEach(d => {
+        const sell = d.sell_sold || 0;
+        const buy = d.buy_sold || 0;
+        totalSell += sell;
+        totalBuy += buy;
+
+        let fecha = d.date ? new Date(d.date) : null;
+        if (fecha && !isNaN(fecha)) {
+            const key = fecha.toISOString().split('T')[0];
+            if (!dias[key]) dias[key] = { s:0, b:0 };
+            dias[key].s += sell;
+            dias[key].b += buy;
+        }
+    });
+
+    const horas = history.length || 1;
+    const numDias = Object.keys(dias).length || 1;
+
+    const avgSellHora = totalSell / horas;
+    const avgBuyHora = totalBuy / horas;
+    const avgSellDia = totalSell / numDias;
+    const avgBuyDia = totalBuy / numDias;
+
+    promedioHoraDiv.innerHTML = `<div class="dato-item">Promedio por hora</div><div class="dato-item-info">Vendidos: ${avgSellHora.toFixed(1)} | Comprados: ${avgBuyHora.toFixed(1)}</div>`;
+    promedioDiaDiv.innerHTML = `<div class="dato-item">Promedio por día</div><div class="dato-item-info">Vendidos: ${avgSellDia.toFixed(1)} | Comprados: ${avgBuyDia.toFixed(1)}</div>`;
 }

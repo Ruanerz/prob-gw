@@ -2152,7 +2152,182 @@ h1 {
   margin: 5% auto 0;  /* 5 % arriba, auto a los lados, 0 abajo */
 }
 p .info-text{
-  color:#a1a1aa;  
+  color:#a1a1aa;
   text-align: left;
 }
+
+/* --- Account and Auth Modals --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.account-modal-content {
+  background: #1e1e1e;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 280px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+}
+
+.account-avatar {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  border: 2px solid #93f9e1;
+}
+
+.account-name {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.account-email {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.account-link {
+  display: block;
+  background: #2a2a2a;
+  color: #93f9e1;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+
+.account-link:hover {
+  background: #333;
+  color: #b8fff0;
+}
+
+.logout-btn {
+  width: 100%;
+  background: #c00;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: #e60000;
+}
+
+.close-account-btn {
+  background: none;
+  color: #aaa;
+  border: 1px solid #444;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.close-account-btn:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.auth-modal-content {
+  background: #222;
+  padding: 32px 28px 24px 28px;
+  border-radius: 12px;
+  min-width: 300px;
+  box-shadow: 0 2px 14px #000a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-btn img {
+  width: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.google-btn {
+  background: #4285F4;
+  color: #fff;
+}
+
+.google-btn:hover {
+  background: #3367d6;
+}
+
+.facebook-btn {
+  background: #4267B2;
+  color: #fff;
+  margin-top: 12px;
+}
+
+.facebook-btn:hover {
+  background: #314d86;
+}
+
+.discord-btn {
+  background: #5865F2;
+  color: #fff;
+  margin-top: 12px;
+}
+
+.discord-btn:hover {
+  background: #4752c4;
+}
+
+.auth-classic-link {
+  margin-top: 8px;
+  color: #fff;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.auth-cancel-btn {
+  margin-top: 14px;
+  background: #444;
+  color: #fff;
+  padding: 6px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-wrapper {
+  margin-top: 16px;
+}
+
   

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/favicon.ico" sizes="16x16" type="image/x-icon">
+  <title>Promedios Fractales - GW2</title>
+  <link rel="stylesheet" href="css/global-gw.css">
+</head>
+<body>
+  <header>
+    <!-- El menú de navegación se insertará aquí automáticamente -->
+  </header>
+  <nav class="item-tabs-nav">
+    <button class="item-tab-btn active" data-tab="tab-promedios">Promedios</button>
+    <button class="item-tab-btn" data-tab="tab-precios">Precios y Materiales</button>
+    <button class="item-tab-btn" data-tab="tab-resumen">Resumen y Profit</button>
+  </nav>
+  <div class="container">
+    <main>
+      <div id="tab-promedios">
+        <div style="text-align: center;margin-bottom: 25px;">
+          <h2>Promedios por STACK de encriptaciones fractales</h2>
+          <p>Promedio de materiales obtenidos por apertura de un stack de encriptaciones fractales</p>
+        </div>
+        
+        <div class="card">
+          <table class="table-modern" id="tabla-fractales-gold">
+            
+            <tbody id="tabla-promedios"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="tab-precios" style="display:none;">
+        <div class="card" style="margin-top:32px;">
+          <div style="text-align: center;margin-bottom: 25px;">
+            <h2>Precios unitarios de Materiales</h2>
+            <p>Promedio de ORO por materiales obtenidos por apertura de un stack de encriptaciones fractales</p>
+          </div>
+          <div id="tabla-precios-fractales"></div>
+        </div>
+      </div>
+      <div id="tab-resumen" style="display:none;">
+        <div class="card" style="margin-top:32px;">
+          <div style="text-align: center;margin-bottom: 25px;">
+          <h2>Resumen total (Oro crudo + materiales)</h2>
+          <p>Oro promedio por apertura de un stack de encriptaciones fractales</p>
+          </div>
+          <div id="tabla-resumen-oro"></div>
+        </div>
+        <div class="card" style="margin-top:32px;">
+          <div style="text-align: center;margin-bottom: 25px;">
+          <h2>Referencias para profit</h2>
+          <p>Valores de referencia para comparar el profit</p>
+          </div>
+          <p>Precio de referencia para saber si es mejor abrir o vender.</p>
+          <div id="tabla-referencias-profit"></div>
+          <p>NOTA: Las matrices estabilizadoras fungen el papel de llaves, ya que se puede cambiar por llaves con el NPC de fractales. Y así obtener un valor por llave.
+          Y se toma como referencia para asignarle un valor a las llaves de encriptación. </p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/formatGold.js"></script>
+  <script>
+    // Tabs visuales como en item.html
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabBtns = document.querySelectorAll('.item-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('main > div[id^="tab-"]').forEach(div => div.style.display = 'none');
+          document.getElementById(btn.dataset.tab).style.display = 'block';
+        });
+      });
+    });
+  </script>
+  <script type="module">
+    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, setValoresFractales } from './js/fractales-gold-ui.js';
+
+    async function fetchPreciosFractales() {
+      const ids = [75919, 73248];
+      const url = `https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=${ids.join(',')}`;
+      const csv = await fetch(url).then(r => r.text());
+      const lines = csv.trim().split('\n');
+      let compra75919 = 0, venta75919 = 0, compra73248 = 0, venta73248 = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const [id, buy, sell] = lines[i].split(',');
+        if (id == 75919) {
+          compra75919 = parseInt(buy, 10) || 0;
+          venta75919 = parseInt(sell, 10) || 0;
+        } else if (id == 73248) {
+          compra73248 = parseInt(buy, 10) || 0;
+          venta73248 = parseInt(sell, 10) || 0;
+        }
+      }
+      setValoresFractales({ compra75919, venta75919, compra73248, venta73248 });
+    }
+
+    async function renderTodo() {
+      renderTablaPromedios();
+      renderTablaPrecios();
+      renderTablaResumenOro();
+      await fetchPreciosFractales();
+      renderTablaReferenciasProfit();
+    }
+
+    renderTodo();
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+</body>
+</html>

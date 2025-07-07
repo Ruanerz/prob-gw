@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/favicon.ico" sizes="16x16" type="image/x-icon">
+  <title>GW2 - Árbol de Crafteo Legendario</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/leg-css.css">
+  <link rel="stylesheet" href="css/global-gw.css">
+</head>
+<body>
+  <header>
+    <!-- El menú de navegación se insertará aquí automáticamente -->
+  </header>
+
+  <nav class="item-tabs-nav">
+    <button class="item-tab-btn active" data-tab="tab-first-gen">1ra Generación</button>
+    <button class="item-tab-btn" data-tab="tab-third-gen">3ra Generación</button>
+  </nav>
+
+  <main>
+  <!-- Contenedor para 1ra Generación -->
+  <div id="tab-first-gen" class="container-first">
+    <div class="container-header">
+      <div style="text-align: center;margin-bottom: 25px;">
+        <h2>Legendarias Primera Generación</h2>
+        <p>Visualizador de componentes y costos de crafteo</p>
+      </div>
+      <div class="controls">
+        <div class="form-group" style="flex-basis: 100%; width: 100%; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+          <button type="button" id="btnTwilight" class="item-tab-btn-treeleg">Crepúsculo</button>
+          <button type="button" id="btnFrostfang" class="item-tab-btn-treeleg">Colmilloescarcha</button>
+          <button type="button" id="btnIncineradora" class="item-tab-btn-treeleg">Incineradora</button>
+          <button type="button" id="btnFestin" class="item-tab-btn-treeleg">El Festín</button>
+          <button type="button" id="btnMeteorologico" class="item-tab-btn-treeleg">Meteorológico</button>
+          <button type="button" id="btnHaz" class="item-tab-btn-treeleg">Haz</button>
+          <button type="button" id="btnJuglar" class="item-tab-btn-treeleg">El Juglar</button>
+          <button type="button" id="btnKotaki" class="item-tab-btn-treeleg">Kamohoali'i Kotaki</button>
+          <button type="button" id="btnKraitkin" class="item-tab-btn-treeleg">Kraitkin</button>
+          <button type="button" id="btnProfecias" class="item-tab-btn-treeleg">Profecías</button>
+          <button type="button" id="btnRodgort" class="item-tab-btn-treeleg">Rodgort</button>
+          <button type="button" id="btnAullador" class="item-tab-btn-treeleg">Aullador</button>
+          <button type="button" id="btnAmanecer" class="item-tab-btn-treeleg">Amanecer</button>
+          <button type="button" id="btnJuggernaut" class="item-tab-btn-treeleg">El Juggernaut</button>
+          <button type="button" id="btnKudzu" class="item-tab-btn-treeleg">Kudzu</button>
+          <button type="button" id="btnDepredador" class="item-tab-btn-treeleg">El Depredador</button>
+          <button type="button" id="btnSonador" class="item-tab-btn-treeleg">El Soñador</button>
+          <button type="button" id="btnBifrost" class="item-tab-btn-treeleg">El Bifrost</button>
+          <button type="button" id="btnFrenesi" class="item-tab-btn-treeleg">Frenesí</button>
+        </div>
+
+        <div style="display: none;">
+          <div class="form-group">
+            <label for="itemName">Nombre del ítem:</label>
+            <input type="text" id="itemName" placeholder="Ej: Crepúsculo" value="Crepúsculo">
+            <div class="hint">o</div>
+          </div>
+          <div class="form-group">
+            <label for="itemId">ID del ítem:</label>
+            <input type="number" id="itemId" placeholder="Ej: 30704" style="width: 120px;">
+          </div>
+          <div class="form-group" style="margin-left: auto; display: flex; align-items: flex-end;">
+            <button id="loadTree" class="item-tab-btn-treeleg">Cargar Árbol</button>
+            <button id="clearCache" class="item-tab-btn-treeleg" title="Limpiar caché">🔄</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crafting-container">
+      <div id="craftingTree" class="crafting-tree">
+        <div class="loading">Selecciona un ítem y haz clic en "Cargar Árbol"</div>
+      </div>
+      <div id="summary" class="crafting-summary" style="display: none;">
+        <h3>Resumen de Costos</h3>
+        <div id="summaryContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor para 3ra Generación -->
+  <div id="tab-third-gen" class="container-third" style="display: none;">
+    <div class="container-header">
+      <div style="text-align: center;margin-bottom: 25px;">
+        <h2>Legendarias Tercera Generación</h2>
+        <p>Visualizador de componentes y costos de crafteo</p>
+      </div>
+      <div class="controls">
+        <div class="form-group" style="flex-basis: 100%; width: 100%; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+          <button type="button" id="btnDesgarro" class="item-tab-btn-treeleg">Desgarro de Aurene</button>
+          <button type="button" id="btnGarra" class="item-tab-btn-treeleg">Garra de Aurene</button>
+          <button type="button" id="btnCola" class="item-tab-btn-treeleg">Cola de Aurene</button>
+          <button type="button" id="btnRazonamiento" class="item-tab-btn-treeleg">Razonamiento de Aurene</button>
+          <button type="button" id="btnSabiduria" class="item-tab-btn-treeleg">Sabiduría de Aurene</button>
+          <button type="button" id="btnColmillo" class="item-tab-btn-treeleg">Colmillo de Aurene</button>
+          <button type="button" id="btnMirada" class="item-tab-btn-treeleg">Mirada de Aurene</button>
+          <button type="button" id="btnEscama" class="item-tab-btn-treeleg">Escama de Aurene</button>
+          <button type="button" id="btnAliento" class="item-tab-btn-treeleg">Aliento de Aurene</button>
+          <button type="button" id="btnVoz" class="item-tab-btn-treeleg">Voz de Aurene</button>
+          <button type="button" id="btnMordisco" class="item-tab-btn-treeleg">Mordisco de Aurene</button>
+          <button type="button" id="btnPeso" class="item-tab-btn-treeleg">Peso de Aurene</button>
+          <button type="button" id="btnVuelo" class="item-tab-btn-treeleg">Vuelo de Aurene</button>
+          <button type="button" id="btnPersuasion" class="item-tab-btn-treeleg">Persuasión de Aurene</button>
+          <button type="button" id="btnAla" class="item-tab-btn-treeleg">Ala de Aurene</button>
+          <button type="button" id="btnReflexion" class="item-tab-btn-treeleg">Reflexión de Aurene</button>
+        </div>
+        <div style="display: none;">
+          <div class="form-group">
+            <label for="itemNameThird">Nombre del ítem:</label>
+            <input type="text" id="itemNameThird" placeholder="Ej: Desgarro de Aurene" value="Desgarro de Aurene">
+            <div class="hint">o</div>
+          </div>
+          <div class="form-group">
+            <label for="itemIdThird">ID del ítem:</label>
+            <input type="number" id="itemIdThird" placeholder="Ej: 96613" style="width: 120px;">
+          </div>
+          <div class="form-group" style="margin-left: auto; display: flex; align-items: flex-end;">
+            <button id="loadTreeThird" class="item-tab-btn-treeleg">Cargar Árbol</button>
+            <button id="clearCacheThird" class="item-tab-btn-treeleg" title="Limpiar caché">🔄</button>
+          </div>
+        </div>    
+    </div>
+    <div class="crafting-container">
+      <div id="craftingTreeThird" class="crafting-tree">
+        <div class="loading">Selecciona un ítem y haz clic en "Cargar Árbol"</div>
+      </div>
+      <div id="summaryThird" class="crafting-summary" style="display: none;">
+        <h3>Resumen de Costos</h3>
+        <div id="summaryContentThird"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/formatGold.js"></script>
+  <script type="module" src="js/legendaryCrafting3gen.js"></script>
+  <script type="module" src="js/legendaryCrafting1gen.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    // Tabs functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabBtns = document.querySelectorAll('.item-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons and hide all tabs
+          tabBtns.forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.container-first, .container-third').forEach(tab => {
+            tab.style.display = 'none';
+          });
+          
+          // Add active class to clicked button and show corresponding tab
+          btn.classList.add('active');
+          const tabId = btn.getAttribute('data-tab');
+          document.getElementById(tabId).style.display = 'block';
+        });
+      });
+    });
+  </script>
+  
+</body>
+</html>

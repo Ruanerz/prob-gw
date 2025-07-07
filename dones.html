@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/favicon.ico" sizes="16x16" type="image/x-icon">
+  <title>Dones Especiales - GW2 v2</title>
+  <link rel="stylesheet" href="css/global-gw.css">
+</head>
+<body>
+  <header>
+    <!-- El menú de navegación se insertará aquí automáticamente -->
+  </header>
+
+  <nav class="item-tabs-nav">
+    <button class="item-tab-btn active" data-tab="tab-don-suerte">Don de la Suerte</button>
+    <button class="item-tab-btn" data-tab="tab-tributo-mistico">Tributo Místico</button>
+    <button class="item-tab-btn" data-tab="tab-tributo-draconico">Tributo Dracónico</button>
+    <button class="item-tab-btn" data-tab="dones-1ra-gen">Dones 1ra Gen</button>
+  </nav>
+
+  <!-- Contenedor para Don de la Suerte -->
+  <div id="tab-don-suerte" class="container container-don">
+    <div class="container-header">
+      <div>
+        <h2>Don de la Suerte</h2>
+        <p>Un don de la suerte que se utiliza para crear armas legendarias. De primera generación.</p>
+      </div>
+    </div>
+    <main>
+      <div id="loader" class="loader" style="display:none;"></div>
+      <div id="error-message" class="error-message" style="display:none;"></div>
+      <div id="dones-content"></div>
+    </main>
+  </div>
+
+  <!-- Contenedor para Tributo Místico -->
+  <div id="tab-tributo-mistico" class="container container-tributo" style="display: none;">
+    <div class="container-header">
+      <div>
+        <h2>Tributo Místico</h2>
+        <p>El tributo místico es un don que se usa para fabricar armas legendarias de segunda generación.</p>
+      </div>
+    </div>
+    <main>
+      <div id="tributo-content">
+        <div id="loader-tributo" class="loader" style="display:none;"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Contenedor para Tributo Dracónico -->
+  <div id="tab-tributo-draconico" class="container container-tributo" style="display: none;">
+    <div class="container-header">
+      <div>
+        <h2>Tributo Dracónico</h2>
+        <p>El tributo dracónico es un don que se usa para fabricar armas legendarias de tercera generación.</p>
+      </div>
+    </div>
+    <main>
+      <div id="tributo-draconico-content">
+        <div id="loader-tributo-draconico" class="loader" style="display:none;"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Contenedor para Dones 1ra Gen -->
+  <div id="dones-1ra-gen" class="container container-don" style="display: none;">
+    <div class="container-header">
+      <div>
+        <h2>Dones 1ra Gen</h2>
+        <p>Información sobre dones de primera generación.</p>
+      </div>
+    </div>
+    <main>
+      <div id="loader-dones-1ra-gen" class="loader" style="display:none;"></div>
+      <div id="dones-1ra-gen-content"></div>
+    </main>
+  </div>
+
+  <script src="js/formatGold.js"></script>
+  <script src="js/dones.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/dones-tabs.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Guild Wars 2</title>
+    <link rel="stylesheet" href="css/global-gw.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .login-btn {
+            background: #4285F4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin: 20px auto;
+        }
+        .login-btn img {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Iniciar Sesión</h2>
+        <div id="status">Procesando autenticación...</div>
+    </div>
+    <script>
+        // Procesar la respuesta de OAuth (Google o Discord)
+        window.onload = async function() {
+            const hash = window.location.hash.substring(1);
+            const fragmentParams = new URLSearchParams(hash);
+            const accessToken = fragmentParams.get('access_token');
+            const state = fragmentParams.get('state'); // "google" (por defecto) o "discord"
+
+            if (!accessToken) {
+                document.getElementById('status').textContent = 'No se recibió token de autenticación.';
+                return;
+            }
+            try {
+                let user = null;
+                if (state === 'discord') {
+                    // Obtener datos de usuario desde la API de Discord
+                    const resp = await fetch('https://discord.com/api/users/@me', {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    if (!resp.ok) throw new Error('Error al obtener perfil de Discord');
+                    const profile = await resp.json();
+                    let avatarUrl;
+                    if (profile.avatar) {
+                        avatarUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`;
+                    } else {
+                        // Avatar por defecto basado en discriminator (0-4) o hash del id
+                        const index = profile.discriminator ? parseInt(profile.discriminator) % 5 : (parseInt(profile.id) >> 22) % 6;
+                        avatarUrl = `https://cdn.discordapp.com/embed/avatars/${index}.png`;
+                    }
+                    user = {
+                        id: profile.id,
+                        name: profile.global_name || profile.username,
+                        email: profile.email || '',
+                        picture: avatarUrl
+                    };
+                } else {
+                    // Google por defecto
+                    const resp = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    if (!resp.ok) throw new Error('Error al obtener perfil de Google');
+                    const profile = await resp.json();
+                    user = {
+                        email: profile.email,
+                        name: profile.name,
+                        picture: profile.picture
+                    };
+                }
+                // Guardar datos y token
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('auth_token', accessToken);
+
+                // Redirección
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect') || 'index.html';
+                window.location.href = redirect;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('status').textContent = 'Error al obtener el perfil.';
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/favicon.ico" sizes="16x16" type="image/x-icon">
+  <title>Detalle de Ítem - GW2 v2</title>
+  <link rel="stylesheet" href="css/global-gw.css">
+</head>
+<body>
+  <header>
+    <!-- El menú de navegación se insertará aquí automáticamente -->
+  </header>
+  <section class="services-menu">
+    <div class="menu-grid-craft">
+      <a href="#" class="menu-card-search-craft" id="open-search-modal">
+        <div class="card-icon-craft">
+          <img src="img/search.svg" alt="Buscador">
+        </div>
+        <div class="card-title">Buscador</div>
+      </a>
+
+    </div>
+  </section>
+  <div class="container">
+    <div style="text-align: center;margin-bottom: 25px;">
+      <h2>Comparativa de items</h2>
+      <p>Busca y añade items para comprar sus precios de crafteo y profit</p>
+    </div>
+
+    <div class="qty-global-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+      <div>
+        <label for="qty-global" style="font-weight:500;">Cantidad global:</label>
+        <input id="qty-global" type="number" min="1" value="1" style="width:60px;height:36px;" autocomplete="off">
+      </div>
+      <button id="btn-guardar-comparativa" class="item-tab-btn" style="margin-left: 10px; display: none;">Guardar comparativa</button>
+      <script>
+        // Mostrar el botón solo si el usuario está autenticado
+        if (localStorage.getItem('user')) {
+          document.getElementById('btn-guardar-comparativa').style.display = 'inline-block';
+        }
+      </script>
+    </div>
+
+    <div id="item-header"></div>    
+
+    <main>
+      <!-- Secciones de Tabs -->
+      
+      <div id="loader" class="loader" style="display:none;"></div>
+      <div id="error-message" class="error-message" style="display:none;"></div>
+      <div id="wiki-links" style="display:none;"></div>
+      
+      
+
+      
+      
+      <div id="seccion-crafting"></div>
+      
+    </main>
+
+  </div>
+  <a href="#" class="feedback-float" id="open-feedback-modal">Feedback</a>
+  <!-- Modal de Feedback/Contacto -->
+  
+  <div id="feedback-modal" class="search-modal" style="display:none;">
+    <div class="search-modal-backdrop"></div>
+    <div class="search-modal-content">
+      <button class="close-modal" id="close-feedback-modal">×</button>
+      <div style="text-align: center;"><h2>¿Mejoras?¿Bugs?</h2></div>
+      <div style="margin: 18px 0 8px 0;text-align: center;">
+        ¿Tienes dudas, sugerencias o comentarios?<br>
+        Escríbeme por discord <a href="https://discord.gg/rtAEcMys" style="color:#93f9e1;">SERVER RUANERZ</a>
+        <br>en el canal general o por privado.<br>
+        
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="js/formatGold.js"></script>
+
+  <!-- Modal del Buscador fuera de .container para igualar a index.html -->
+  <div id="search-modal" class="search-modal" style="display:none;">
+    <div class="search-modal-backdrop"></div>
+    <div class="search-modal-content">
+      <button class="close-modal" id="close-search-modal"></button>
+      <input type="text" id="modal-search-input" placeholder="Buscar ítem por nombre..." autocomplete="off">
+      <ul id="modal-suggestions" class="suggestions"></ul>
+      <div id="modal-loader" class="loader" style="display:none;"></div>
+      <div id="modal-error-message" class="error-message" style="display:none;"></div>
+      <div id="modal-results" class="item-list"></div>
+    </div>
+  </div>
+  <script>
+  // Modal open/close logic (idéntico a index.html)
+  document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.getElementById('open-search-modal');
+    const modal = document.getElementById('search-modal');
+    const closeBtn = document.getElementById('close-search-modal');
+    openBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.style.display = 'block';
+      // El script js/search-modal-compare-craft.js ya está cargado de forma estática al final del HTML
+    });
+    closeBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    // Cierra modal con fondo
+    modal.querySelector('.search-modal-backdrop').addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    // Escape para cerrar
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') modal.style.display = 'none';
+    });
+  });
+  </script>
+
+  <script src="js/item-tabs.js"></script>
+  <script src="js/feedback-modal.js"></script>
+  <!-- Nuevos módulos separados -->
+  <script type="module" src="js/compare-logic.js"></script>
+  <script type="module" src="js/compare-ui.js"></script>
+
+  <script>
+  // Override global de selectItem para integración con el modal en compare-craft
+  window.selectItem = function(id, e) {
+  if (e) e.preventDefault();
+  if (window.comparativa && typeof window.comparativa.agregarItemPorId === 'function') {
+    window.comparativa.agregarItemPorId(Number(id));
+    var input = document.getElementById('modal-search-input');
+    var suggestions = document.getElementById('modal-suggestions');
+    var results = document.getElementById('modal-results');
+    if (input) input.value = '';
+    if (suggestions) suggestions.innerHTML = '';
+    if (results) results.innerHTML = '';
+    if (input) input.focus();
+    return false;
+  }
+  // Aquí puedes mostrar un mensaje de error visualmente, por consola, etc.
+  alert('No se pudo agregar el ítem a la comparativa. Por favor intenta de nuevo.');
+  // O si prefieres un mensaje en pantalla:
+  var error = document.getElementById('modal-error-message');
+  if (error) {
+    error.textContent = 'No se pudo agregar el ítem a la comparativa.';
+    error.style.display = 'block';
+  }
+  return false;
+};
+
+  </script>
+<script src="js/auth.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/storageUtils.js"></script>
+<script src="js/search-modal-compare-craft.js"></script>
+<!-- Manejadores de comparativa (guardar comparativa) -->
+<script src="js/compareHandlers.js"></script>
+</body>
+</html>

@@ -25,7 +25,11 @@ function hideError() {
 }
 
 async function fetchAllItems() {
-  sessionStorage.removeItem('itemList');
+  const cached = sessionStorage.getItem('itemList');
+  if (cached) {
+    allItems = JSON.parse(cached);
+    return;
+  }
   showLoader(true);
   hideError();
   try {

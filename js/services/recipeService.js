@@ -13,7 +13,7 @@ const cache = {
  * @param {number} itemId - ID del ítem
  * @returns {Promise<Array>} - Lista de recetas
  */
-window.getRecipesForItem = async function(itemId) {
+async function getRecipesForItem(itemId) {
     if (!itemId) {
         console.error('[ERROR] ID de ítem no proporcionado');
         return [];
@@ -48,6 +48,8 @@ window.getRecipesForItem = async function(itemId) {
         return [];
     }
 }
+
+window.getRecipesForItem = getRecipesForItem;
 
 /**
  * Obtiene los detalles de una receta específica
@@ -135,3 +137,8 @@ window.getItemPrices = async function(itemId) {
         return { buys: { unit_price: 0 }, sells: { unit_price: 0 } };
     }
 };
+
+// Export para entornos que soporten CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports.getRecipesForItem = getRecipesForItem;
+}

@@ -1,22 +1,7 @@
 // Dependencias: estas funciones deben estar definidas globalmente antes de este archivo
-// getRecipeDetails, getItemDetails, getItemPrices
+// getRecipesForItem, getRecipeDetails, getItemDetails, getItemPrices
 
-// Integración robusta: función local para obtener recetas, inspirada en SOLO-REFERENCIA
-async function getRecipesForItem(itemId) {
-    const API_BASE_URL = 'https://api.guildwars2.com/v2';
-    if (!window._recipeCache) window._recipeCache = {};
-    if (window._recipeCache[itemId]) return window._recipeCache[itemId];
-    try {
-        const response = await fetch(`${API_BASE_URL}/recipes/search?output=${itemId}`);
-        if (!response.ok) throw new Error('Error al buscar recetas');
-        const recipeIds = await response.json();
-        window._recipeCache[itemId] = recipeIds;
-        return recipeIds;
-    } catch (error) {
-        console.error('Error en getRecipesForItem:', error);
-        return [];
-    }
-}
+// Se asume que getRecipesForItem está definido globalmente en recipeService.js
 
 
 /**

@@ -19,13 +19,7 @@ function getQtyInputValue() {
 
 // --- Helpers visuales ---
 
-// --- Función para calcular porcentajes (copiada de item.js) ---
-function calcPercent(sold, available) {
-  if (!sold || !available || isNaN(sold) || isNaN(available) || available === 0) return '-';
-  return ((sold / available) * 100).toFixed(1) + '%';
-}
-
-
+// La función calcPercent se importa desde item.js
 function renderWiki(name) {
   if (!name) return;
   const nombre = encodeURIComponent(name.replaceAll(' ', '_'));
@@ -59,21 +53,12 @@ function hideError() {
 
 // --- Renderizado recursivo de ingredientes ---
 function renderRows(ings, nivel = 1, parentId = null, rowGroupIndex = 0, parentExpanded = true, path = []) {
-  // DEPURACIÓN: Log de todos los radios que se van a renderizar
-  ings.forEach((ing, idx) => {
-    if (nivel > 0) {
-      console.log('[RENDER RADIO]', {
-        id: ing.id,
-        parentId,
-        name: `mode-${parentId}-${ing.id}`,
-        modeForParentCrafted: ing.modeForParentCrafted,
-        buyChecked: ing.modeForParentCrafted === 'buy',
-        sellChecked: ing.modeForParentCrafted === 'sell',
-        craftedChecked: ing.modeForParentCrafted === 'crafted',
-        isCraftable: ing.is_craftable
-      });
-    }
-  });
+  // DEPURACIÓN opcional de los radios renderizados
+  // ings.forEach((ing, idx) => {
+  //   if (nivel > 0) {
+  //     console.log('[RENDER RADIO]', { id: ing.id, parentId, modeForParentCrafted: ing.modeForParentCrafted });
+  //   }
+  // });
   
   return ings.map((ing, idx) => {
     const groupIdx = nivel === 0 ? idx : rowGroupIndex;
@@ -445,14 +430,14 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
     ${profitHtml}
     ${outputCount > 1 ? profitHtmlUnidad : ''}
   `;
-  console.log('[LOG][renderCraftingSectionUI] Antes del return. outputCount:', outputCount, 'window._mainRecipeOutputCount:', window._mainRecipeOutputCount);
+  // console.log('[LOG][renderCraftingSectionUI] Antes del return.', outputCount);
   return htmlFinal;
 
 }
 
 // --- Renderizado principal refactorizado ---
 async function renderItemUI(itemData, marketData) {
-  console.log('%cLEGACY renderItemUI ejecutado', 'color: #f44336; font-weight: bold;', itemData);
+  // console.log('%cLEGACY renderItemUI ejecutado', 'color: #f44336; font-weight: bold;', itemData);
 
   const itemHeader = document.getElementById('item-header');
   // Verificar si hay información de artesanía
@@ -638,7 +623,7 @@ function installUIEvents() {
   if (window._uiEventsInstalled) return;
   window._uiEventsInstalled = true;
   
-  console.log('[INIT] installUIEvents llamada');
+  // console.log('[INIT] installUIEvents llamada');
   
   // Handler input cantidad global - LÓGICA IDÉNTICA A compare-ui.js
   if (!window._qtyGlobalHandlerInstalled) {
@@ -762,12 +747,13 @@ function safeRenderTable() {
     const input = document.getElementById('qty-global');
 
     if (input) {
-      input.addEventListener('input', (e) => {
-        console.log('[DEBUG] input qty-global changed:', e.target.value);
-      });
-      input.addEventListener('change', (e) => {
-        console.log('[DEBUG] change qty-global:', e.target.value);
-      });
+      // Debug opcional sobre cambios en el input
+      // input.addEventListener('input', (e) => {
+      //   console.log('[DEBUG] input qty-global changed:', e.target.value);
+      // });
+      // input.addEventListener('change', (e) => {
+      //   console.log('[DEBUG] change qty-global:', e.target.value);
+      // });
     }
   }, 0);
 

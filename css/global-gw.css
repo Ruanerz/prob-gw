@@ -2067,6 +2067,36 @@ h1 {
   display: none;
 }
 
+/* Utility classes extracted from compare-craft.html */
+.center-mb-25 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-18-0-8-0 {
+  margin: 18px 0 8px 0;
+  text-align: center;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
 
 /* Estilos para la vista de detalle */
 .item-detail {

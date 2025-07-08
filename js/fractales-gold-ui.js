@@ -172,7 +172,7 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
 }
 
 // --- Renderiza la tabla resumen de oro crudo + materiales × 0.85 ---
-export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro') {
+export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', preciosFractales = {}) {
   // 1. Promedio de oro crudo
   const sets = FRACTAL_STACKS;
   let suma = 0, sumaStacks = 0;
@@ -236,29 +236,13 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro') {
   const sumaCompra = promedioOro + (totalCompra * 0.85);
   const sumaVenta = promedioOro + (totalVenta * 0.85);
 
-  // 6. Obtener precio de compra y venta del item ID 75919 (Encriptación fractal)
-  let valorCompra75919 = 0;
-  let valorVenta75919 = 0;
-  try {
-    const res = await fetch('https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=75919');
-    const csv = await res.text();
-    const [headers, values] = csv.trim().split('\n');
-    const [id, buy, sell] = values.split(',');
-    valorCompra75919 = parseInt(buy, 10) || 0;
-    valorVenta75919 = parseInt(sell, 10) || 0;
-  } catch (e) {}
-
-  // 6b. Obtener precio de compra y venta del item ID 73248 (Matriz estabilizadora)
-  let valorCompra73248 = 0;
-  let valorVenta73248 = 0;
-  try {
-    const res = await fetch('https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=73248');
-    const csv = await res.text();
-    const [headers, values] = csv.trim().split('\n');
-    const [id, buy, sell] = values.split(',');
-    valorCompra73248 = parseInt(buy, 10) || 0;
-    valorVenta73248 = parseInt(sell, 10) || 0;
-  } catch (e) {}
+  // 6. Precios de encriptaciones (se pasan desde fuera)
+  const {
+    compra75919 = 0,
+    venta75919 = 0,
+    compra73248 = 0,
+    venta73248 = 0
+  } = preciosFractales;
 
   // 7. Render tabla
   const htmlResumen = `
@@ -284,7 +268,13 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro') {
   document.getElementById(containerId).innerHTML = htmlResumen;
 }
 
-export async function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit') {
+export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit', preciosFractales = {}) {
+  const {
+    compra75919 = 0,
+    venta75919 = 0,
+    compra73248 = 0,
+    venta73248 = 0
+  } = preciosFractales;
   const htmlFractales = `
     <table class="table-modern" style="margin-top:0;">
       <thead>
@@ -296,27 +286,27 @@ export async function renderTablaReferenciasProfit(containerId = 'tabla-referenc
       <tbody>
         <tr>
           <td><div class="dato-item">Encriptación fractal (compra ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(valorCompra75919 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(compra75919 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Encriptación fractal (venta ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(valorVenta75919 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(venta75919 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Matriz estabilizadora (compra ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(valorCompra73248 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(compra73248 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Matriz estabilizadora (venta ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(valorVenta73248 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(venta73248 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Suma Encriptación + Matriz (compra) - 15% de comisión</div></td>
-          <td><div class="dato-item-info">${window.formatGold(((valorCompra75919 + valorCompra73248) * 250) * 0.85)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(((compra75919 + compra73248) * 250) * 0.85)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Suma Encriptación + Matriz (venta) - 15% de comisión</div></td>
-          <td><div class="dato-item-info">${window.formatGold(((valorVenta75919 + valorVenta73248) * 250) * 0.85)}</div></td>
+          <td><div class="dato-item-info">${window.formatGold(((venta75919 + venta73248) * 250) * 0.85)}</div></td>
         </tr>
       </tbody>
     </table>

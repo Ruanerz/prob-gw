@@ -77,23 +77,24 @@
     });
   </script>
   <script type="module">
-    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, setValoresFractales, fetchItemPrices } from './js/fractales-gold-ui.js';
+    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, fetchItemPrices } from './js/fractales-gold-ui.js';
 
     async function fetchPreciosFractales() {
       const priceMap = await fetchItemPrices([75919, 73248]);
-      const compra75919 = priceMap[75919]?.buy_price || 0;
-      const venta75919 = priceMap[75919]?.sell_price || 0;
-      const compra73248 = priceMap[73248]?.buy_price || 0;
-      const venta73248 = priceMap[73248]?.sell_price || 0;
-      setValoresFractales({ compra75919, venta75919, compra73248, venta73248 });
+      return {
+        compra75919: priceMap[75919]?.buy_price || 0,
+        venta75919: priceMap[75919]?.sell_price || 0,
+        compra73248: priceMap[73248]?.buy_price || 0,
+        venta73248: priceMap[73248]?.sell_price || 0
+      };
     }
 
     async function renderTodo() {
+      const preciosFractales = await fetchPreciosFractales();
       renderTablaPromedios();
       renderTablaPrecios();
-      renderTablaResumenOro();
-      await fetchPreciosFractales();
-      renderTablaReferenciasProfit();
+      renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
+      renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales);
     }
 
     renderTodo();

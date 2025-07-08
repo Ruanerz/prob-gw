@@ -91,45 +91,20 @@
       <div id="modal-results" class="item-list"></div>
     </div>
   </div>
+  <script src="js/modal-utils.js"></script>
   <script>
-  // Modal open/close logic (idéntico a index.html)
   document.addEventListener('DOMContentLoaded', function() {
     const openBtn = document.getElementById('open-search-modal');
     const modal = document.getElementById('search-modal');
     const closeBtn = document.getElementById('close-search-modal');
     openBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      modal.style.display = 'block';
-      // Lazy load script only once
-      if (!window._searchLoaded) {
-        // Cargar primero js/formatGold.js si no está presente
-        if (!window.formatGold) {
-          const goldScript = document.createElement('script');
-          goldScript.src = 'js/formatGold.js';
-          document.body.appendChild(goldScript);
-          goldScript.onload = function() {
-            const script = document.createElement('script');
-            script.src = 'js/search-modal.js';
-            document.body.appendChild(script);
-          };
-        } else {
-          const script = document.createElement('script');
-          script.src = 'js/search-modal.js';
-          document.body.appendChild(script);
-        }
-        window._searchLoaded = true;
-      }
+      openSearchModal();
     });
-    closeBtn.addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
-    // Cierra modal con fondo
-    modal.querySelector('.search-modal-backdrop').addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
-    // Escape para cerrar
+    closeBtn.addEventListener('click', closeSearchModal);
+    modal.querySelector('.search-modal-backdrop').addEventListener('click', closeSearchModal);
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') modal.style.display = 'none';
+      if (e.key === 'Escape') closeSearchModal();
     });
   });
   </script>

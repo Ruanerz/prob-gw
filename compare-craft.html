@@ -92,27 +92,20 @@
       <div id="modal-results" class="item-list"></div>
     </div>
   </div>
+  <script src="js/modal-utils.js"></script>
   <script>
-  // Modal open/close logic (idéntico a index.html)
   document.addEventListener('DOMContentLoaded', function() {
     const openBtn = document.getElementById('open-search-modal');
     const modal = document.getElementById('search-modal');
     const closeBtn = document.getElementById('close-search-modal');
     openBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      modal.style.display = 'block';
-      // El script js/search-modal-compare-craft.js ya está cargado de forma estática al final del HTML
+      openSearchModal('js/search-modal-compare-craft.js');
     });
-    closeBtn.addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
-    // Cierra modal con fondo
-    modal.querySelector('.search-modal-backdrop').addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
-    // Escape para cerrar
+    closeBtn.addEventListener('click', closeSearchModal);
+    modal.querySelector('.search-modal-backdrop').addEventListener('click', closeSearchModal);
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') modal.style.display = 'none';
+      if (e.key === 'Escape') closeSearchModal();
     });
   });
   </script>
@@ -153,7 +146,6 @@
 <script src="js/auth.js"></script>
 <script src="js/navigation.js"></script>
 <script src="js/storageUtils.js"></script>
-<script src="js/search-modal-compare-craft.js"></script>
 <!-- Manejadores de comparativa (guardar comparativa) -->
 <script src="js/compareHandlers.js"></script>
 </body>

@@ -93,59 +93,5 @@
   <script src="js/navigation.js"></script>
   <script src="js/storageUtils.js"></script>
   <script src="js/cuenta.js"></script>
-  
-  <script>
-    // Ocultar el overlay de carga cuando todo esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-      // Simular carga (en producción, esto se manejaría con eventos reales)
-      setTimeout(function() {
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        if (loadingOverlay) {
-          loadingOverlay.style.opacity = '0';
-          setTimeout(() => {
-            loadingOverlay.style.display = 'none';
-          }, 300);
-        }
-      }, 800);
-      
-      // Manejar el botón de actualizar
-      const refreshBtn = document.getElementById('refreshFavoritos');
-      if (refreshBtn) {
-        refreshBtn.addEventListener('click', function() {
-          if (typeof loadAndDisplayFavoritos === 'function') {
-            const container = document.getElementById('favoritos-items-container');
-            if (container) {
-              container.innerHTML = `
-                <div class="loading-placeholder">
-                  <div class="spinner small"></div>
-                  <p>Actualizando lista de favoritos...</p>
-                </div>`;
-              
-              // Forzar un pequeño retraso para que se vea el indicador de carga
-              setTimeout(loadAndDisplayFavoritos, 300);
-            }
-          }
-        });
-      }
-    });
-          
-      // Manejar el botón de actualizar comparativas
-      const refreshCompBtn = document.getElementById('refreshComparativas');
-      if (refreshCompBtn) {
-        refreshCompBtn.addEventListener('click', function() {
-          if (typeof loadAndDisplayComparativas === 'function') {
-            const cont = document.getElementById('lista-comparaciones');
-            if (cont) {
-              cont.innerHTML = `
-                <div class="loading-placeholder">
-                  <div class="spinner small"></div>
-                  <p>Actualizando lista de comparaciones...</p>
-                </div>`;
-              setTimeout(loadAndDisplayComparativas, 300);
-            }
-          }
-        });
-      }
-  </script>
 </body>
 </html>

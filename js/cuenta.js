@@ -17,11 +17,54 @@ document.addEventListener('DOMContentLoaded', function() {
     if (greetingElement) {
         greetingElement.textContent = `Hola ${user.name || 'Usuario'}`;
     }
-    
+
+    // Registrar eventos de refresco
+    const refreshBtn = document.getElementById('refreshFavoritos');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function() {
+            const container = document.getElementById('favoritos-items-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="loading-placeholder">
+                        <div class="spinner small"></div>
+                        <p>Actualizando lista de favoritos...</p>
+                    </div>`;
+                setTimeout(loadAndDisplayFavoritos, 300);
+            }
+        });
+    }
+
+    const refreshCompBtn = document.getElementById('refreshComparativas');
+    if (refreshCompBtn) {
+        refreshCompBtn.addEventListener('click', function() {
+            const cont = document.getElementById('lista-comparaciones');
+            if (cont) {
+                cont.innerHTML = `
+                    <div class="loading-placeholder">
+                        <div class="spinner small"></div>
+                        <p>Actualizando lista de comparaciones...</p>
+                    </div>`;
+                setTimeout(loadAndDisplayComparativas, 300);
+            }
+        });
+    }
+
     // Cargar y mostrar los ítems y comparativas guardadas
     loadAndDisplayFavoritos();
     loadAndDisplayComparativas();
 });
+
+function hideLoadingOverlay() {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.opacity = '0';
+        setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+        }, 300);
+    }
+}
+
+window.addEventListener('load', hideLoadingOverlay);
 
 /**
  * Carga y muestra los ítems guardados en la lista de favoritos

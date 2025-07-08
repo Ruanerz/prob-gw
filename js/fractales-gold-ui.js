@@ -43,13 +43,14 @@ export async function fetchItemPrices(ids = []) {
 
 // --- Renderiza la tabla de promedios por stack ---
 export async function renderTablaPromedios(containerId = 'tabla-promedios') {
-  const sets = FRACTAL_STACKS;
-  const claves = [
-    { key: 'oro_de_basura', nombre: 'Oro crudo' },
-    { key: 'garra', nombre: 'Garra potente' },
-    { key: 'totem', nombre: 'Tótem intrincado' },
-    { key: 'sangre', nombre: 'Vial de sangre potente' },
-    { key: 'veneno', nombre: 'Vesícula de veneno potente' },
+  try {
+    const sets = FRACTAL_STACKS;
+    const claves = [
+      { key: 'oro_de_basura', nombre: 'Oro crudo' },
+      { key: 'garra', nombre: 'Garra potente' },
+      { key: 'totem', nombre: 'Tótem intrincado' },
+      { key: 'sangre', nombre: 'Vial de sangre potente' },
+      { key: 'veneno', nombre: 'Vesícula de veneno potente' },
     { key: 'hueso', nombre: 'Hueso grande' },
     { key: 'escama', nombre: 'Escama blindada' },
     { key: 'colmillo', nombre: 'Colmillo afilado' },
@@ -64,13 +65,13 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
     { key: 'saco_equipamiento', nombre: 'Saco de equipamiento' },
     { key: 'miniatura', nombre: 'Miniatura' }
   ];
-  const promedios = {};
-  claves.forEach(({ key }) => {
-    let suma = 0, sumaStacks = 0, apariciones = 0;
-    sets.forEach(set => {
-      if (set.data[key] !== undefined) {
-        suma += set.data[key];
-        sumaStacks += set.stacks;
+    const promedios = {};
+    claves.forEach(({ key }) => {
+      let suma = 0, sumaStacks = 0, apariciones = 0;
+      sets.forEach(set => {
+        if (set.data[key] !== undefined) {
+          suma += set.data[key];
+          sumaStacks += set.stacks;
         apariciones++;
       }
     });
@@ -82,13 +83,13 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
     } else {
       promedios[key] = undefined;
     }
-  });
-  const html = `
-    <table class="table-modern">
-      <thead>
-        <tr>
-          <th><div class="dato-item">Recompensa</div></th>
-          <th><div class="dato-item">Promedio por stack</div></th>
+    });
+    const html = `
+      <table class="table-modern">
+        <thead>
+          <tr>
+            <th><div class="dato-item">Recompensa</div></th>
+            <th><div class="dato-item">Promedio por stack</div></th>
         </tr>
       </thead>
       <tbody>
@@ -101,26 +102,30 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
       </tbody>
     </table>
   `;
-  document.getElementById(containerId).innerHTML = html;
+    document.getElementById(containerId).innerHTML = html;
+  } catch (err) {
+    console.error('Error en renderTablaPromedios:', err);
+  }
 }
 
 // --- Renderiza la tabla de precios unitarios de materiales ---
 export async function renderTablaPrecios(containerId = 'tabla-precios-fractales') {
-  const items = getItemsConMercado();
-  let itemsMostrar = [...items];
-  if (!itemsMostrar.find(i => i.key === 'infusion_mas1')) {
-    const infusion = FRACTALES_ITEMS.find(i => i.key === 'infusion_mas1');
-    if (infusion) itemsMostrar.push(infusion);
-  }
-  // Calcular promedios ponderados por material (igual que en renderTablaPromedios)
-  const sets = FRACTAL_STACKS;
-  const promedios = {};
-  itemsMostrar.forEach(item => {
-    let suma = 0, sumaStacks = 0, apariciones = 0;
-    sets.forEach(set => {
-      if (set.data[item.key] !== undefined) {
-        suma += set.data[item.key];
-        sumaStacks += set.stacks;
+  try {
+    const items = getItemsConMercado();
+    let itemsMostrar = [...items];
+    if (!itemsMostrar.find(i => i.key === 'infusion_mas1')) {
+      const infusion = FRACTALES_ITEMS.find(i => i.key === 'infusion_mas1');
+      if (infusion) itemsMostrar.push(infusion);
+    }
+    // Calcular promedios ponderados por material (igual que en renderTablaPromedios)
+    const sets = FRACTAL_STACKS;
+    const promedios = {};
+    itemsMostrar.forEach(item => {
+      let suma = 0, sumaStacks = 0, apariciones = 0;
+      sets.forEach(set => {
+        if (set.data[item.key] !== undefined) {
+          suma += set.data[item.key];
+          sumaStacks += set.stacks;
         apariciones++;
       }
     });
@@ -132,18 +137,18 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
     } else {
       promedios[item.key] = undefined;
     }
-  });
-  const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
-  const precios = itemsMostrar.map(item => ({
-    ...item,
-    buy_price: priceMap[item.id]?.buy_price || 0,
-    sell_price: priceMap[item.id]?.sell_price || 0
-  }));
-  const html = `
-    <table class="table-modern">
-      <thead>
-        <tr>
-          <th><div class="dato-item">Material</div></th>
+    });
+    const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
+    const precios = itemsMostrar.map(item => ({
+      ...item,
+      buy_price: priceMap[item.id]?.buy_price || 0,
+      sell_price: priceMap[item.id]?.sell_price || 0
+    }));
+    const html = `
+      <table class="table-modern">
+        <thead>
+          <tr>
+            <th><div class="dato-item">Material</div></th>
           <th><div class="dato-item">Precio compra</div></th>
           <th><div class="dato-item">Precio venta</div></th>
           <th><div class="dato-item">Total compra (prom)</div></th>
@@ -168,88 +173,92 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
       </tbody>
     </table>
   `;
-  document.getElementById(containerId).innerHTML = html;
+    document.getElementById(containerId).innerHTML = html;
+  } catch (err) {
+    console.error('Error en renderTablaPrecios:', err);
+  }
 }
 
 // --- Renderiza la tabla resumen de oro crudo + materiales × 0.85 ---
 export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', preciosFractales = {}) {
-  // 1. Promedio de oro crudo
-  const sets = FRACTAL_STACKS;
-  let suma = 0, sumaStacks = 0;
-  sets.forEach(set => {
-    if (set.data["oro_de_basura"] !== undefined) {
-      suma += set.data["oro_de_basura"];
-      sumaStacks += set.stacks;
-    }
-  });
-  const promedioOro = sumaStacks > 0 ? suma / sumaStacks : 0;
-
-  // 2. Precios de materiales comerciables
-  const items = getItemsConMercado();
-  // Incluye la infusión si no está
-  let itemsMostrar = [...items];
-  if (!itemsMostrar.find(i => i.key === 'infusion_mas1')) {
-    const infusion = FRACTALES_ITEMS.find(i => i.key === 'infusion_mas1');
-    if (infusion) itemsMostrar.push(infusion);
-  }
-  // Fetch precios
-  const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
-  const precios = itemsMostrar.map(item => ({
-    ...item,
-    buy_price: priceMap[item.id]?.buy_price || 0,
-    sell_price: priceMap[item.id]?.sell_price || 0
-  }));
-
-  // 3. Promedios por material (solo los comerciables)
-  const setsPromedios = FRACTAL_STACKS;
-  const promedios = {};
-  precios.forEach(item => {
-    let suma = 0, sumaStacks = 0, apariciones = 0;
-    setsPromedios.forEach(set => {
-      if (set.data[item.key] !== undefined) {
-        suma += set.data[item.key];
+  try {
+    // 1. Promedio de oro crudo
+    const sets = FRACTAL_STACKS;
+    let suma = 0, sumaStacks = 0;
+    sets.forEach(set => {
+      if (set.data["oro_de_basura"] !== undefined) {
+        suma += set.data["oro_de_basura"];
         sumaStacks += set.stacks;
-        apariciones++;
       }
     });
-    if (apariciones === 1) {
-      const set = setsPromedios.find(s => s.data[item.key] !== undefined);
-      promedios[item.key] = set.data[item.key] / set.stacks;
-    } else if (apariciones > 1) {
-      promedios[item.key] = suma / sumaStacks;
-    } else {
-      promedios[item.key] = undefined;
+    const promedioOro = sumaStacks > 0 ? suma / sumaStacks : 0;
+
+  // 2. Precios de materiales comerciables
+    const items = getItemsConMercado();
+    // Incluye la infusión si no está
+    let itemsMostrar = [...items];
+    if (!itemsMostrar.find(i => i.key === 'infusion_mas1')) {
+      const infusion = FRACTALES_ITEMS.find(i => i.key === 'infusion_mas1');
+      if (infusion) itemsMostrar.push(infusion);
     }
-  });
+    // Fetch precios
+    const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
+    const precios = itemsMostrar.map(item => ({
+      ...item,
+      buy_price: priceMap[item.id]?.buy_price || 0,
+      sell_price: priceMap[item.id]?.sell_price || 0
+    }));
+
+  // 3. Promedios por material (solo los comerciables)
+    const setsPromedios = FRACTAL_STACKS;
+    const promedios = {};
+    precios.forEach(item => {
+      let suma = 0, sumaStacks = 0, apariciones = 0;
+      setsPromedios.forEach(set => {
+        if (set.data[item.key] !== undefined) {
+          suma += set.data[item.key];
+          sumaStacks += set.stacks;
+          apariciones++;
+        }
+      });
+      if (apariciones === 1) {
+        const set = setsPromedios.find(s => s.data[item.key] !== undefined);
+        promedios[item.key] = set.data[item.key] / set.stacks;
+      } else if (apariciones > 1) {
+        promedios[item.key] = suma / sumaStacks;
+      } else {
+        promedios[item.key] = undefined;
+      }
+    });
 
   // 4. Sumar totales de compra/venta
-  let totalCompra = 0, totalVenta = 0;
-  precios.forEach(item => {
-    const promedio = promedios[item.key];
-    if (promedio !== undefined) {
-      totalCompra += item.buy_price * promedio;
-      totalVenta += item.sell_price * promedio;
-    }
-  });
+    let totalCompra = 0, totalVenta = 0;
+    precios.forEach(item => {
+      const promedio = promedios[item.key];
+      if (promedio !== undefined) {
+        totalCompra += item.buy_price * promedio;
+        totalVenta += item.sell_price * promedio;
+      }
+    });
 
   // 5. Aplicar 0.85 y sumar oro crudo
-  const sumaCompra = promedioOro + (totalCompra * 0.85);
-  const sumaVenta = promedioOro + (totalVenta * 0.85);
+    const sumaCompra = promedioOro + (totalCompra * 0.85);
+    const sumaVenta = promedioOro + (totalVenta * 0.85);
 
   // 6. Precios de encriptaciones (se pasan desde fuera)
-  const {
-    compra75919 = 0,
-    venta75919 = 0,
-    compra73248 = 0,
-    venta73248 = 0
-  } = preciosFractales;
+    const {
+      compra75919 = 0,
+      venta75919 = 0,
+      compra73248 = 0,
+      venta73248 = 0
+    } = preciosFractales;
 
   // 7. Render tabla
-  const htmlResumen = `
-    <table class="table-modern" style="margin-top:12px;">
-      <thead>
-        <tr>
-          <th><div class="dato-item">Resumen</div></th>
+    const htmlResumen = `
+      <table class="table-modern" style="margin-top:12px;">
+        <thead>
+          <tr>
+            <th><div class="dato-item">Resumen</div></th>
           <th><div class="dato-item">Valor total</div></th>
         </tr>
       </thead>
@@ -265,7 +274,10 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', p
       </tbody>
     </table>
   `;
-  document.getElementById(containerId).innerHTML = htmlResumen;
+    document.getElementById(containerId).innerHTML = htmlResumen;
+  } catch (err) {
+    console.error('Error en renderTablaResumenOro:', err);
+  }
 }
 
 export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit', preciosFractales = {}) {

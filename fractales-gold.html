@@ -77,24 +77,14 @@
     });
   </script>
   <script type="module">
-    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, setValoresFractales } from './js/fractales-gold-ui.js';
+    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, setValoresFractales, fetchItemPrices } from './js/fractales-gold-ui.js';
 
     async function fetchPreciosFractales() {
-      const ids = [75919, 73248];
-      const url = `https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=${ids.join(',')}`;
-      const csv = await fetch(url).then(r => r.text());
-      const lines = csv.trim().split('\n');
-      let compra75919 = 0, venta75919 = 0, compra73248 = 0, venta73248 = 0;
-      for (let i = 1; i < lines.length; i++) {
-        const [id, buy, sell] = lines[i].split(',');
-        if (id == 75919) {
-          compra75919 = parseInt(buy, 10) || 0;
-          venta75919 = parseInt(sell, 10) || 0;
-        } else if (id == 73248) {
-          compra73248 = parseInt(buy, 10) || 0;
-          venta73248 = parseInt(sell, 10) || 0;
-        }
-      }
+      const priceMap = await fetchItemPrices([75919, 73248]);
+      const compra75919 = priceMap[75919]?.buy_price || 0;
+      const venta75919 = priceMap[75919]?.sell_price || 0;
+      const compra73248 = priceMap[73248]?.buy_price || 0;
+      const venta73248 = priceMap[73248]?.sell_price || 0;
       setValoresFractales({ compra75919, venta75919, compra73248, venta73248 });
     }
 

@@ -800,12 +800,11 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   const prelimName = ing.name?.toLowerCase() || '';
   let isGift = prelimName.startsWith('don de ') || prelimName.startsWith('don del ') || prelimName.startsWith('don de la ');
 
-  const itemPromise = (typeof ing.id === 'number' && ing.id < 1000000) ? fetchItemData(ing.id) : Promise.resolve(null);
-  const pricePromise = shouldSkipMarketCheck(ing.id) ? Promise.resolve(null) : fetchPriceData(ing.id);
-
-  try {
-    [info, price] = await Promise.all([itemPromise, pricePromise]);
-  } catch(e) {}
+  // Obtener primero la información del ítem. El precio se consultará sólo
+  // si no se aplica alguna exclusión.
+  if (typeof ing.id === 'number' && ing.id < 1000000) {
+    try { info = await fetchItemData(ing.id); } catch (e) {}
+  }
 
   const finalName = (info && info.name) ? info.name : ing.name;
   if (!isGift) isGift = isGiftName(finalName);
@@ -819,7 +818,9 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   const isCalculatedFromChildren = isTrebolMistico || (isGift && hasComponents);
   const isSinPrecio = (isGift && !hasComponents) || shouldSkipMarketCheck(ing.id) || isNameExcluded;
 
-
+  if (!isCalculatedFromChildren && !isSinPrecio) {
+    try { price = await fetchPriceData(ing.id); } catch(e) {}
+  }
   const icon = info && info.icon ? info.icon : '';
   const count = ing.count;
 

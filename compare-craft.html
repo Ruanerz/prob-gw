@@ -23,17 +23,17 @@
     </div>
   </section>
   <div class="container">
-    <div style="text-align: center;margin-bottom: 25px;">
+    <div class="center-mb-25">
       <h2>Comparativa de items</h2>
       <p>Busca y añade items para comprar sus precios de crafteo y profit</p>
     </div>
 
-    <div class="qty-global-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+    <div class="qty-global-container qty-controls">
       <div>
-        <label for="qty-global" style="font-weight:500;">Cantidad global:</label>
-        <input id="qty-global" type="number" min="1" value="1" style="width:60px;height:36px;" autocomplete="off">
+        <label for="qty-global" class="fw-500">Cantidad global:</label>
+        <input id="qty-global" type="number" min="1" value="1" autocomplete="off">
       </div>
-      <button id="btn-guardar-comparativa" class="item-tab-btn" style="margin-left: 10px; display: none;">Guardar comparativa</button>
+      <button id="btn-guardar-comparativa" class="item-tab-btn ml-10 hidden">Guardar comparativa</button>
       <script>
         // Mostrar el botón solo si el usuario está autenticado
         if (localStorage.getItem('user')) {
@@ -47,9 +47,9 @@
     <main>
       <!-- Secciones de Tabs -->
       
-      <div id="loader" class="loader" style="display:none;"></div>
-      <div id="error-message" class="error-message" style="display:none;"></div>
-      <div id="wiki-links" style="display:none;"></div>
+      <div id="loader" class="loader hidden"></div>
+      <div id="error-message" class="error-message hidden"></div>
+      <div id="wiki-links" class="hidden"></div>
       
       
 
@@ -63,14 +63,14 @@
   <a href="#" class="feedback-float" id="open-feedback-modal">Feedback</a>
   <!-- Modal de Feedback/Contacto -->
   
-  <div id="feedback-modal" class="search-modal" style="display:none;">
+  <div id="feedback-modal" class="search-modal hidden">
     <div class="search-modal-backdrop"></div>
     <div class="search-modal-content">
       <button class="close-modal" id="close-feedback-modal">×</button>
-      <div style="text-align: center;"><h2>¿Mejoras?¿Bugs?</h2></div>
-      <div style="margin: 18px 0 8px 0;text-align: center;">
+      <div class="text-center"><h2>¿Mejoras?¿Bugs?</h2></div>
+      <div class="mb-18-0-8-0">
         ¿Tienes dudas, sugerencias o comentarios?<br>
-        Escríbeme por discord <a href="https://discord.gg/rtAEcMys" style="color:#93f9e1;">SERVER RUANERZ</a>
+        Escríbeme por discord <a href="https://discord.gg/rtAEcMys" class="item-link">SERVER RUANERZ</a>
         <br>en el canal general o por privado.<br>
         
       </div>
@@ -81,14 +81,14 @@
   <script src="js/formatGold.js"></script>
 
   <!-- Modal del Buscador fuera de .container para igualar a index.html -->
-  <div id="search-modal" class="search-modal" style="display:none;">
+  <div id="search-modal" class="search-modal hidden">
     <div class="search-modal-backdrop"></div>
     <div class="search-modal-content">
       <button class="close-modal" id="close-search-modal"></button>
       <input type="text" id="modal-search-input" placeholder="Buscar ítem por nombre..." autocomplete="off">
       <ul id="modal-suggestions" class="suggestions"></ul>
-      <div id="modal-loader" class="loader" style="display:none;"></div>
-      <div id="modal-error-message" class="error-message" style="display:none;"></div>
+      <div id="modal-loader" class="loader hidden"></div>
+      <div id="modal-error-message" class="error-message hidden"></div>
       <div id="modal-results" class="item-list"></div>
     </div>
   </div>

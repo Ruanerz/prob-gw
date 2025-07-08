@@ -41,4 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
       switchTab(tabId);
     });
   });
+
+  // Load script for the tab that is active on initial page load
+  const defaultBtn = document.querySelector('.item-tab-btn.active');
+  if (defaultBtn) {
+    const tabId = defaultBtn.getAttribute('data-tab');
+    switchTab(tabId);
+  }
 });

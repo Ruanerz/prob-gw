@@ -1,34 +1,35 @@
 // Manejo de pestañas en dones.html
 document.addEventListener('DOMContentLoaded', function() {
-  // Obtener todos los botones de pestaña
   const tabButtons = document.querySelectorAll('.item-tab-btn');
-  
-  // Función para cambiar de pestaña
-  function switchTab(tabId) {
-    // Ocultar todos los contenidos
+  const loaded = {};
+
+  async function switchTab(tabId) {
     document.querySelectorAll('.container-don, .container-tributo').forEach(tab => {
       tab.style.display = 'none';
     });
     
-    // Desactivar todos los botones
     tabButtons.forEach(button => {
       button.classList.remove('active');
     });
     
-    // Activar la pestaña seleccionada
     const selectedTab = document.getElementById(tabId);
     if (selectedTab) {
       selectedTab.style.display = 'block';
     }
     
-    // Activar el botón correspondiente
     const activeButton = document.querySelector(`.item-tab-btn[data-tab="${tabId}"]`);
     if (activeButton) {
       activeButton.classList.add('active');
     }
-    
-    // Guardar la pestaña activa en el almacenamiento local
     localStorage.setItem('activeDonTab', tabId);
+
+    if (!loaded[tabId] && window.DonesPages) {
+      loaded[tabId] = true;
+      if (tabId === 'tab-don-suerte') window.DonesPages.loadSpecialDons();
+      else if (tabId === 'tab-tributo-mistico') window.DonesPages.loadTributo();
+      else if (tabId === 'tab-tributo-draconico') window.DonesPages.loadDraconicTribute();
+      else if (tabId === 'dones-1ra-gen') window.DonesPages.loadDones1Gen();
+    }
   }
   
   // Manejar clics en los botones de pestaña

@@ -91,9 +91,9 @@
 
     async function renderTodo() {
       const preciosFractales = await fetchPreciosFractales();
-      renderTablaPromedios();
-      renderTablaPrecios();
-      renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
+      await renderTablaPromedios();
+      await renderTablaPrecios();
+      await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
       renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales);
     }
 

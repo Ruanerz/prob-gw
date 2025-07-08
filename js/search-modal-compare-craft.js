@@ -2,22 +2,16 @@
 // Modal de búsqueda exclusivo para compare-craft.html
 // No interfiere con otros modales ni con search-modal.js global
 
-console.log('[DEBUG] search-modal-compare-craft.js CARGADO');
 
 const API_URL_JSON = 'https://api.datawars2.ie/gw2/v1/items/json?fields=id,name_es';
 const API_URL_CSV = 'https://api.datawars2.ie/gw2/v1/items/csv?fields=buy_price,sell_price,buy_quantity,sell_quantity,last_updated,1d_buy_sold,1d_sell_sold,2d_buy_sold,2d_sell_sold,7d_buy_sold,7d_sell_sold,1m_buy_sold,1m_sell_sold';
 const GW2_API_ITEMS = 'https://api.guildwars2.com/v2/items?ids=';
 
 const searchInput = document.getElementById('modal-search-input');
-console.log('[DEBUG] searchInput:', searchInput);
 const suggestionsEl = document.getElementById('modal-suggestions');
-console.log('[DEBUG] suggestionsEl:', suggestionsEl);
 const resultsEl = document.getElementById('modal-results');
-console.log('[DEBUG] resultsEl:', resultsEl);
 const loader = document.getElementById('modal-loader');
-console.log('[DEBUG] loader:', loader);
 const errorMessage = document.getElementById('modal-error-message');
-console.log('[DEBUG] errorMessage:', errorMessage);
 
 let allItems = [];
 let iconCache = {};
@@ -124,7 +118,6 @@ function normalizeStr(str) {
 searchInput.addEventListener('input', debounce(async function(e) {
   const value = this.value.trim().toLowerCase();
   const normalValue = normalizeStr(value);
-  console.log('[DEBUG] Valor buscado:', value, '| Normalizado:', normalValue);
   if (value.length < 3) {
     resultsEl.innerHTML = '';
     return;
@@ -133,10 +126,8 @@ searchInput.addEventListener('input', debounce(async function(e) {
     if (!item.name_es) return false;
     const normalName = normalizeStr(item.name_es);
     const match = normalName.includes(normalValue);
-    if (match) console.log('[DEBUG] MATCH:', item.name_es, '->', normalName);
     return match;
   });
-  console.log('[DEBUG] Matches encontrados:', matches.length);
   matches = matches.slice(0, 30);
   if (matches.length) {
     const ids = matches.map(i => i.id);

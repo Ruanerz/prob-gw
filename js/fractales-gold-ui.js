@@ -13,6 +13,34 @@ export function setValoresFractales({ compra75919, venta75919, compra73248, vent
 }
 import { FRACTALES_ITEMS, FRACTAL_STACKS, getItemsConMercado, keyToNombre } from './fractales-gold-logic.js';
 
+// --- Helper para obtener precios de múltiples ítems en una sola llamada ---
+export async function fetchItemPrices(ids = []) {
+  if (!ids || ids.length === 0) return {};
+  const url = `https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=${ids.join(',')}`;
+  try {
+    const csv = await fetch(url).then(r => r.text());
+    const [header, ...rows] = csv.trim().split('\n');
+    const headers = header.split(',');
+    const idIdx = headers.indexOf('id');
+    const buyIdx = headers.indexOf('buy_price');
+    const sellIdx = headers.indexOf('sell_price');
+    const result = {};
+    rows.forEach(row => {
+      const cols = row.split(',');
+      const id = parseInt(cols[idIdx], 10);
+      if (!isNaN(id)) {
+        result[id] = {
+          buy_price: parseInt(cols[buyIdx], 10) || 0,
+          sell_price: parseInt(cols[sellIdx], 10) || 0
+        };
+      }
+    });
+    return result;
+  } catch (e) {
+    return {};
+  }
+}
+
 // --- Renderiza la tabla de promedios por stack ---
 export async function renderTablaPromedios(containerId = 'tabla-promedios') {
   const sets = FRACTAL_STACKS;
@@ -105,20 +133,11 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
       promedios[item.key] = undefined;
     }
   });
-  const precios = await Promise.all(itemsMostrar.map(async item => {
-    const url = `https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=${item.id}`;
-    try {
-      const csv = await fetch(url).then(r => r.text());
-      const [headers, values] = csv.trim().split('\n');
-      const [id, buy, sell] = values.split(',');
-      return {
-        ...item,
-        buy_price: parseInt(buy, 10) || 0,
-        sell_price: parseInt(sell, 10) || 0
-      };
-    } catch (e) {
-      return { ...item, buy_price: 0, sell_price: 0 };
-    }
+  const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
+  const precios = itemsMostrar.map(item => ({
+    ...item,
+    buy_price: priceMap[item.id]?.buy_price || 0,
+    sell_price: priceMap[item.id]?.sell_price || 0
   }));
   const html = `
     <table class="table-modern">
@@ -174,20 +193,11 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro') {
     if (infusion) itemsMostrar.push(infusion);
   }
   // Fetch precios
-  const precios = await Promise.all(itemsMostrar.map(async item => {
-    const url = `https://api.datawars2.ie/gw2/v1/items/csv?fields=id,buy_price,sell_price&ids=${item.id}`;
-    try {
-      const csv = await fetch(url).then(r => r.text());
-      const [headers, values] = csv.trim().split('\n');
-      const [id, buy, sell] = values.split(',');
-      return {
-        ...item,
-        buy_price: parseInt(buy, 10) || 0,
-        sell_price: parseInt(sell, 10) || 0
-      };
-    } catch (e) {
-      return { ...item, buy_price: 0, sell_price: 0 };
-    }
+  const priceMap = await fetchItemPrices(itemsMostrar.map(i => i.id));
+  const precios = itemsMostrar.map(item => ({
+    ...item,
+    buy_price: priceMap[item.id]?.buy_price || 0,
+    sell_price: priceMap[item.id]?.sell_price || 0
   }));
 
   // 3. Promedios por material (solo los comerciables)

@@ -6,6 +6,7 @@
   <link rel="icon" href="/img/favicon.ico" sizes="16x16" type="image/x-icon">
   <title>Promedios Fractales - GW2</title>
   <link rel="stylesheet" href="css/global-gw.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
@@ -50,6 +51,12 @@
         </div>
         <div class="card" style="margin-top:32px;">
           <div style="text-align: center;margin-bottom: 25px;">
+            <h2>Contribución de oro por material</h2>
+          </div>
+          <canvas id="contribuciones-chart" height="120"></canvas>
+        </div>
+        <div class="card" style="margin-top:32px;">
+          <div style="text-align: center;margin-bottom: 25px;">
           <h2>Referencias para profit</h2>
           <p>Valores de referencia para comparar el profit</p>
           </div>
@@ -57,6 +64,12 @@
           <div id="tabla-referencias-profit"></div>
           <p>NOTA: Las matrices estabilizadoras fungen el papel de llaves, ya que se puede cambiar por llaves con el NPC de fractales. Y así obtener un valor por llave.
           Y se toma como referencia para asignarle un valor a las llaves de encriptación. </p>
+        </div>
+        <div class="card" style="margin-top:32px;">
+          <div style="text-align: center;margin-bottom: 25px;">
+            <h2>Abrir vs Vender Encriptaciones</h2>
+          </div>
+          <canvas id="abrir-vs-vender-chart" height="120"></canvas>
         </div>
       </div>
     </main>
@@ -77,7 +90,7 @@
     });
   </script>
   <script type="module">
-    import { renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, fetchItemPrices } from './js/fractales-gold-ui.js';
+    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, fetchItemPrices } from './js/fractales-gold-ui.js';
 
     async function fetchPreciosFractales() {
       const priceMap = await fetchItemPrices([75919, 73248]);
@@ -89,12 +102,15 @@
       };
     }
 
+
     async function renderTodo() {
       const preciosFractales = await fetchPreciosFractales();
       await renderTablaPromedios();
       await renderTablaPrecios();
-      await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
-      renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales);
+      const resumenData = await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
+      renderGraficoContribuciones(resumenData.contribuciones);
+      renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales, resumenData);
+      renderGraficoAbrirVsVender('abrir-vs-vender-chart', preciosFractales, resumenData);
     }
 
     renderTodo();

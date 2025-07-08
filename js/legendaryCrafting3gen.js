@@ -21,21 +21,19 @@ const quickLoadButtons = {
   btnReflexion: { id: 'btnReflexion', itemId: '96652', itemName: 'Reflexión de Aurene' }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.appThirdGen = new LegendaryCraftingBase({
-    getItemById: id => getLegendary3GenItem(parseInt(id)),
-    items: Object.values(LEGENDARY_ITEMS_3GEN),
-    createIngredientTree,
-    isBasicMaterial: isBasic3GenMaterial,
-    quickLoadButtons,
-    elementIds: {
-      craftingTree: 'craftingTreeThird',
-      summary: 'summaryThird',
-      summaryContent: 'summaryContentThird',
-      loadTree: 'loadTreeThird',
-      clearCache: 'clearCacheThird',
-      itemIdInput: 'itemIdThird',
-      itemNameInput: 'itemNameThird'
-    }
-  });
+window.appThirdGen = new LegendaryCraftingBase({
+  getItemById: id => getLegendary3GenItem(parseInt(id)),
+  items: Object.values(LEGENDARY_ITEMS_3GEN),
+  createIngredientTree,
+  isBasicMaterial: isBasic3GenMaterial,
+  quickLoadButtons,
+  elementIds: {
+    craftingTree: 'craftingTreeThird',
+    summary: 'summaryThird',
+    summaryContent: 'summaryContentThird',
+    loadTree: 'loadTreeThird',
+    clearCache: 'clearCacheThird',
+    itemIdInput: 'itemIdThird',
+    itemNameInput: 'itemNameThird'
+  }
 });

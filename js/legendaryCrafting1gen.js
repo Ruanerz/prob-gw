@@ -24,18 +24,16 @@ const quickLoadButtons = {
   btnFrenesi: { id: 'btnFrenesi', itemId: '30697', itemName: 'Frenesí' }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.appFirstGen = new LegendaryCraftingBase({
-    getItemById: id => getLegendaryItem(parseInt(id)),
-    items: Object.values(LEGENDARY_ITEMS),
-    createIngredientTree,
-    isBasicMaterial,
-    quickLoadButtons,
-    elementIds: {
-      craftingTree: 'craftingTree',
-      summary: 'summary',
-      summaryContent: 'summaryContent',
-      clearCache: 'clearCache'
-    }
-  });
+window.appFirstGen = new LegendaryCraftingBase({
+  getItemById: id => getLegendaryItem(parseInt(id)),
+  items: Object.values(LEGENDARY_ITEMS),
+  createIngredientTree,
+  isBasicMaterial,
+  quickLoadButtons,
+  elementIds: {
+    craftingTree: 'craftingTree',
+    summary: 'summary',
+    summaryContent: 'summaryContent',
+    clearCache: 'clearCache'
+  }
 });

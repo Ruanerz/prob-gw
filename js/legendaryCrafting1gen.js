@@ -25,7 +25,7 @@ const quickLoadButtons = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.app = new LegendaryCraftingBase({
+  window.appFirstGen = new LegendaryCraftingBase({
     getItemById: id => getLegendaryItem(parseInt(id)),
     items: Object.values(LEGENDARY_ITEMS),
     createIngredientTree,

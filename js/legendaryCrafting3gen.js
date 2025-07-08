@@ -22,7 +22,7 @@ const quickLoadButtons = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.app = new LegendaryCraftingBase({
+  window.appThirdGen = new LegendaryCraftingBase({
     getItemById: id => getLegendary3GenItem(parseInt(id)),
     items: Object.values(LEGENDARY_ITEMS_3GEN),
     createIngredientTree,

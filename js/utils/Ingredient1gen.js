@@ -46,30 +46,17 @@ export class Ingredient {
     }
 
     try {
-      // Obtenemos los detalles del ítem desde la API de GW2
-      const response = await fetch(`https://api.guildwars2.com/v2/items/${this.id}?lang=es`);
-      
-      if (!response.ok) {
-        return this._getDefaultIconUrl();
-      }
-      
-      const itemData = await response.json();
-      
+      // Obtener los detalles del ítem utilizando el servicio con caché
+      const itemData = await gw2API.getItemDetails(this.id);
+
       if (itemData && itemData.icon) {
-        // Guardamos el ícono para futuras referencias
         this._icon = itemData.icon;
-        
-        // Si el ícono ya es una URL completa, la retornamos directamente
-        if (this._icon.startsWith('https')) {
-          return this._icon;
-        }
-        
-        // Si no, construimos la URL completa del CDN de GW2
-        return `https://render.guildwars2.com/file/${this._icon}`;
-      } else {
-        return this._getDefaultIconUrl();
+        return this._formatIconUrl(this._icon);
       }
+
+      return this._getDefaultIconUrl();
     } catch (error) {
+      console.warn('No se pudo cargar el icono para el ítem', this.id, error);
       return this._getDefaultIconUrl();
     }
   }
@@ -319,26 +306,16 @@ export async function createIngredientTree(itemData, parent = null) {
   } else if (isBasicMaterial(ingredient.id) && !shouldSkipMarketCheck(ingredient.id, ingredient.name)) {
     console.log(`Buscando precios para ${ingredient.name} (${ingredient.id})`);
     try {
-      // Usar la API oficial de Guild Wars 2 para obtener precios
-      const response = await fetch(`https://api.guildwars2.com/v2/commerce/prices/${ingredient.id}`);
-      if (response.ok) {
-        const prices = await response.json();
-        if (prices && prices.sells && prices.buys) {
-          ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
-        } else {
-          console.warn(`Precios no disponibles para ${ingredient.name} (${ingredient.id})`);
-          ingredient.setPrices(0, 0);
-        }
-      } else if (response.status === 404) {
-        // Si el ítem no tiene precios en el mercado, usar 0
-        console.warn(`Ítem no encontrado en el mercado: ${ingredient.name} (${ingredient.id})`);
-        ingredient.setPrices(0, 0);
+      const prices = await gw2API.getItemPrices(ingredient.id);
+      if (prices && prices.sells && prices.buys) {
+        ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
       } else {
-        console.warn(`Error al obtener precios para ${ingredient.name} (${ingredient.id}): ${response.status}`);
+        console.warn(`Precios no disponibles para ${ingredient.name} (${ingredient.id})`);
         ingredient.setPrices(0, 0);
       }
     } catch (error) {
-      console.warn(`Error de red al cargar precios para ${ingredient.name} (${ingredient.id}):`, error);
+      // Si la API devuelve un error (por ejemplo, 404), asumimos que no hay precios
+      console.warn(`Error al cargar precios para ${ingredient.name} (${ingredient.id}):`, error.message);
       ingredient.setPrices(0, 0);
     }
   }

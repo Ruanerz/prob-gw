@@ -167,6 +167,11 @@ function renderMainItemRow(mainNode, nivel = 0) {
 
 // --- Renderizado de la sección 7: Ingredientes para craftear ---
 function renderCraftingSectionUI() {
+  // Asegurar que los datos estén recalculados antes de leer los totales
+  if (window.ingredientObjs && window.ingredientObjs.length > 0) {
+    recalcAll(window.ingredientObjs, window.globalQty);
+  }
+
   // Obtener output_item_count de la receta principal
   // Cálculo robusto del outputCount como en la comparativa:
   let outputCount = 1;
@@ -177,10 +182,15 @@ function renderCraftingSectionUI() {
     outputCount = window._mainRecipeOutputCount;
   }
 
-  // --- Totales robustos: SIEMPRE suma de hijos para el nodo raíz ---
+  // --- Totales robustos: buy/sell de hijos y crafted desde el nodo raíz ---
   let totals = { totalBuy: 0, totalSell: 0, totalCrafted: 0 };
   if (mainRoot && mainRoot.children && mainRoot.children.length > 0) {
-    totals = getTotals(mainRoot.children);
+    const childTotals = getTotals(mainRoot.children);
+    totals.totalBuy = childTotals.totalBuy;
+    totals.totalSell = childTotals.totalSell;
+  }
+  if (mainRoot && typeof mainRoot.total_crafted === 'number') {
+    totals.totalCrafted = mainRoot.total_crafted;
   }
 
   // Los detalles de artesanía ya se muestran en el encabezado del ítem

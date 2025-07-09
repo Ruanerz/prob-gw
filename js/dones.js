@@ -474,9 +474,7 @@ async function renderTributoDraconico() {
       let piedrasSell = 0;
       
       // Procesar cada ingrediente principal
-      console.log('=== TRIBUTO DRACÓNICO - INGREDIENTES PRINCIPALES ===');
       for (const ing of TRIBUTO_DRACONICO.mainIngredients) {
-        console.log('Procesando ingrediente:', ing.id, ing.name);
         const result = await renderIngredientRowWithComponents(ing, 0);
         html += result.html;
         
@@ -484,13 +482,10 @@ async function renderTributoDraconico() {
         if (ing.id === 19675) { // Trébol místico
           trebolBuy = result.totalBuy || 0;
           trebolSell = result.totalSell || 0;
-          console.log('Trébol místico - Buy:', trebolBuy, 'Sell:', trebolSell);
         } else if (ing.id === 92687) { // Piedra imán dracónica amalgamada (ID corregido)
           piedrasBuy = result.totalBuy || 0;
           piedrasSell = result.totalSell || 0;
-          console.log('Piedras imán dracónicas - Buy:', piedrasBuy, 'Sell:', piedrasSell);
         } else {
-          console.log('Otro ingrediente - ID:', ing.id, 'Name:', ing.name);
         }
       }
       
@@ -498,10 +493,6 @@ async function renderTributoDraconico() {
       totalBuy = trebolBuy + piedrasBuy;
       totalSell = trebolSell + piedrasSell;
       
-      console.log('=== TOTALES TRIBUTO DRACÓNICO ===');
-      console.log('Tréboles Buy:', trebolBuy, 'Sell:', trebolSell);
-      console.log('Piedras imán dracónicas Buy:', piedrasBuy, 'Sell:', piedrasSell);
-      console.log('TOTAL Buy:', totalBuy, 'Sell:', totalSell);
       
       html += `</tbody></table>`;
       html += `<div class="table-modern-totales" style="margin-bottom:50px;">

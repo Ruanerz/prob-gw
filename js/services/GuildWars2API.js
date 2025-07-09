@@ -83,15 +83,12 @@ class GuildWars2API {
       }
       
       // Registrar información de depuración
-      console.log(`[getItemDetails] Procesando ítem: ${item.name} (${itemId})`);
       
       // Si el ítem tiene un icono, lo normalizamos
       if (item.icon) {
-        console.log(`[getItemDetails] Icono original para ${itemId}:`, item.icon);
         
         // Si el icono ya es una URL completa, lo dejamos igual
         if (item.icon.startsWith('http')) {
-          console.log(`[getItemDetails] Usando URL de icono completa: ${item.icon}`);
         } 
         // Si es una ruta relativa, la convertimos a URL completa
         else {
@@ -101,7 +98,6 @@ class GuildWars2API {
             .replace(/^\//, '');     // Eliminar '/' al inicio
             
           item.icon = `https://render.guildwars2.com/file/${cleanPath}`;
-          console.log(`[getItemDetails] URL de icono normalizada: ${item.icon}`);
         }
       } else {
         // Si no hay icono, intentamos usar el ID del ítem

@@ -195,7 +195,6 @@ function loadAndDisplayFavoritos() {
  * Carga y muestra las comparativas guardadas
  */
 function loadAndDisplayComparativas() {
-    console.log('[DEBUG] Ejecutando loadAndDisplayComparativas');
     const container = document.getElementById('lista-comparaciones');
     if (!container) {
         console.error('No se encontró el contenedor de comparativas');
@@ -203,7 +202,6 @@ function loadAndDisplayComparativas() {
     }
 
     const comparativas = window.StorageUtils?.getComparativas('gw2_comparativas') || [];
-    console.log('[DEBUG] comparativas encontradas:', comparativas.length);
 
     if (!comparativas.length) {
         container.innerHTML = `

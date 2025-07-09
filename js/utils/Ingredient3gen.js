@@ -138,7 +138,6 @@ export class Ingredient {
     
     // Depuración para Vial de sangre espesa
     if (this.id === 24293) {
-      console.log(`[DEBUG] setPrices para Vial de sangre espesa:`, {
         buyPrice: this._buyPrice,
         sellPrice: this._sellPrice,
         _priceLoaded: this._priceLoaded
@@ -153,7 +152,6 @@ export class Ingredient {
   isPriceLoaded() {
     // Depuración para Vial de sangre espesa
     if (this.id === 24293) {
-      console.log(`[DEBUG] isPriceLoaded para Vial de sangre espesa:`, {
         _priceLoaded: this._priceLoaded,
         _buyPrice: this._buyPrice,
         _sellPrice: this._sellPrice,
@@ -274,7 +272,6 @@ export async function createIngredientTree(itemData, parent = null) {
       
       ingredient.icon = `https://render.guildwars2.com/file/${cleanIconPath}`;
     }
-    console.log(`[DEBUG] Icono para ${ingredient.name}:`, ingredient.icon);
   }
   
   if (itemData.source) ingredient.source = itemData.source;
@@ -335,7 +332,6 @@ export async function createIngredientTree(itemData, parent = null) {
   const shouldSkipMarketCheck = (id, name) => {
     // Verificar por ID
     if (EXCLUDED_ITEM_IDS.includes(id)) {
-      console.log(`[DEBUG] Excluyendo ${name} (${id}) por ID`);
       return true;
     }
     
@@ -366,24 +362,20 @@ export async function createIngredientTree(itemData, parent = null) {
   if (ingredient.id === 79418) {  // Piedra rúnica mística
     // Precio fijo: 1g (10000 cobre)
     ingredient.setPrices(10000, 10000);
-    console.log(`Precio fijo establecido para ${ingredient.name}: 1g`);
   }
   // Manejo específico para Piedra imán dracónica amalgamada
   else if (ingredient.id === 92687 || ingredient.id === 96978) {
     const itemId = ingredient.id;
     const itemName = ingredient.name;
     
-    console.log(`[DEBUG] Procesando ${itemName} (${itemId})`);
     
     // Forzar la carga de precios para este ítem
     try {
       const prices = await gw2API.getItemPrices(itemId);
 
       if (prices && prices.sells && prices.buys) {
-        console.log(`[DEBUG] Precios para ${itemName}:`, prices);
         ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
       } else {
-        console.log(`[INFO] ${itemName} no tiene precios en el mercado`);
         ingredient.setPrices(0, 0);
       }
     } catch (error) {
@@ -397,19 +389,15 @@ export async function createIngredientTree(itemData, parent = null) {
     // Verificar si es un "Don de" o similar que no tiene precios en el mercado
     if (ingredient.name.toLowerCase().startsWith('don de') || 
         ingredient.name.toLowerCase().includes('gift')) {
-      console.log(`[INFO] Ignorando búsqueda de precios para ${ingredient.name} (${ingredient.id}) - No comerciable`);
       ingredient.setPrices(0, 0);
     } else {
-      console.log(`[DEBUG] Buscando precios para: ${ingredient.name} (${ingredient.id})`);
       
       try {
         const prices = await gw2API.getItemPrices(ingredient.id);
 
         if (prices && prices.sells && prices.buys) {
-          console.log(`[DEBUG] Precios encontrados para ${ingredient.name}:`, prices);
           ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
         } else {
-          console.log(`[INFO] El ítem ${ingredient.name} (${ingredient.id}) no está en el mercado`);
           ingredient.setPrices(0, 0);
         }
       } catch (error) {

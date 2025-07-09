@@ -138,6 +138,7 @@ export class Ingredient {
     
     // Depuración para Vial de sangre espesa
     if (this.id === 24293) {
+      console.debug('[DEBUG][setPrices]', {
         buyPrice: this._buyPrice,
         sellPrice: this._sellPrice,
         _priceLoaded: this._priceLoaded
@@ -152,6 +153,7 @@ export class Ingredient {
   isPriceLoaded() {
     // Depuración para Vial de sangre espesa
     if (this.id === 24293) {
+      console.debug('[DEBUG][isPriceLoaded]', {
         _priceLoaded: this._priceLoaded,
         _buyPrice: this._buyPrice,
         _sellPrice: this._sellPrice,

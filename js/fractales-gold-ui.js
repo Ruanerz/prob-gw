@@ -376,8 +376,8 @@ export function renderGraficoAbrirVsVender(containerId = 'abrir-vs-vender-chart'
 
   const venderStack = venta75919 * 250 * 0.85;
   const abrirConLlaves = sumaVenta;
-  const abrirComprandoMatrices = abrirConLlaves - (compra73248 * 250);
-  const abrirComprandoAmbos = abrirConLlaves - ((compra75919 + compra73248) * 250);
+  const abrirComprandoMatrices = abrirConLlaves - compra73248 * 250;
+  const abrirComprandoAmbos = abrirConLlaves - (compra75919 + compra73248) * 250;
 
   abrirVenderChart = new Chart(ctx, {
     type: 'bar',

@@ -352,6 +352,14 @@ select {
   padding: 4px 8px;
 }
 
+.item-price-container.custom-text {
+  opacity: 0.9;
+  color: #a0aec0;
+  font-style: italic;
+  padding: 4px 8px;
+  text-align: right;
+}
+
 .item-price-container .price-row {
   display: flex;
   align-items: center;

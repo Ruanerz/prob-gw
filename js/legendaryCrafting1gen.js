@@ -24,12 +24,21 @@ const quickLoadButtons = {
   btnFrenesi: { id: 'btnFrenesi', itemId: '30697', itemName: 'Frenesí' }
 };
 
+// Mensajes personalizados para ítems sin precio en el mercado
+const customPriceTexts = [
+  { name: 'Don de la exploración', display: 'Recompensa por completar mapas', keywords: ['exploraci'] },
+  { name: 'Don de la batalla', display: 'Se compra con Memorias de batalla', keywords: ['batalla'] },
+  { name: 'Esquirla de hematites', display: 'Intercambio en Páramos Argentos', keywords: ['hematites'] },
+  { name: 'Esquirla de obsidiana', display: 'Compra con karma/laureles', keywords: ['obsidiana'] }
+];
+
 window.appFirstGen = new LegendaryCraftingBase({
   getItemById: id => getLegendaryItem(parseInt(id)),
   items: Object.values(LEGENDARY_ITEMS),
   createIngredientTree,
   isBasicMaterial,
   quickLoadButtons,
+  customPriceTexts,
   elementIds: {
     craftingTree: 'craftingTree',
     summary: 'summary',

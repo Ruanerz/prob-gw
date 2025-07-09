@@ -21,12 +21,20 @@ const quickLoadButtons = {
   btnReflexion: { id: 'btnReflexion', itemId: '96652', itemName: 'Reflexión de Aurene' }
 };
 
+const customPriceTexts = [
+  { name: 'Don de la exploración', display: 'Recompensa por completar mapas', keywords: ['exploraci'] },
+  { name: 'Don de la batalla', display: 'Se compra con Memorias de batalla', keywords: ['batalla'] },
+  { name: 'Esquirla de hematites', display: 'Intercambio en Páramos Argentos', keywords: ['hematites'] },
+  { name: 'Esquirla de obsidiana', display: 'Compra con karma/laureles', keywords: ['obsidiana'] }
+];
+
 window.appThirdGen = new LegendaryCraftingBase({
   getItemById: id => getLegendary3GenItem(parseInt(id)),
   items: Object.values(LEGENDARY_ITEMS_3GEN),
   createIngredientTree,
   isBasicMaterial: isBasic3GenMaterial,
   quickLoadButtons,
+  customPriceTexts,
   elementIds: {
     craftingTree: 'craftingTreeThird',
     summary: 'summaryThird',

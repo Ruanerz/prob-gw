@@ -8,6 +8,14 @@ export class LegendaryCraftingBase {
     this.createIngredientTree = config.createIngredientTree;
     this.isBasicMaterial = config.isBasicMaterial || (() => false);
     this.quickLoadButtons = config.quickLoadButtons || {};
+    // Opcional: lista de textos personalizados para reemplazar precios de ciertos materiales
+    // Cada entrada puede definir un nombre exacto y palabras clave para coincidencias flexibles
+    // {
+    //   name: 'Esquirla de obsidiana',
+    //   display: 'Se compra con karma o laureles',
+    //   keywords: ['obsidiana']
+    // }
+    this.customPriceTexts = config.customPriceTexts || [];
     const ids = config.elementIds || {};
     this.craftingTreeEl = document.getElementById(ids.craftingTree);
     this.summaryEl = document.getElementById(ids.summary);
@@ -158,6 +166,14 @@ export class LegendaryCraftingBase {
     try {
       const iconUrl = await this.getIconUrl(ingredient);
       const normalizedName = ingredient.name ? ingredient.name.toLowerCase() : '';
+      // Buscar si este ingrediente tiene un mensaje de precio personalizado
+      const customText = this.customPriceTexts.find(ct => {
+        if (!ct) return false;
+        const n = ct.name ? ct.name.toLowerCase() : '';
+        const nameMatch = n && n === normalizedName;
+        const keywordMatch = ct.keywords && ct.keywords.some(k => normalizedName.includes(k.toLowerCase()));
+        return nameMatch || keywordMatch;
+      });
       const vialesConPrecio = [
         'vial de sangre poderosa',
         'vial de sangre potente',
@@ -171,7 +187,7 @@ export class LegendaryCraftingBase {
       const isLegendary = ingredient.type?.includes('legendary');
       const hasBuyPrice = ingredient.buyPrice > 0;
       const hasSellPrice = ingredient.sellPrice > 0;
-      const showPrice = this.isBasicMaterial(ingredient.id) || ingredient.isPriceLoaded() || (isLegendary && (hasBuyPrice || hasSellPrice));
+      const showPrice = !customText && (this.isBasicMaterial(ingredient.id) || ingredient.isPriceLoaded() || (isLegendary && (hasBuyPrice || hasSellPrice)));
       let totalBuyPrice = ingredient.getTotalBuyPrice();
       let totalSellPrice = ingredient.getTotalSellPrice();
 
@@ -182,7 +198,9 @@ export class LegendaryCraftingBase {
       }
 
       let priceTooltip = '';
-      if ((ingredient.isPriceLoaded() || isLegendary || hasComponents) && (totalBuyPrice > 0 || totalSellPrice > 0)) {
+      if (customText) {
+        priceTooltip = customText.display;
+      } else if ((ingredient.isPriceLoaded() || isLegendary || hasComponents) && (totalBuyPrice > 0 || totalSellPrice > 0)) {
         const buyText = totalBuyPrice > 0 ? `Compra: ${formatGold(totalBuyPrice)}` : 'Compra: N/A';
         const sellText = totalSellPrice > 0 ? `Venta: ${formatGold(totalSellPrice)}` : 'Venta: N/A';
         priceTooltip = `${buyText} | ${sellText}${(!hasBuyPrice || !hasSellPrice) && hasComponents ? ' (calculado de componentes)' : ''}`;
@@ -194,6 +212,12 @@ export class LegendaryCraftingBase {
         priceTooltip = 'Precio no disponible';
       }
 
+      const priceClass = showPrice ? 'has-price' : (customText ? 'custom-text' : 'no-price');
+      const priceContent = showPrice
+        ? `<div class="price-row"><span class="price-label">Compra:</span><span class="price-amount">${formatGold(totalBuyPrice)}</span></div>` +
+          `<div class="price-row"><span class="price-label">Venta:</span><span class="price-amount">${formatGold(totalSellPrice)}</span></div>`
+        : (customText ? customText.display : '');
+
       itemEl.innerHTML = `
         <div class="${itemClass}">
           ${hasChildren ? `<button class="toggle-children" data-expanded="${isExpanded}">${isExpanded ? '−' : '+'}</button>` : '<div style="width: 24px;"></div>'}
@@ -201,9 +225,8 @@ export class LegendaryCraftingBase {
           <div class="item-name">${ingredient.name || 'Item'}</div>
           <div class="item-details">
             ${ingredient.count > 1 ? `<span class="item-count">x${ingredient.count}</span>` : ''}
-            <div class="item-price-container ${showPrice ? 'has-price' : 'no-price'}" title="${priceTooltip}">
-              ${showPrice ? `<div class="price-row"><span class="price-label">Compra:</span><span class="price-amount">${formatGold(totalBuyPrice)}</span></div>` : ''}
-              ${showPrice ? `<div class="price-row"><span class="price-label">Venta:</span><span class="price-amount">${formatGold(totalSellPrice)}</span></div>` : ''}
+            <div class="item-price-container ${priceClass}" title="${priceTooltip}">
+              ${priceContent}
             </div>
           </div>
         </div>`;

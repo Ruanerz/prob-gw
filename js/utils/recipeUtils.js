@@ -96,19 +96,15 @@ window.getAndTransformRecipes = async function(itemId) {
     try {
         const recipes = await getRecipesForItem(itemId);
         if (!recipes || recipes.length === 0) return [];
-        
-        // Obtener detalles completos de cada receta
-        const recipesWithDetails = await Promise.all(
-            recipes.map(recipeId => getRecipeDetails(recipeId))
-        );
-        
-        // Transformar cada receta al formato de ingrediente
+
+        // getRecipesForItem ya devuelve los detalles completos de las recetas,
+        // por lo que no es necesario volver a llamar a getRecipeDetails
         const transformedRecipes = await Promise.all(
-            recipesWithDetails.map(recipe => 
+            recipes.map(recipe =>
                 window.transformRecipeToIngredient(recipe)
             )
         );
-        
+
         return transformedRecipes.filter(Boolean); // Filtrar nulos
     } catch (error) {
         console.error('Error en getAndTransformRecipes:', error);
@@ -129,19 +125,19 @@ window.loadIngredientTree = async function(ingredient, depth = 0, maxDepth = 3) 
         if (recipes.length === 0) {
             return ingredient;
         }
-        
-        // Tomar la primera receta por defecto (podrías implementar lógica para elegir la mejor)
-        const recipe = await getRecipeDetails(recipes[0]);
+
+        // getRecipesForItem devuelve objetos de receta completos, tomar la primera
+        const recipe = recipes[0];
         if (!recipe) return ingredient;
         
         // Transformar y cargar los ingredientes hijos
         ingredient.children = await Promise.all(
             recipe.ingredients.map(async (ing) => {
                 // Buscar la receta real del hijo
-                const childRecipeIds = await getRecipesForItem(ing.item_id);
+                const childRecipes = await getRecipesForItem(ing.item_id);
                 let childIngredient = null;
-                if (childRecipeIds.length > 0) {
-                    const childRecipe = await getRecipeDetails(childRecipeIds[0]);
+                if (childRecipes.length > 0) {
+                    const childRecipe = childRecipes[0];
                     if (childRecipe) {
                         // Pasa la receta real y el count correcto
                         childIngredient = await transformRecipeToIngredient(childRecipe, ing.count, 1);

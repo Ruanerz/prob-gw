@@ -404,11 +404,6 @@ export function isLegendary3GenItem(itemId) {
 export function isBasic3GenMaterial(itemId) {
   // Depuración para Vial de sangre espesa
   if (itemId === 24293) {
-    console.log('[DEBUG] isBasic3GenMaterial para 24293:', {
-      exists: String(itemId) in BASIC_MATERIALS_3GEN,
-      BASIC_MATERIALS_3GEN: BASIC_MATERIALS_3GEN[String(itemId)],
-      keys: Object.keys(BASIC_MATERIALS_3GEN).filter(k => k === '24293')
-    });
   }
   return String(itemId) in BASIC_MATERIALS_3GEN;
 }

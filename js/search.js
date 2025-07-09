@@ -14,7 +14,6 @@ TODO el contenido original ha sido comentado para evitar errores de sintaxis.
             }
 
             // Obtener precios de mercado para los ítems
-            console.log('Obteniendo precios de mercado...');
             await this.loadMarketPrices();
             
             // Ordenar ítems por nombre para mejor búsqueda
@@ -24,8 +23,6 @@ TODO el contenido original ha sido comentado para evitar errores de sintaxis.
             this.setupEventListeners();
 
             // Mostrar mensaje de éxito en la consola
-            console.log('Búsqueda inicializada con éxito. Ítems disponibles:', this.items.length);
-            console.log('Ejemplo de ítem cargado:', this.items[0]);
 
         } catch (error) {
             console.error('Error inicializando buscador:', error);

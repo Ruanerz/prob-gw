@@ -94,20 +94,11 @@ function findIngredientByIdAndParent(ings, id, parentId) {
     if (typeof ing.then === 'function') continue; // Ignorar promesas
 
     // DEBUG: Imprime los valores que compara
-    console.log('Buscando', {
-      ingId: ing.id,
-      paramId: id,
-      ingParentId: ing._parentId,
-      paramParentId: parentId,
-      idIgual: String(ing.id) === String(id),
-      parentIgual: isEquivalentParentId(ing._parentId, parentId)
-    });
 
     if (
       String(ing.id) === String(id) &&
       isEquivalentParentId(ing._parentId, parentId)
     ) {
-      console.log('¡Encontrado!', ing);
       return ing;
     }
     if (Array.isArray(ing.children) && ing.children.length) {
@@ -115,7 +106,6 @@ function findIngredientByIdAndParent(ings, id, parentId) {
       if (found) return found;
     }
   }
-  return null;
 }
 window.findIngredientByIdAndParent = findIngredientByIdAndParent;
 
@@ -274,16 +264,6 @@ function renderMainItemRow(mainItem, qty, totalBuy, totalSell, totalCrafted) {
     totalCrafted: mainItem.total_crafted
   };
 
-  // --- LOG DE DEPURACIÓN ANTES DE RENDERIZAR ---
-  if (mainItem) {
-    console.log('[DEBUG][ANTES DE RENDER] mainItem:', mainItem);
-    if (mainItem.children && mainItem.children.length > 0) {
-      console.log('[DEBUG][ANTES DE RENDER] hijos:', mainItem.children.map(c => ({
-        id: c.id, name: c.name, total_buy: c.total_buy, total_sell: c.total_sell, countTotal: c.countTotal
-      })));
-    }
-  }
-  console.log('[DEBUG][renderMainItemRow] mainItem:', mainItem);
   if (!mainItem) return '';
   const expanded = !!window._mainItemExpandedMap[mainItem.id];
   const btnExpand = `<button class="btn-expand btn-expand-main" id="btn-expand-main-${mainItem.id}" data-id="${mainItem.id}">${expanded ? '▴' : '▾'}</button>`;
@@ -434,12 +414,6 @@ function renderCraftingSectionUI() {
   const hasIngredients = window.ingredientObjs && window.ingredientObjs.length > 0;
   updateQtyInputVisibility(hasIngredients);
   // --- DEBUG: Mostrar todos los valores clave ---
-  console.log('[DEBUG][compare-ui] renderCraftingSectionUI called');
-  console.log('window._mainRecipeOutputCount:', window._mainRecipeOutputCount);
-  console.log('window.globalQty:', window.globalQty);
-  console.log('window._mainBuyPrice:', window._mainBuyPrice);
-  console.log('window._mainSellPrice:', window._mainSellPrice);
-  console.log('window.ingredientObjs:', window.ingredientObjs);
 
   // Obtener output_item_count de la receta principal
   const outputCount = (_mainRecipeOutputCount && !isNaN(_mainRecipeOutputCount)) ? _mainRecipeOutputCount : 1;
@@ -614,7 +588,6 @@ async function renderItemUI(itemData, marketData) {
     // Si necesitas limpiar el contenido, puedes usar:
     // itemHeader.innerHTML = '';
   }
-  console.log('%cMODERNA renderItemUI ejecutado', 'color: #00bfae; font-weight: bold;', itemData);
   // El resto del renderizado continúa normalmente, pero no redeclares la variable.
 
   // Si necesitas renderizar este header dinámico, usa una variable y asígnalo a innerHTML donde corresponda:

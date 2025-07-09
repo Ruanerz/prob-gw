@@ -1,5 +1,4 @@
 // main.js - Orquestador principal para el GW2 Item Tracker Modular
-console.log('[main.js] Inicializando...');
 
 // Importaciones
 import { CraftIngredient } from './item-logic.js';
@@ -89,8 +88,6 @@ async function fetchMarketDataForItem(id) {
         window._mainSellPrice = marketData.sell_price || 0;
 
         if (id == 70820) {
-            console.log('[DEBUG] MarketData para Esquirla de gloria (70820):', marketData);
-        }
         return marketData;
 
     } catch (e) {
@@ -111,9 +108,7 @@ async function fetchMarketDataForItem(id) {
 
 async function prepareIngredientTreeData(mainItemId, mainRecipeData) {
     if (!mainRecipeData || !mainRecipeData.ingredients || mainRecipeData.ingredients.length === 0) {
-        console.log("El ítem principal no tiene ingredientes o faltan datos de receta.");
         window.ingredientObjs = [];
-        window._mainRecipeOutputCount = mainRecipeData ? (mainRecipeData.output_item_count || 1) : 1;
         return [];
     }
 
@@ -261,11 +256,9 @@ async function main() {
                 min_rating: recipeData.min_rating || 0,
                 type: recipeData.type
             };
-            console.log('Datos de artesanía agregados a itemData:', itemData.details);
             
             window.ingredientObjs = await prepareIngredientTreeData(itemId, recipeData);
         } else {
-            console.log('No se encontraron datos de receta para el ítem');
             window.ingredientObjs = [];
             window._mainRecipeOutputCount = 1;
             itemData.details = { disciplines: [], min_rating: 0, type: null };
@@ -293,8 +286,6 @@ async function main() {
 
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[main.js] DOM cargado, iniciando aplicación...');
-    main().catch(error => {
         console.error('Error en main():', error);
         showError('Error al cargar los datos del ítem');
     });

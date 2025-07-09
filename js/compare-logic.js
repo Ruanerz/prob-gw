@@ -246,7 +246,6 @@ async function mainCompareUI() {
     try {
         const itemData = await fetchItemData(itemId);
         window._mainItemData = itemData;
-        console.log('[DEBUG][compare-logic] window._mainItemData asignado:', window._mainItemData);
         const marketData = await fetchMarketDataForItem(itemId);
         window._mainBuyPrice = marketData.buy_price || 0;
         window._mainSellPrice = marketData.sell_price || 0;

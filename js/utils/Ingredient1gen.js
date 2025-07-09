@@ -252,7 +252,6 @@ export async function createIngredientTree(itemData, parent = null) {
       
       ingredient.icon = `https://render.guildwars2.com/file/${cleanIconPath}`;
     }
-    console.log(`[DEBUG] Icono para ${ingredient.name}:`, ingredient.icon);
   }
   
   if (itemData.source) ingredient.source = itemData.source;
@@ -302,9 +301,7 @@ export async function createIngredientTree(itemData, parent = null) {
   if (ingredient.id === 19676) {
     // Precio fijo para 'Piedra rúnica helada': 1g (10000 cobre)
     ingredient.setPrices(10000, 10000);
-    console.log(`Precio fijo establecido para ${ingredient.name}: 1g`);
   } else if (isBasicMaterial(ingredient.id) && !shouldSkipMarketCheck(ingredient.id, ingredient.name)) {
-    console.log(`Buscando precios para ${ingredient.name} (${ingredient.id})`);
     try {
       const prices = await gw2API.getItemPrices(ingredient.id);
       if (prices && prices.sells && prices.buys) {

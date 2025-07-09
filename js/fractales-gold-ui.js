@@ -13,6 +13,8 @@ export function setValoresFractales({ compra75919, venta75919, compra73248, vent
 }
 import { FRACTALES_ITEMS, FRACTAL_STACKS, getItemsConMercado, keyToNombre } from './fractales-gold-logic.js';
 
+let contribucionesChart = null;
+let abrirVenderChart = null;
 // --- Helper para obtener precios de múltiples ítems en una sola llamada ---
 export async function fetchItemPrices(ids = []) {
   if (!ids || ids.length === 0) return {};
@@ -244,14 +246,14 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', p
   // 5. Aplicar 0.85 y sumar oro crudo
     const sumaCompra = promedioOro + (totalCompra * 0.85);
     const sumaVenta = promedioOro + (totalVenta * 0.85);
+    const contribuciones = [{ nombre: "Oro crudo", valor: promedioOro }];
+    precios.forEach(item => {
+      const promedio = promedios[item.key];
+      if (promedio !== undefined) {
+        contribuciones.push({ nombre: keyToNombre(item.key), valor: item.sell_price * promedio * 0.85 });
+      }
+    });
 
-  // 6. Precios de encriptaciones (se pasan desde fuera)
-    const {
-      compra75919 = 0,
-      venta75919 = 0,
-      compra73248 = 0,
-      venta73248 = 0
-    } = preciosFractales;
 
   // 7. Render tabla
     const htmlResumen = `
@@ -275,18 +277,24 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', p
     </table>
   `;
     document.getElementById(containerId).innerHTML = htmlResumen;
+    return { sumaCompra, sumaVenta, contribuciones };
   } catch (err) {
     console.error('Error en renderTablaResumenOro:', err);
   }
 }
 
-export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit', preciosFractales = {}) {
+
+
+export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit', preciosFractales = {}, resumen = {}) {
   const {
     compra75919 = 0,
     venta75919 = 0,
     compra73248 = 0,
     venta73248 = 0
   } = preciosFractales;
+  const { sumaVenta = 0 } = resumen;
+  const costoAbrir = (compra75919 + compra73248) * 250;
+  const roi = costoAbrir > 0 ? ((sumaVenta - costoAbrir) / costoAbrir) * 100 : 0;
   const htmlFractales = `
     <table class="table-modern" style="margin-top:0;">
       <thead>
@@ -320,9 +328,93 @@ export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-pr
           <td><div class="dato-item">Suma Encriptación + Matriz (venta) - 15% de comisión</div></td>
           <td><div class="dato-item-info">${window.formatGold(((venta75919 + venta73248) * 250) * 0.85)}</div></td>
         </tr>
+        <tr>
+          <td><div class="dato-item"><strong>ROI abrir stack</strong></div></td>
+          <td><div class="dato-item-info" style="color:${roi>=0 ? 'green' : 'red'};">${roi.toFixed(2)} %</div></td>
+        </tr>
       </tbody>
     </table>
   `;
   document.getElementById(containerId).innerHTML = htmlFractales;
 }
 
+// Muestra un gráfico con el aporte en oro de cada material al total promedio
+export function renderGraficoContribuciones(contribuciones = [], containerId = 'contribuciones-chart') {
+  const ctx = document.getElementById(containerId)?.getContext('2d');
+  if (!ctx) return;
+  if (contribucionesChart) contribucionesChart.destroy();
+  const labels = contribuciones.map(c => c.nombre);
+  const data = contribuciones.map(c => c.valor / 10000);
+  contribucionesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Oro',
+        data,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, title: { display: true, text: 'Oro' } } }
+    }
+  });
+}
+
+// Compara vender un stack con abrirlo usando distintos escenarios de compra
+export function renderGraficoAbrirVsVender(containerId = 'abrir-vs-vender-chart', preciosFractales = {}, resumen = {}) {
+  const ctx = document.getElementById(containerId)?.getContext('2d');
+  if (!ctx) return;
+  if (abrirVenderChart) abrirVenderChart.destroy();
+
+  const {
+    venta75919 = 0,
+    compra75919 = 0,
+    compra73248 = 0
+  } = preciosFractales;
+  const { sumaVenta = 0 } = resumen;
+
+  const venderStack = venta75919 * 250 * 0.85;
+  const abrirConLlaves = sumaVenta;
+  const abrirComprandoMatrices = abrirConLlaves - compra73248 * 250;
+  const abrirComprandoAmbos = abrirConLlaves - (compra75919 + compra73248) * 250;
+
+  abrirVenderChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'Vender stack de encriptación',
+        'Abrir con llaves',
+        'Abrir comprando matrices',
+        'Abrir comprando matrices y encriptaciones'
+      ],
+      datasets: [{
+        label: 'Oro',
+        data: [
+          venderStack / 10000,
+          abrirConLlaves / 10000,
+          abrirComprandoMatrices / 10000,
+          abrirComprandoAmbos / 10000
+        ],
+        backgroundColor: [
+          'rgba(255,99,132,0.6)',
+          'rgba(75,192,192,0.6)',
+          'rgba(255,206,86,0.6)',
+          'rgba(153,102,255,0.6)'
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Oro' }
+        }
+      }
+    }
+  });
+}

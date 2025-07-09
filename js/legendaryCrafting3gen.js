@@ -23,9 +23,9 @@ const quickLoadButtons = {
 
 const customPriceTexts = [
   { name: 'Don de la exploración', display: 'Recompensa por completar mapas', keywords: ['exploraci'] },
-  { name: 'Don de la batalla', display: 'Se compra con Memorias de batalla', keywords: ['batalla'] },
-  { name: 'Esquirla de hematites', display: 'Intercambio en Páramos Argentos', keywords: ['hematites'] },
-  { name: 'Esquirla de obsidiana', display: 'Compra con karma/laureles', keywords: ['obsidiana'] }
+  { name: 'Don de la batalla', display: 'Se obtiene al completar la ruta de recompensas del don de la batalla WvW', keywords: ['batalla'] },
+  { name: 'Esquirla de hematites', display: 'Se compra en la forja mística', keywords: ['hematites'] },
+  { name: 'Esquirla de obsidiana', display: 'Se compra por karma con NPC', keywords: ['obsidiana'] }
 ];
 
 window.appThirdGen = new LegendaryCraftingBase({

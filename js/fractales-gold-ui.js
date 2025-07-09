@@ -366,24 +366,51 @@ export function renderGraficoAbrirVsVender(containerId = 'abrir-vs-vender-chart'
   const ctx = document.getElementById(containerId)?.getContext('2d');
   if (!ctx) return;
   if (abrirVenderChart) abrirVenderChart.destroy();
-  const { venta75919 = 0 } = preciosFractales;
+
+  const {
+    venta75919 = 0,
+    compra75919 = 0,
+    compra73248 = 0
+  } = preciosFractales;
   const { sumaVenta = 0 } = resumen;
-  const vender = venta75919 * 250 * 0.85;
-  const abrir = sumaVenta;
+
+  const venderStack = venta75919 * 250 * 0.85;
+  const abrirConLlaves = sumaVenta;
+  const abrirComprandoMatrices = sumaVenta - (compra73248 * 250);
+  const abrirComprandoTodo =
+    sumaVenta - ((compra73248 + compra75919) * 250);
+
   abrirVenderChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Vender', 'Abrir'],
+      labels: [
+        'Vender stack de encriptación',
+        'Abrir con llaves',
+        'Abrir comprando matrices',
+        'Abrir comprando matrices y encriptaciones'
+      ],
       datasets: [{
         label: 'Oro',
-        data: [vender / 10000, abrir / 10000],
-        backgroundColor: ['rgba(255,99,132,0.6)', 'rgba(75,192,192,0.6)']
+        data: [
+          venderStack / 10000,
+          abrirConLlaves / 10000,
+          abrirComprandoMatrices / 10000,
+          abrirComprandoTodo / 10000
+        ],
+        backgroundColor: [
+          'rgba(255,99,132,0.6)',
+          'rgba(75,192,192,0.6)',
+          'rgba(255,205,86,0.6)',
+          'rgba(153,102,255,0.6)'
+        ]
       }]
     },
     options: {
       responsive: true,
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, title: { display: true, text: 'Oro' } } }
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: 'Oro' } }
+      }
     }
   });
 }

@@ -846,11 +846,21 @@ const precioVentaUnidadMercado = (mainNode && typeof mainNode.sell_price === 'nu
     for (const ing of ingredientObjs) {
       totalBuy += ing.total_buy || 0;
       totalSell += ing.total_sell || 0;
-      // Si el ingrediente no es crafteable, usar el costo de compra
-      const craftedVal =
-        (ing.total_crafted !== undefined && ing.total_crafted !== null)
-          ? ing.total_crafted
-          : ing.total_buy || 0;
+      // Respetar el modo seleccionado para cada ingrediente
+      let craftedVal = 0;
+      switch (ing.modeForParentCrafted) {
+        case 'buy':
+          craftedVal = ing.total_buy || 0;
+          break;
+        case 'sell':
+          craftedVal = ing.total_sell || 0;
+          break;
+        case 'crafted':
+          craftedVal = ing.total_crafted || 0;
+          break;
+        default:
+          craftedVal = ing.total_buy || 0;
+      }
       totalCrafted += craftedVal;
     }
     return { totalBuy, totalSell, totalCrafted };

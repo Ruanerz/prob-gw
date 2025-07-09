@@ -44,7 +44,21 @@ function getTotals(ingredientObjs) {
   for (const ing of ingredientObjs) {
     totalBuy += ing.total_buy || 0;
     totalSell += ing.total_sell || 0;
-    totalCrafted += ing.total_crafted || 0;
+    let craftedVal = 0;
+    switch (ing.modeForParentCrafted) {
+      case 'buy':
+        craftedVal = ing.total_buy || 0;
+        break;
+      case 'sell':
+        craftedVal = ing.total_sell || 0;
+        break;
+      case 'crafted':
+        craftedVal = ing.total_crafted || 0;
+        break;
+      default:
+        craftedVal = ing.total_buy || 0;
+    }
+    totalCrafted += craftedVal;
   }
   return { totalBuy, totalSell, totalCrafted };
 }

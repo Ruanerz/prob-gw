@@ -402,8 +402,10 @@ async function renderDraconicTribute() {
 
     html += `</tbody></table>`;
     html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
-      <b>Total Buy estimado:</b> ${formatGold(totalBuy)}<br>
-      <b>Total Sell estimado:</b> ${formatGold(totalSell)}
+      <div class='precio-totales-dones'>
+        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
+        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+      </div>
     </div>`;
 
     container.innerHTML = html;
@@ -948,8 +950,10 @@ async function renderTributo() {
 
     // Mostrar los totales generales
     html += `<div class='table-modern-totales' style='margin-bottom:18px;'>
-      <b>Total Buy estimado:</b> ${formatGold(totalBuy)}<br>
-      <b>Total Sell estimado:</b> ${formatGold(totalSell)}
+      <div class='precio-totales-dones'>
+        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
+        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+      </div>
     </div>`;
 
     container.innerHTML = html;

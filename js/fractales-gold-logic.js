@@ -74,6 +74,29 @@ export const FRACTAL_STACKS = [
       saco_equipamiento: 4.01,
       miniatura: 154
     }
+  },
+  {
+    stacks: 4000,
+    data: {
+      oro_de_basura: 4283407500,
+      recetas_ascendentes: 7555,
+      infusion_mas1: 2263678,
+      llaves_encriptacion: 99812,
+      hueso: 334960,
+      veneno: 337195,
+      polvo: 337825,
+      totem: 338230,
+      garra: 339190,
+      colmillo: 336540,
+      sangre: 339475,
+      escama: 339260,
+      hematites: 1013835,
+      empíreos: 1012619,
+      dragonita: 1006125,
+      sacos_reliquias: 66795,
+      saco_equipamiento: 171,
+      miniatura: 19787
+    }
   }
 ];
 // Ítems no comerciables o no relevantes para fractales (comentados)

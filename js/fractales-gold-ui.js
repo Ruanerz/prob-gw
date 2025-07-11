@@ -13,6 +13,43 @@ export function setValoresFractales({ compra75919, venta75919, compra73248, vent
 }
 import { FRACTALES_ITEMS, FRACTAL_STACKS, getItemsConMercado, keyToNombre } from './fractales-gold-logic.js';
 
+// Cache para iconos
+const iconCache = {};
+// Mapeo simple de key a ID para obtener iconos
+export const ICON_ID_MAP = {
+  garra: 24350,
+  totem: 24299,
+  sangre: 24294,
+  veneno: 24282,
+  hueso: 24341,
+  escama: 24288,
+  colmillo: 24356,
+  polvo: 24276,
+  infusion_mas1: 49424,
+  llaves_encriptacion: 41537,
+  empíreos: 77302,
+  hematites: 43772,
+  dragonita: 43773,
+  encriptacion_fractal: 75919,
+  matriz_estabilizadora: 73248
+};
+
+export async function fetchIconsFor(ids = []) {
+  if (!ids.length) return;
+  try {
+    const res = await fetch(`https://api.guildwars2.com/v2/items?ids=${ids.join(',')}&lang=es`);
+    const data = await res.json();
+    data.forEach(item => {
+      if (item && item.id) iconCache[item.id] = item.icon;
+    });
+  } catch {}
+}
+
+function getIconByKey(key) {
+  const id = ICON_ID_MAP[key];
+  return id ? iconCache[id] || '' : '';
+}
+
 let contribucionesChart = null;
 let abrirVenderChart = null;
 // --- Helper para obtener precios de múltiples ítems en una sola llamada ---
@@ -95,12 +132,16 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
         </tr>
       </thead>
       <tbody>
-        ${claves.map(({ key, nombre }) => `
+        ${claves.map(({ key, nombre }) => {
+          const icon = getIconByKey(key);
+          const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
+          return `
           <tr>
-            <td><div class="dato-item">${nombre}</div></td>
+            <td><div class="dato-item">${iconHtml}${nombre}</div></td>
             <td><div class="dato-item-info">${promedios[key] !== undefined ? (key === 'oro_de_basura' ? window.formatGold(promedios[key]) : promedios[key].toFixed(2)) : '-'}</div></td>
           </tr>
-        `).join('')}
+          `;
+        }).join('')}
       </tbody>
     </table>
   `;
@@ -162,9 +203,11 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
           const promedio = promedios[item.key];
           const totalCompra = (promedio !== undefined) ? window.formatGold(Math.round(item.buy_price * promedio)) : '-';
           const totalVenta = (promedio !== undefined) ? window.formatGold(Math.round(item.sell_price * promedio)) : '-';
+          const icon = getIconByKey(item.key);
+          const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
           return `
             <tr>
-              <td><div class="dato-item">${keyToNombre(item.key)}</div></td>
+              <td><div class="dato-item">${iconHtml}${keyToNombre(item.key)}</div></td>
               <td><div class="dato-item-info">${window.formatGold(item.buy_price)}</div></td>
               <td><div class="dato-item-info">${window.formatGold(item.sell_price)}</div></td>
               <td><div class="dato-item-info">${totalCompra}</div></td>
@@ -295,6 +338,10 @@ export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-pr
   const { sumaVenta = 0 } = resumen;
   const costoAbrir = (compra75919 + compra73248) * 250;
   const roi = costoAbrir > 0 ? ((sumaVenta - costoAbrir) / costoAbrir) * 100 : 0;
+  const iconEnc = getIconByKey('encriptacion_fractal');
+  const iconMat = getIconByKey('matriz_estabilizadora');
+  const encIconHtml = iconEnc ? `<img src="${iconEnc}" class="item-icon">` : '';
+  const matIconHtml = iconMat ? `<img src="${iconMat}" class="item-icon">` : '';
   const htmlFractales = `
     <table class="table-modern" style="margin-top:0;">
       <thead>
@@ -305,19 +352,19 @@ export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-pr
       </thead>
       <tbody>
         <tr>
-          <td><div class="dato-item">Encriptación fractal (compra ×250)</div></td>
+          <td><div class="dato-item">${encIconHtml}Encriptación fractal (compra ×250)</div></td>
           <td><div class="dato-item-info">${window.formatGold(compra75919 * 250)}</div></td>
         </tr>
         <tr>
-          <td><div class="dato-item">Encriptación fractal (venta ×250)</div></td>
+          <td><div class="dato-item">${encIconHtml}Encriptación fractal (venta ×250)</div></td>
           <td><div class="dato-item-info">${window.formatGold(venta75919 * 250)}</div></td>
         </tr>
         <tr>
-          <td><div class="dato-item">Matriz estabilizadora (compra ×250)</div></td>
+          <td><div class="dato-item">${matIconHtml}Matriz estabilizadora (compra ×250)</div></td>
           <td><div class="dato-item-info">${window.formatGold(compra73248 * 250)}</div></td>
         </tr>
         <tr>
-          <td><div class="dato-item">Matriz estabilizadora (venta ×250)</div></td>
+          <td><div class="dato-item">${matIconHtml}Matriz estabilizadora (venta ×250)</div></td>
           <td><div class="dato-item-info">${window.formatGold(venta73248 * 250)}</div></td>
         </tr>
         <tr>

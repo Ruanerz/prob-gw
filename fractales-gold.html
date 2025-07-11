@@ -90,7 +90,7 @@
     });
   </script>
   <script type="module">
-    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, fetchItemPrices } from './js/fractales-gold-ui.js';
+    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, fetchItemPrices, fetchIconsFor, ICON_ID_MAP } from './js/fractales-gold-ui.js';
 
     async function fetchPreciosFractales() {
       const priceMap = await fetchItemPrices([75919, 73248]);
@@ -105,6 +105,7 @@
 
     async function renderTodo() {
       const preciosFractales = await fetchPreciosFractales();
+      await fetchIconsFor(Object.values(ICON_ID_MAP));
       await renderTablaPromedios();
       await renderTablaPrecios();
       const resumenData = await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);

@@ -134,7 +134,7 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
       <tbody>
         ${claves.map(({ key, nombre }) => {
           const icon = getIconByKey(key);
-          const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
+          const iconHtml = icon ? `<div class="icon-wrapper"><img src="${icon}"></div>` : '';
           return `
           <tr>
             <td><div class="dato-item">${iconHtml}${nombre}</div></td>
@@ -204,7 +204,7 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
           const totalCompra = (promedio !== undefined) ? window.formatGold(Math.round(item.buy_price * promedio)) : '-';
           const totalVenta = (promedio !== undefined) ? window.formatGold(Math.round(item.sell_price * promedio)) : '-';
           const icon = getIconByKey(item.key);
-          const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
+          const iconHtml = icon ? `<div class="icon-wrapper"><img src="${icon}"></div>` : '';
           return `
             <tr>
               <td><div class="dato-item">${iconHtml}${keyToNombre(item.key)}</div></td>
@@ -340,8 +340,8 @@ export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-pr
   const roi = costoAbrir > 0 ? ((sumaVenta - costoAbrir) / costoAbrir) * 100 : 0;
   const iconEnc = getIconByKey('encriptacion_fractal');
   const iconMat = getIconByKey('matriz_estabilizadora');
-  const encIconHtml = iconEnc ? `<img src="${iconEnc}" class="item-icon">` : '';
-  const matIconHtml = iconMat ? `<img src="${iconMat}" class="item-icon">` : '';
+  const encIconHtml = iconEnc ? `<div class="icon-wrapper"><img src="${iconEnc}"></div>` : '';
+  const matIconHtml = iconMat ? `<div class="icon-wrapper"><img src="${iconMat}"></div>` : '';
   const htmlFractales = `
     <table class="table-modern" style="margin-top:0;">
       <thead>

@@ -26,10 +26,13 @@ export const ICON_ID_MAP = {
   colmillo: 24356,
   polvo: 24276,
   infusion_mas1: 49424,
-  llaves_encriptacion: 41537,
-  empíreos: 77302,
-  hematites: 43772,
-  dragonita: 43773,
+  llaves_encriptacion: 70438,
+  empíreos: 46735,
+  hematites: 46731,
+  dragonita: 46733,
+  sacos_reliquias: 79792,
+  saco_equipamiento: 71510,
+  miniatura: 74268,
   encriptacion_fractal: 75919,
   matriz_estabilizadora: 73248
 };
@@ -95,14 +98,14 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
     { key: 'colmillo', nombre: 'Colmillo afilado' },
     { key: 'polvo', nombre: 'Montón de polvo incandescente' },
     { key: 'infusion_mas1', nombre: 'Infusión +1' },
-    { key: 'llaves_encriptacion', nombre: 'Llaves de encriptación' },
-    { key: 'empíreos', nombre: 'Empíreos' },
+    { key: 'llaves_encriptacion', nombre: 'Clave de encriptación fractal' },
+    { key: 'empíreos', nombre: 'Fragmento empíreo' },
     { key: 'recetas_ascendentes', nombre: 'Recetas ascendentes' },
-    { key: 'hematites', nombre: 'Hematites' },
-    { key: 'dragonita', nombre: 'Dragonita' },
-    { key: 'sacos_reliquias', nombre: 'Sacos de reliquias' },
-    { key: 'saco_equipamiento', nombre: 'Saco de equipamiento' },
-    { key: 'miniatura', nombre: 'Miniatura' }
+    { key: 'hematites', nombre: 'Montón de polvo de hematites' },
+    { key: 'dragonita', nombre: 'Mineral de dragonita' },
+    { key: 'sacos_reliquias', nombre: 'Puñado de reliquias fractales' },
+    { key: 'saco_equipamiento', nombre: 'Saco de equipo excepcional' },
+    { key: 'miniatura', nombre: 'Miniatura del profesor Miau' }
   ];
     const promedios = {};
     claves.forEach(({ key }) => {

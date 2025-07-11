@@ -1454,6 +1454,11 @@ table tr {
 #modal-loader, #modal-error-message, #modal-results {
   margin-top: 12px;
 }
+
+#modal-results {
+  max-height: 60vh;
+  overflow-y: auto;
+}
 #modal-results .item-card {
   background: #111111;
   border-radius: 10px;

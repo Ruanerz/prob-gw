@@ -2362,7 +2362,7 @@ p .info-text{
 .item-icon {
   width: 24px;
   height: 24px;
-  margin-right: 6px;
+  margin-right: 20px;
   vertical-align: middle;
   object-fit: contain;
 }

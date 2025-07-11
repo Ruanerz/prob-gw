@@ -1317,6 +1317,7 @@ table tr {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto; /* permite desplazar el modal si el contenido es alto */
 }
 .search-modal-backdrop {
   position: absolute;
@@ -1343,6 +1344,8 @@ table tr {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  max-height: 90vh;
+  overflow-y: auto;
   animation: modal-fade-in 0.4s;
 }
 

@@ -1,33 +1,60 @@
 // Modal de feedback/contacto
 
-document.addEventListener('DOMContentLoaded', function() {
+function createFeedbackModal() {
+  if (!document.getElementById('open-feedback-modal')) {
+    const btn = document.createElement('a');
+    btn.href = '#';
+    btn.id = 'open-feedback-modal';
+    btn.className = 'feedback-float';
+    btn.textContent = 'Feedback';
+    document.body.appendChild(btn);
+  }
+
+  if (!document.getElementById('feedback-modal')) {
+    const modal = document.createElement('div');
+    modal.id = 'feedback-modal';
+    modal.className = 'search-modal hidden';
+    modal.innerHTML = `
+      <div class="search-modal-backdrop"></div>
+      <div class="search-modal-content">
+        <button class="close-modal" id="close-feedback-modal">×</button>
+        <div class="text-center"><h2>¿Mejoras?¿Bugs?</h2></div>
+        <div class="mb-18-0-8-0">
+          ¿Tienes dudas, sugerencias o comentarios?<br>
+          Escríbeme por discord <a href="https://discord.gg/rtAEcMys" class="item-link">SERVER RUANERZ</a>
+          <br>en el canal general o por privado.<br>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+}
+
+function initFeedbackModal() {
+  createFeedbackModal();
   const openBtn = document.getElementById('open-feedback-modal');
   const modal = document.getElementById('feedback-modal');
   const closeBtn = document.getElementById('close-feedback-modal');
   if (!openBtn || !modal || !closeBtn) return;
 
-  openBtn.addEventListener('click', function(e) {
+  const open = function(e) {
     e.preventDefault();
-    modal.style.display = 'block';
+    modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-  });
+  };
 
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
+  const close = function() {
+    modal.classList.add('hidden');
     document.body.style.overflow = '';
-  });
+  };
 
-  // Cierra modal con fondo
-  modal.querySelector('.search-modal-backdrop').addEventListener('click', function() {
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-
-  // Escape para cerrar
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  modal.querySelector('.search-modal-backdrop').addEventListener('click', close);
   document.addEventListener('keydown', function(e) {
-    if (modal.style.display === 'block' && e.key === 'Escape') {
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
+    if (!modal.classList.contains('hidden') && e.key === 'Escape') {
+      close();
     }
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initFeedbackModal);

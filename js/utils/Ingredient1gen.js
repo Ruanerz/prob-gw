@@ -304,8 +304,8 @@ export async function createIngredientTree(itemData, parent = null) {
   } else if (isBasicMaterial(ingredient.id) && !shouldSkipMarketCheck(ingredient.id, ingredient.name)) {
     try {
       const prices = await gw2API.getItemPrices(ingredient.id);
-      if (prices && prices.sells && prices.buys) {
-        ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+        if (prices && prices.sells && prices.buys) {
+          ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
       } else {
         console.warn(`Precios no disponibles para ${ingredient.name} (${ingredient.id})`);
         ingredient.setPrices(0, 0);

@@ -287,25 +287,26 @@ export class LegendaryCraftingBase {
     if (this.summaryEl) this.summaryEl.style.display = 'none';
   }
 
-  renderProfitSummary(sellPrice, buyPrice, craftingCost) {
-    if (!this.summaryEl || !sellPrice || !craftingCost) return;
+  renderProfitSummary(buyPrice, craftingCost) {
+    if (!this.summaryEl || !buyPrice || !craftingCost) return;
     const existing = this.summaryEl.querySelectorAll('.summary-profit');
     existing.forEach(s => s.remove());
-    const profitSell = Math.round((sellPrice * 0.85) - craftingCost);
-    const profitBuy = Math.round((buyPrice * 0.85) - craftingCost);
+    const price85 = Math.round(buyPrice * 0.85);
+    const profitSell = price85 - craftingCost;
+    const profitBuy = price85 - craftingCost;
     const profitEl = document.createElement('div');
     profitEl.className = 'summary-profit';
     profitEl.innerHTML = `
       <h3>Resumen de Ganancias</h3>
-      <div class="summary-subsection">
-        <h4>Por venta listada</h4>
-        <div class="summary-item"><span>Precio de venta (85%):</span><span>${formatGold(Math.round(sellPrice * 0.85))}</span></div>
+        <div class="summary-subsection">
+          <h4>Por venta listada</h4>
+          <div class="summary-item"><span>Precio de compra (85%):</span><span>${formatGold(price85)}</span></div>
         <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGold(craftingCost)}</span></div>
         <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitSell >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGold(profitSell)}</strong></div>
       </div>
       <div class="summary-subsection" style="margin-top: 15px;">
         <h4>Por venta directa</h4>
-        <div class="summary-item"><span>Precio de compra (85%):</span><span>${formatGold(Math.round(buyPrice * 0.85))}</span></div>
+        <div class="summary-item"><span>Precio de compra (85%):</span><span>${formatGold(price85)}</span></div>
         <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGold(craftingCost)}</span></div>
         <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitBuy >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGold(profitBuy)}</strong></div>
       </div>
@@ -316,24 +317,32 @@ export class LegendaryCraftingBase {
   renderSummary() {
     if (!this.currentTree) return;
     const totals = this.currentTree.calculateTotals();
-    const totalBuy = totals.buy;
-    const totalSell = totals.sell;
+    const totalBuy = totals.buy; // Precio de compra (orden de compra)
+    const totalSell = totals.sell; // Precio de venta (orden de venta)
     const isCraftable = totals.isCraftable;
 
     const calculateCraftingCost = (ingredient) => {
       let cost = 0;
       if (ingredient.components && ingredient.components.length > 0) {
         ingredient.components.forEach(comp => { cost += calculateCraftingCost(comp); });
-      } else if (ingredient.buyPrice > 0) {
-        cost = ingredient.getTotalBuyPrice();
+      } else {
+        const buy = ingredient.getTotalBuyPrice();
+        const sell = ingredient.getTotalSellPrice();
+        if (buy > 0 && sell > 0) {
+          cost = Math.min(buy, sell);
+        } else if (buy > 0) {
+          cost = buy;
+        } else if (sell > 0) {
+          cost = sell;
+        }
       }
       return cost;
     };
 
     const craftingCost = calculateCraftingCost(this.currentTree);
     let html = `
-      <div class="summary-item"><span>Precio venta:</span><span>${totalBuy > 0 ? formatGold(totalBuy) : 'N/A'}</span></div>
-      <div class="summary-item"><span>Precio compra:</span><span>${totalSell > 0 ? formatGold(totalSell) : 'N/A'}</span></div>`;
+      <div class="summary-item"><span>Precio venta:</span><span>${totalSell > 0 ? formatGold(totalSell) : 'N/A'}</span></div>
+      <div class="summary-item"><span>Precio compra:</span><span>${totalBuy > 0 ? formatGold(totalBuy) : 'N/A'}</span></div>`;
     if (craftingCost > 0) {
       html += `<div class="summary-item"><strong>Costo de crafteo total:</strong><strong>${formatGold(craftingCost)}</strong></div>`;
     }
@@ -347,8 +356,9 @@ export class LegendaryCraftingBase {
     }
 
     this.summaryContentEl.innerHTML = html;
-    if (totalBuy > 0 && totalSell > 0 && craftingCost > 0) {
-      this.renderProfitSummary(totalBuy, totalSell, craftingCost);
+    if (totalBuy > 0 && craftingCost > 0) {
+      // La ganancia se calcula usando siempre el precio de compra al 85%
+      this.renderProfitSummary(totalBuy, craftingCost);
     }
   }
 

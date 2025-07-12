@@ -376,7 +376,9 @@ export async function createIngredientTree(itemData, parent = null) {
       const prices = await gw2API.getItemPrices(itemId);
 
       if (prices && prices.sells && prices.buys) {
-        ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+        // Usar el precio de compra (buy order) como valor barato y
+        // el precio de venta (sell listing) como valor caro
+        ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
       } else {
         ingredient.setPrices(0, 0);
       }
@@ -398,7 +400,9 @@ export async function createIngredientTree(itemData, parent = null) {
         const prices = await gw2API.getItemPrices(ingredient.id);
 
         if (prices && prices.sells && prices.buys) {
-          ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+          // Guardar el precio más barato como compra (buy order) y el más caro
+          // como venta (sell listing)
+          ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
         } else {
           ingredient.setPrices(0, 0);
         }

@@ -375,8 +375,8 @@ export async function createIngredientTree(itemData, parent = null) {
     try {
       const prices = await gw2API.getItemPrices(itemId);
 
-      if (prices && prices.sells && prices.buys) {
-        ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+          if (prices && prices.sells && prices.buys) {
+            ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
       } else {
         ingredient.setPrices(0, 0);
       }
@@ -398,7 +398,7 @@ export async function createIngredientTree(itemData, parent = null) {
         const prices = await gw2API.getItemPrices(ingredient.id);
 
         if (prices && prices.sells && prices.buys) {
-          ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+          ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
         } else {
           ingredient.setPrices(0, 0);
         }

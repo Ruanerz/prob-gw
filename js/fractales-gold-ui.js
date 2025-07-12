@@ -464,3 +464,16 @@ export function renderGraficoAbrirVsVender(containerId = 'abrir-vs-vender-chart'
     }
   });
 }
+
+export function renderExtras(preciosFractales = {}, claveStack = 24.96) {
+  const { venta73248 = 0 } = preciosFractales;
+  const precioMatrizEl = document.getElementById('matriz-precio');
+  const conversionEl = document.getElementById('conversion-indirecta');
+  if (precioMatrizEl) {
+    precioMatrizEl.textContent = window.formatGold(venta73248);
+  }
+  if (conversionEl) {
+    const total = Math.round(venta73248 * claveStack);
+    conversionEl.textContent = window.formatGold(total);
+  }
+}

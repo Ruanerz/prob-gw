@@ -59,10 +59,7 @@ function requireAuth() {
 document.addEventListener('DOMContentLoaded', initAuth);
 
 function loginWithDiscord() {
-    const DISCORD_CLIENT_ID = '1391252012561207386'; // <-- Tu Client ID real
-    // Utilizar el mismo origen para la redirección, evitando referencias a localhost que fallan en producción
-    const DISCORD_REDIRECT_URI = `${window.location.origin}/auth.html`; // <-- Asegúrate de registrar este URI en el panel de Discord Developers
-    const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&scope=identify%20email&state=discord`;
+    const authUrl = 'https://discord.com/oauth2/authorize?client_id=1391252012561207386&response_type=code&redirect_uri=https%3A%2F%2Fruanerz.github.io%2Fprob-gw%2Fauth.html&scope=identify';
     window.location.href = authUrl;
 }
 

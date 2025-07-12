@@ -305,7 +305,9 @@ export async function createIngredientTree(itemData, parent = null) {
     try {
       const prices = await gw2API.getItemPrices(ingredient.id);
       if (prices && prices.sells && prices.buys) {
-        ingredient.setPrices(prices.sells.unit_price, prices.buys.unit_price);
+        // Usar el precio de compra (buy order) como el valor barato y
+        // el precio de venta (sell listing) como el valor caro
+        ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
       } else {
         console.warn(`Precios no disponibles para ${ingredient.name} (${ingredient.id})`);
         ingredient.setPrices(0, 0);

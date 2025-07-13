@@ -33,7 +33,7 @@ function formatGoldColored(value) {
 
   let result = '';
   if (gold > 0) {
-    result += `<span class="gold">${gold}g</span> ` +
+    result += `<span class="gold">${gold}<img src="https://wiki.guildwars2.com/images/4/45/Gold_coin.png"  alt="Gold"  width="16"></span> ` +
               `<span class="silver">${silver.toString().padStart(2, '0')}s</span> ` +
               `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
   } else if (silver > 0) {

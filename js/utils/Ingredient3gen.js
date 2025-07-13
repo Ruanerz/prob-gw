@@ -373,7 +373,7 @@ export async function createIngredientTree(itemData, parent = null) {
     
     // Forzar la carga de precios para este ítem
     try {
-      const prices = await gw2API.getItemPrices(itemId);
+      const prices = await dw2API.getItemPrices(itemId);
 
           if (prices && prices.sells && prices.buys) {
             ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
@@ -395,7 +395,7 @@ export async function createIngredientTree(itemData, parent = null) {
     } else {
       
       try {
-        const prices = await gw2API.getItemPrices(ingredient.id);
+        const prices = await dw2API.getItemPrices(ingredient.id);
 
         if (prices && prices.sells && prices.buys) {
           ingredient.setPrices(prices.buys.unit_price, prices.sells.unit_price);
@@ -424,3 +424,4 @@ export async function createIngredientTree(itemData, parent = null) {
 
 // Importamos la API para usarla en esta función
 import { gw2API } from '../services/GuildWars2API.js';
+import { dw2API } from '../services/Datawars2API.js';

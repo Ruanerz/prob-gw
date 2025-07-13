@@ -10,11 +10,11 @@ function formatGold(value) {
 
   let result = '';
   if (gold > 0) {
-    result += `${gold}g ${silver.toString().padStart(2, '0')}s ${copper.toString().padStart(2, '0')}c`;
+    result += `${gold}<img src="img/Gold_coin.png" alt="Gold" width="12"> ${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="12"> ${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
   } else if (silver > 0) {
-    result += `${silver}s ${copper.toString().padStart(2, '0')}c`;
+    result += `${silver}<img src="img/Silver_coin.png" alt="Silver" width="12"> ${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
   } else {
-    result += `${copper.toString().padStart(2, '0')}c`;
+    result += `${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
   }
 
   if (isNegative) result = '-' + result.trim();
@@ -33,14 +33,14 @@ function formatGoldColored(value) {
 
   let result = '';
   if (gold > 0) {
-    result += `<span class="gold">${gold}<img src="img/Gold_coin.png" alt="Gold" width="12"></span> ` +
-              `<span class="silver">${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="12"></span> ` +
+    result += `<span class="gold">${gold}<img src="img/Gold_coin.png" alt="Gold" width="12"></span>` +
+              `<span class="silver">${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="12"></span>` +
               `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;
   } else if (silver > 0) {
     result += `<span class="silver">${silver}s</span> ` +
-              `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+              `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;
   } else {
-    result += `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+    result += `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;
   }
 
   if (isNegative) result = '-' + result.trim();

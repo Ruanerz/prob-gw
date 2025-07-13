@@ -1,5 +1,6 @@
 // Shared logic for legendary crafting apps
 import { gw2API } from './services/GuildWars2API.js';
+import { dw2API } from './services/Datawars2API.js';
 
 export class LegendaryCraftingBase {
   constructor(config) {
@@ -396,8 +397,9 @@ export class LegendaryCraftingBase {
   }
 
   clearCache() {
-    const success = gw2API.clearCache();
-    if (success) {
+    const successGW2 = gw2API.clearCache();
+    const successDW2 = dw2API.clearCache ? dw2API.clearCache() : true;
+    if (successGW2 && successDW2) {
       alert('Caché limpiado correctamente');
       if (this.currentTree) this.loadItem({ itemId: this.itemIdInput?.value, itemName: this.itemNameInput?.value });
     } else {

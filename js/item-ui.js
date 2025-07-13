@@ -86,32 +86,32 @@ function renderRows(ings, nivel = 1, parentId = null, rowGroupIndex = 0, parentE
         <td><a href="item.html?id=${ing.id}" class="item-link" target="_blank">${ing.name}</a></td>
         <td>${ing.countTotal || ing.count}</td>
         <td class="item-solo-buy">
-          <div>${formatGold(ing.total_buy)}</div>
-          <div class="item-solo-precio">${formatGold(ing.buy_price)} <span style="color: #c99b5b">c/u</span></div>
+          <div>${formatGoldColored(ing.total_buy)}</div>
+          <div class="item-solo-precio">${formatGoldColored(ing.buy_price)} <span style="color: #c99b5b">c/u</span></div>
           ${parentId !== null ? `<input type="radio" name="mode-${ing._uid}" class="chk-mode-buy" data-uid="${ing._uid}" ${ing.modeForParentCrafted === 'buy' ? 'checked' : ''} title="Usar precio de compra para el padre">` : ''}
         </td>
         <td class="item-solo-sell">
-          <div>${formatGold(ing.total_sell)}</div>
-          <div class="item-solo-precio">${formatGold(ing.sell_price)} <span style="color: #c99b5b">c/u</span></div>
+          <div>${formatGoldColored(ing.total_sell)}</div>
+          <div class="item-solo-precio">${formatGoldColored(ing.sell_price)} <span style="color: #c99b5b">c/u</span></div>
           ${parentId !== null ? `<input type="radio" name="mode-${ing._uid}" class="chk-mode-sell" data-uid="${ing._uid}" ${ing.modeForParentCrafted === 'sell' ? 'checked' : ''} title="Usar precio de venta para el padre">` : ''}
         </td>
         <td class="item-solo-crafted">
           ${
             // Nodo raíz SIEMPRE muestra total crafted
             (isRoot && ing.is_craftable) ? `
-              <div>${formatGold(ing.total_crafted)}</div>
-              <div class="item-solo-precio">${formatGold(craftedPriceSafe)} <span style="color: #c99b5b">c/u</span></div>
+              <div>${formatGoldColored(ing.total_crafted)}</div>
+              <div class="item-solo-precio">${formatGoldColored(craftedPriceSafe)} <span style="color: #c99b5b">c/u</span></div>
             ` :
             // Ingredientes padre sin precio de mercado también lo muestran aunque sean el último hijo
             (parentId !== null && nivel > 0 && ing.is_craftable && noMarketPrice) ? `
-              <div>${formatGold(ing.total_crafted)}</div>
-              <div class="item-solo-precio">${formatGold(craftedPriceSafe)} <span style="color: #c99b5b">c/u</span></div>
+              <div>${formatGoldColored(ing.total_crafted)}</div>
+              <div class="item-solo-precio">${formatGoldColored(craftedPriceSafe)} <span style="color: #c99b5b">c/u</span></div>
               <input type="radio" name="mode-${ing._uid}" class="chk-mode-crafted" data-uid="${ing._uid}" ${ing.modeForParentCrafted === 'crafted' ? 'checked' : ''} title="Usar precio de crafteo para el padre">
             ` :
             // Nodos hoja (sin hijos) ocultan todo, salvo casos anteriores ya tratados
             (!hideTotals ? `
-              <div>${formatGold(ing.total_crafted || ing.total_buy)}</div>
-              <div class="item-solo-precio">${ing.is_craftable ? formatGold(craftedPriceSafe) : formatGold(ing.buy_price)} <span style="color: #c99b5b">c/u</span></div>
+              <div>${formatGoldColored(ing.total_crafted || ing.total_buy)}</div>
+              <div class="item-solo-precio">${ing.is_craftable ? formatGoldColored(craftedPriceSafe) : formatGoldColored(ing.buy_price)} <span style="color: #c99b5b">c/u</span></div>
               ${parentId !== null && nivel > 0 ? `<input type="radio" name="mode-${ing._uid}" class="chk-mode-crafted" data-uid="${ing._uid}" ${ing.modeForParentCrafted === 'crafted' ? 'checked' : ''} title="Usar precio de crafteo para el padre">` : ''}
             ` :
               ``
@@ -149,15 +149,15 @@ function renderMainItemRow(mainNode, nivel = 0) {
         </td>
         <td>${qtyValue}</td>
         <td class="item-solo-buy">
-            <div>${formatGold(totals.totalBuy)}</div>
-            <div class="item-solo-precio">${formatGold(buyPriceUnit)} <span style="color: #c99b5b">c/u</span></div>
+            <div>${formatGoldColored(totals.totalBuy)}</div>
+            <div class="item-solo-precio">${formatGoldColored(buyPriceUnit)} <span style="color: #c99b5b">c/u</span></div>
         </td>
         <td class="item-solo-sell">
-            <div>${formatGold(totals.totalSell)}</div>
-            <div class="item-solo-precio">${formatGold(sellPriceUnit)} <span style="color: #c99b5b">c/u</span></div>
+            <div>${formatGoldColored(totals.totalSell)}</div>
+            <div class="item-solo-precio">${formatGoldColored(sellPriceUnit)} <span style="color: #c99b5b">c/u</span></div>
         </td>
         <td class="item-solo-craft">
-            <div>${formatGold(totals.totalCrafted)}</div>
+            <div>${formatGoldColored(totals.totalCrafted)}</div>
         </td>
         <td></td>
     </tr>
@@ -256,9 +256,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         </div>
         <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
           <tr style='text-align:center;'>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia se calcula como: (Precio venta - 15% comisión) - costo total</td></tr>
         </table>
@@ -277,9 +277,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         <div style='margin-bottom:8px;color:#a1a1aa;font-size:1em;'>Esta receta produce <b>${outputCount}</b> unidades por crafteo. Los siguientes cálculos son por unidad.</div>
         <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
           <tr style='text-align:center;'>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGold(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia por unidad se calcula como: (Precio venta unitario - 15% comisión) - costo unitario</td></tr>
         </table>
@@ -324,15 +324,15 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
           <th><div class="tooltip-modern">Total Buy
             <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
           </div></th>
-          <td class="item-solo-buy">${formatGold(totals.totalBuy)} </td>
+          <td class="item-solo-buy">${formatGoldColored(totals.totalBuy)} </td>
           <th><div class="tooltip-modern">Total Sell
             <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
           </div></th>
-          <td class="item-solo-sell">${formatGold(totals.totalSell)}</td>
+          <td class="item-solo-sell">${formatGoldColored(totals.totalSell)}</td>
           <th><div class="tooltip-modern">Total Crafted
             <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
           </div></th>
-          <td class="item-solo-crafted">${formatGold(totals.totalCrafted)}</td>
+          <td class="item-solo-crafted">${formatGoldColored(totals.totalCrafted)}</td>
         </tr>
       </table>
     </div>
@@ -353,15 +353,15 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
             <th><div class="tooltip-modern">Total Buy
               <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
             </div></th>
-            <td class="item-solo-buy">${formatGold(totals.totalBuy / outputCount)}</td>
+            <td class="item-solo-buy">${formatGoldColored(totals.totalBuy / outputCount)}</td>
             <th><div class="tooltip-modern">Total Sell
               <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
             </div></th>
-            <td class="item-solo-sell">${formatGold(totals.totalSell / outputCount)}</td>
+            <td class="item-solo-sell">${formatGoldColored(totals.totalSell / outputCount)}</td>
             <th><div class="tooltip-modern">Total Crafted
               <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
             </div></th>
-            <td class="item-solo-crafted">${formatGold(totals.totalCrafted / outputCount)}</td>
+            <td class="item-solo-crafted">${formatGoldColored(totals.totalCrafted / outputCount)}</td>
           </tr>
         </table>
       </div>
@@ -383,9 +383,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         <br>
         <table class='table-totales totales-crafting-comparativa'>
           <tr style='text-align:center;'>
-            <td><div class='base-comparativa' style='${minIdx===0 ? 'background:#e84d4d33;' : ''}'>${formatGold(precioCompraTotal)} <br><span style='font-size:0.93em;'>Precio compra</span></div></td>
-            <td><div class='base-comparativa' style='${minIdx===1 ? 'background:#4db1e833;' : ''}'>${formatGold(precioVentaTotal)} <br><span style='font-size:0.93em;'>Precio venta</span></div></td>
-            <td><div class='base-comparativa' style='${minIdx===2 ? 'background:#4fc17833;' : ''}'>${formatGold(precioCraftingMinTotal)} <br><span style='font-size:0.93em;'>Precio crafting más bajo</span></div></td>
+            <td><div class='base-comparativa' style='${minIdx===0 ? 'background:#e84d4d33;' : ''}'>${formatGoldColored(precioCompraTotal)} <br><span style='font-size:0.93em;'>Precio compra</span></div></td>
+            <td><div class='base-comparativa' style='${minIdx===1 ? 'background:#4db1e833;' : ''}'>${formatGoldColored(precioVentaTotal)} <br><span style='font-size:0.93em;'>Precio venta</span></div></td>
+            <td><div class='base-comparativa' style='${minIdx===2 ? 'background:#4fc17833;' : ''}'>${formatGoldColored(precioCraftingMinTotal)} <br><span style='font-size:0.93em;'>Precio crafting más bajo</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:1.07em;'>${mensaje}</td></tr>
         </table>
@@ -406,9 +406,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         <div style='margin-bottom:8px;color:#a1a1aa;font-size:1em;'>Esta receta produce <b>${outputCount}</b> unidades por crafteo. Los siguientes precios son por unidad.</div>
         <table class='table-totales totales-crafting-comparativa'>
           <tr style='text-align:center;'>
-            <td><div style='${minIdxUnidad===0 ? 'background:#e84d4d33;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGold(precioCompraUnidadMercado)} <br><span style='font-size:0.93em;'>Precio compra</span></div></td>
-            <td><div style='${minIdxUnidad===1 ? 'background:#4db1e833;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGold(precioVentaUnidadMercado)} <br><span style='font-size:0.93em;'>Precio venta</span></div></td>
-            <td><div style='${minIdxUnidad===2 ? 'background:#4fc17833;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGold(precioCraftingMinUnidadReal)} <br><span style='font-size:0.93em;'>Precio crafting más bajo</span></div></td>
+            <td><div style='${minIdxUnidad===0 ? 'background:#e84d4d33;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGoldColored(precioCompraUnidadMercado)} <br><span style='font-size:0.93em;'>Precio compra</span></div></td>
+            <td><div style='${minIdxUnidad===1 ? 'background:#4db1e833;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGoldColored(precioVentaUnidadMercado)} <br><span style='font-size:0.93em;'>Precio venta</span></div></td>
+            <td><div style='${minIdxUnidad===2 ? 'background:#4fc17833;font-weight:bold;border-radius:6px;padding:10px;' : ''}'>${formatGoldColored(precioCraftingMinUnidadReal)} <br><span style='font-size:0.93em;'>Precio crafting más bajo</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:1.07em;'>${mensaje}</td></tr>
         </table>
@@ -495,13 +495,13 @@ async function renderItemUI(itemData, marketData) {
         <th><div class="dato-item tooltip-modern">Precio de compra
           <span class="tooltiptext-modern">Precio al que los compradores están dispuestos a adquirir el ítem (mejor oferta de compra).</span>
         </div></th>
-        <td><div class="dato-item-info">${formatGold(marketData.buy_price)}</div></td>
+        <td><div class="dato-item-info">${formatGoldColored(marketData.buy_price)}</div></td>
       </tr>
       <tr>
         <th><div class="dato-item tooltip-modern">Precio de venta
           <span class="tooltiptext-modern">Precio al que los vendedores ofrecen el ítem (mejor oferta de venta).</span>
         </div></th>
-        <td><div class="dato-item-info">${formatGold(marketData.sell_price)}</div></td>
+        <td><div class="dato-item-info">${formatGoldColored(marketData.sell_price)}</div></td>
       </tr>
       <tr>
         <th><div class="dato-item tooltip-modern">Disponibles para vender
@@ -528,13 +528,13 @@ async function renderItemUI(itemData, marketData) {
           <th><div class="dato-item tooltip-modern">Precio de compra
             <span class="tooltiptext-modern">Precio al que los compradores están dispuestos a adquirir el ítem (mejor oferta de compra).</span>
           </div></th>
-          <td><div class="dato-item-info">${formatGold(marketData.buy_price)}</div></td>
+          <td><div class="dato-item-info">${formatGoldColored(marketData.buy_price)}</div></td>
         </tr>
         <tr>
           <th><div class="dato-item tooltip-modern">Precio de venta
             <span class="tooltiptext-modern">Precio al que los vendedores ofrecen el ítem (mejor oferta de venta).</span>
           </div></th>
-          <td><div class="dato-item-info">${formatGold(marketData.sell_price)}</div></td>
+          <td><div class="dato-item-info">${formatGoldColored(marketData.sell_price)}</div></td>
         </tr>
         <tr>
           <th><div class="dato-item tooltip-modern">Disponibles para vender

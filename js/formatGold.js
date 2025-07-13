@@ -21,10 +21,37 @@ function formatGold(value) {
   return result.trim();
 }
 
+// Devuelve la misma cantidad pero con etiquetas span de colores
+function formatGoldColored(value) {
+  const rounded = Math.round(value);
+  const isNegative = rounded < 0;
+  const absValue = Math.abs(rounded);
+
+  const gold = Math.floor(absValue / 10000);
+  const silver = Math.floor((absValue % 10000) / 100);
+  const copper = absValue % 100;
+
+  let result = '';
+  if (gold > 0) {
+    result += `<span class="gold">${gold}g</span> ` +
+              `<span class="silver">${silver.toString().padStart(2, '0')}s</span> ` +
+              `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+  } else if (silver > 0) {
+    result += `<span class="silver">${silver}s</span> ` +
+              `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+  } else {
+    result += `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+  }
+
+  if (isNegative) result = '-' + result.trim();
+  return result.trim();
+}
+
 // Hacer disponible globalmente para todos los scripts
 window.formatGold = formatGold;
+window.formatGoldColored = formatGoldColored;
 
 // Exportar para uso en Node.js si es necesario
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = formatGold;
+  module.exports = { formatGold, formatGoldColored };
 }

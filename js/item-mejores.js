@@ -168,8 +168,8 @@ function mostrarGraficoVentasCompras(history) {
               <td><div class="dato-item-info">${fechaHora}</div></td>
               <td><div class="dato-item-info">${dato.sell_sold ?? ''}</div></td>
               <td><div class="dato-item-info">${dato.buy_sold ?? ''}</div></td>
-              <td><div class="dato-item-info">${dato.sell_price_avg != null ? formatGold(dato.sell_price_avg) : ''}</div></td>
-              <td><div class="dato-item-info">${dato.buy_price_avg != null ? formatGold(dato.buy_price_avg) : ''}</div></td>
+              <td><div class="dato-item-info">${dato.sell_price_avg != null ? formatGoldColored(dato.sell_price_avg) : ''}</div></td>
+              <td><div class="dato-item-info">${dato.buy_price_avg != null ? formatGoldColored(dato.buy_price_avg) : ''}</div></td>
             </tr>`;
         }).join('')}
       </tbody>

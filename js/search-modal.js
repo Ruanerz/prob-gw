@@ -87,7 +87,7 @@ function renderResults(items, showNoResults = false) {
     card.innerHTML = `
       <img src="${iconCache[item.id] || ''}" alt=""/>
       <div class="item-name">${item.name_es}</div>
-      <div class="item-price" style="display:none;">Compra: ${formatGold(item.buy_price)} | Venta: ${formatGold(item.sell_price)}</div>
+      <div class="item-price" style="display:none;">Compra: ${formatGoldColored(item.buy_price)} | Venta: ${formatGoldColored(item.sell_price)}</div>
     `;
     fragment.appendChild(card);
   });

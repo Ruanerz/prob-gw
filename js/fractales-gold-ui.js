@@ -141,7 +141,7 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
           return `
           <tr>
             <td><div class="dato-item">${iconHtml}${nombre}</div></td>
-            <td><div class="dato-item-info">${promedios[key] !== undefined ? (key === 'oro_de_basura' ? window.formatGold(promedios[key]) : promedios[key].toFixed(2)) : '-'}</div></td>
+            <td><div class="dato-item-info">${promedios[key] !== undefined ? (key === 'oro_de_basura' ? window.formatGoldColored(promedios[key]) : promedios[key].toFixed(2)) : '-'}</div></td>
           </tr>
           `;
         }).join('')}
@@ -204,15 +204,15 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
       <tbody>
         ${precios.map(item => {
           const promedio = promedios[item.key];
-          const totalCompra = (promedio !== undefined) ? window.formatGold(Math.round(item.buy_price * promedio)) : '-';
-          const totalVenta = (promedio !== undefined) ? window.formatGold(Math.round(item.sell_price * promedio)) : '-';
+          const totalCompra = (promedio !== undefined) ? window.formatGoldColored(Math.round(item.buy_price * promedio)) : '-';
+          const totalVenta = (promedio !== undefined) ? window.formatGoldColored(Math.round(item.sell_price * promedio)) : '-';
           const icon = getIconByKey(item.key);
           const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
           return `
             <tr>
               <td><div class="dato-item">${iconHtml}${keyToNombre(item.key)}</div></td>
-              <td><div class="dato-item-info">${window.formatGold(item.buy_price)}</div></td>
-              <td><div class="dato-item-info">${window.formatGold(item.sell_price)}</div></td>
+              <td><div class="dato-item-info">${window.formatGoldColored(item.buy_price)}</div></td>
+              <td><div class="dato-item-info">${window.formatGoldColored(item.sell_price)}</div></td>
               <td><div class="dato-item-info">${totalCompra}</div></td>
               <td><div class="dato-item-info">${totalVenta}</div></td>
             </tr>
@@ -313,11 +313,11 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', p
       <tbody>
         <tr>
           <td><div class="dato-item">Oro crudo + (Total compra × 0.85)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(Math.round(sumaCompra))}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(Math.round(sumaCompra))}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Oro crudo + (Total venta × 0.85)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(Math.round(sumaVenta))}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(Math.round(sumaVenta))}</div></td>
         </tr>
       </tbody>
     </table>
@@ -356,27 +356,27 @@ export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-pr
       <tbody>
         <tr>
           <td><div class="dato-item">${encIconHtml}Encriptación fractal (compra ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(compra75919 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(compra75919 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">${encIconHtml}Encriptación fractal (venta ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(venta75919 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(venta75919 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">${matIconHtml}Matriz estabilizadora (compra ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(compra73248 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(compra73248 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">${matIconHtml}Matriz estabilizadora (venta ×250)</div></td>
-          <td><div class="dato-item-info">${window.formatGold(venta73248 * 250)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(venta73248 * 250)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Suma Encriptación + Matriz (compra) - 15% de comisión</div></td>
-          <td><div class="dato-item-info">${window.formatGold(((compra75919 + compra73248) * 250) * 0.85)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(((compra75919 + compra73248) * 250) * 0.85)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item">Suma Encriptación + Matriz (venta) - 15% de comisión</div></td>
-          <td><div class="dato-item-info">${window.formatGold(((venta75919 + venta73248) * 250) * 0.85)}</div></td>
+          <td><div class="dato-item-info">${window.formatGoldColored(((venta75919 + venta73248) * 250) * 0.85)}</div></td>
         </tr>
         <tr>
           <td><div class="dato-item"><strong>ROI abrir stack</strong></div></td>
@@ -470,10 +470,10 @@ export function renderExtras(preciosFractales = {}, claveStack = 24.96) {
   const precioMatrizEl = document.getElementById('matriz-precio');
   const conversionEl = document.getElementById('conversion-indirecta');
   if (precioMatrizEl) {
-    precioMatrizEl.textContent = window.formatGold(venta73248);
+    precioMatrizEl.innerHTML = window.formatGoldColored(venta73248);
   }
   if (conversionEl) {
     const total = Math.round(venta73248 * claveStack);
-    conversionEl.textContent = window.formatGold(total);
+    conversionEl.innerHTML = window.formatGoldColored(total);
   }
 }

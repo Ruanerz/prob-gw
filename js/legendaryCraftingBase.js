@@ -201,8 +201,8 @@ export class LegendaryCraftingBase {
       if (customText) {
         priceTooltip = customText.display;
       } else if ((ingredient.isPriceLoaded() || isLegendary || hasComponents) && (totalBuyPrice > 0 || totalSellPrice > 0)) {
-        const buyText = totalBuyPrice > 0 ? `Compra: ${formatGold(totalBuyPrice)}` : 'Compra: N/A';
-        const sellText = totalSellPrice > 0 ? `Venta: ${formatGold(totalSellPrice)}` : 'Venta: N/A';
+        const buyText = totalBuyPrice > 0 ? `Compra: ${formatGoldColored(totalBuyPrice)}` : 'Compra: N/A';
+        const sellText = totalSellPrice > 0 ? `Venta: ${formatGoldColored(totalSellPrice)}` : 'Venta: N/A';
         priceTooltip = `${buyText} | ${sellText}${(!hasBuyPrice || !hasSellPrice) && hasComponents ? ' (calculado de componentes)' : ''}`;
       } else if (hasComponents) {
         priceTooltip = 'Precio calculado de los componentes';
@@ -214,8 +214,8 @@ export class LegendaryCraftingBase {
 
       const priceClass = showPrice ? 'has-price' : (customText ? 'custom-text' : 'no-price');
       const priceContent = showPrice
-        ? `<div class="price-row"><span class="price-label">Compra:</span><span class="price-amount">${formatGold(totalBuyPrice)}</span></div>` +
-          `<div class="price-row"><span class="price-label">Venta:</span><span class="price-amount">${formatGold(totalSellPrice)}</span></div>`
+        ? `<div class="price-row"><span class="price-label">Compra:</span><span class="price-amount">${formatGoldColored(totalBuyPrice)}</span></div>` +
+          `<div class="price-row"><span class="price-label">Venta:</span><span class="price-amount">${formatGoldColored(totalSellPrice)}</span></div>`
         : (customText ? customText.display : '');
 
       itemEl.innerHTML = `
@@ -299,15 +299,15 @@ export class LegendaryCraftingBase {
       <h3>Resumen de Ganancias</h3>
       <div class="summary-subsection">
         <h4>Por venta listada</h4>
-        <div class="summary-item"><span>Precio de venta (85%):</span><span>${formatGold(Math.round(sellPrice * 0.85))}</span></div>
-        <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGold(craftingCost)}</span></div>
-        <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitSell >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGold(profitSell)}</strong></div>
+        <div class="summary-item"><span>Precio de venta (85%):</span><span>${formatGoldColored(Math.round(sellPrice * 0.85))}</span></div>
+        <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGoldColored(craftingCost)}</span></div>
+        <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitSell >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGoldColored(profitSell)}</strong></div>
       </div>
       <div class="summary-subsection" style="margin-top: 15px;">
         <h4>Por venta directa</h4>
-        <div class="summary-item"><span>Precio de compra (85%):</span><span>${formatGold(Math.round(buyPrice * 0.85))}</span></div>
-        <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGold(craftingCost)}</span></div>
-        <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitBuy >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGold(profitBuy)}</strong></div>
+        <div class="summary-item"><span>Precio de compra (85%):</span><span>${formatGoldColored(Math.round(buyPrice * 0.85))}</span></div>
+        <div class="summary-item"><span>Costo de crafteo:</span><span>${formatGoldColored(craftingCost)}</span></div>
+        <div class="summary-item profit-total"><strong>Ganancia estimada:</strong><strong style="color: ${profitBuy >= 0 ? 'var(--success)' : 'var(--error)'};">${formatGoldColored(profitBuy)}</strong></div>
       </div>
       <div class="summary-note"><small>Nota: Los precios de materiales mostrados están calculados de acuerdo a la oferta y demanda del mercado. Y no contempla otros métodos de obtención como puede ser la "Forja Mística".</small><br><small>Nota 2: El precio para el trébol místico se ocupa la cantidad promedio que se requiere para obtener los 77 tréboles, por lo que según el RNG puede variar.</small></div>`;
     this.summaryEl.appendChild(profitEl);
@@ -332,16 +332,16 @@ export class LegendaryCraftingBase {
 
     const craftingCost = calculateCraftingCost(this.currentTree);
     let html = `
-      <div class="summary-item"><span>Precio venta:</span><span>${totalSell > 0 ? formatGold(totalSell) : 'N/A'}</span></div>
-      <div class="summary-item"><span>Precio compra:</span><span>${totalBuy > 0 ? formatGold(totalBuy) : 'N/A'}</span></div>`;
+      <div class="summary-item"><span>Precio venta:</span><span>${totalSell > 0 ? formatGoldColored(totalSell) : 'N/A'}</span></div>
+      <div class="summary-item"><span>Precio compra:</span><span>${totalBuy > 0 ? formatGoldColored(totalBuy) : 'N/A'}</span></div>`;
     if (craftingCost > 0) {
-      html += `<div class="summary-item"><strong>Costo de crafteo total:</strong><strong>${formatGold(craftingCost)}</strong></div>`;
+      html += `<div class="summary-item"><strong>Costo de crafteo total:</strong><strong>${formatGoldColored(craftingCost)}</strong></div>`;
     }
     if (isCraftable && totalBuy > 0) {
       const craftCost = this.currentTree.getTotalBuyPrice();
       const savings = totalBuy - craftCost;
       const savingsPercent = Math.round((savings / totalBuy) * 100);
-      html += `<div class="summary-item"><span>Costo de crafteo estimado:</span><span>${formatGold(craftCost)}</span></div><div class="summary-item summary-total"><span>Ahorro estimado:</span><span style="color: ${savings > 0 ? 'var(--success)' : 'var(--error)'}">${formatGold(savings)} (${savingsPercent}%)</span></div>`;
+      html += `<div class="summary-item"><span>Costo de crafteo estimado:</span><span>${formatGoldColored(craftCost)}</span></div><div class="summary-item summary-total"><span>Ahorro estimado:</span><span style="color: ${savings > 0 ? 'var(--success)' : 'var(--error)'}">${formatGoldColored(savings)} (${savingsPercent}%)</span></div>`;
     } else if (craftingCost === 0) {
       html += `<div class="summary-item"><span>Información de crafteo:</span><span>No disponible para todos los componentes</span></div>`;
     }

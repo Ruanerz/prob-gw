@@ -37,7 +37,7 @@ function formatGoldColored(value) {
               `<span class="silver">${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="12"></span>` +
               `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;
   } else if (silver > 0) {
-    result += `<span class="silver">${silver}s</span> ` +
+    result += `<span class="silver">${silver}<img src="img/Silver_coin.png" alt="Silver" width="12"></span> ` +
               `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;
   } else {
     result += `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12"></span>`;

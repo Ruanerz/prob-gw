@@ -199,8 +199,8 @@ async function renderDon(don, container) {
         if (totalBuy > 0 || totalSell > 0) {
           html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
             <div class='precio-totales-dones'>
-              <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-              <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+              <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+              <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
             </div>
           </div>`;
         }
@@ -231,8 +231,8 @@ async function renderDon(don, container) {
       if (totalBuy > 0 || totalSell > 0) {
         html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
           <div class='precio-totales-dones'>
-            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
           </div>
         </div>`;
       }
@@ -403,8 +403,8 @@ async function renderDraconicTribute() {
     html += `</tbody></table>`;
     html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
       <div class='precio-totales-dones'>
-        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
       </div>
     </div>`;
 
@@ -499,8 +499,8 @@ async function renderTributoDraconico() {
       html += `</tbody></table>`;
       html += `<div class="table-modern-totales" style="margin-bottom:50px;">
         <div class="precio-totales-dones">
-          <div class="total-dones"><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-          <div class="total-dones"><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+          <div class="total-dones"><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+          <div class="total-dones"><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
         </div>
       </div>`;
       document.getElementById('tributo-draconico-content').insertAdjacentHTML('beforeend', html);
@@ -548,18 +548,18 @@ async function renderTributoDraconico() {
             <td><img src='${ing.icon}' style='height:28px;'></td>
             <td>${ing.name}</td>
             <td>${ing.count}</td>
-            <td>${ing.priceBuy ? formatGold(ing.priceBuy) : '-'}</td>
-            <td>${ing.priceSell ? formatGold(ing.priceSell) : '-'}</td>
-            <td>${totalBuyIng ? formatGold(totalBuyIng) : '-'}</td>
-            <td>${totalSellIng ? formatGold(totalSellIng) : '-'}</td>
+            <td>${ing.priceBuy ? formatGoldColored(ing.priceBuy) : '-'}</td>
+            <td>${ing.priceSell ? formatGoldColored(ing.priceSell) : '-'}</td>
+            <td>${totalBuyIng ? formatGoldColored(totalBuyIng) : '-'}</td>
+            <td>${totalSellIng ? formatGoldColored(totalSellIng) : '-'}</td>
           </tr>`;
           rowIdx++;
         }
         html += `</tbody></table>`;
         html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
           <div class='precio-totales-dones'>
-            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
           </div>
         </div>`;
         subdonDiv.innerHTML += html;
@@ -841,10 +841,10 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
     <td style='${indent}'>${icon ? `<img src='${icon}' style='height:28px;'>` : '-'}</td>
     <td>${displayName}</td>
     <td>${count}</td>
-    <td>${priceBuy ? formatGold(priceBuy) : (isSinPrecio ? 'sin precio' : '-')}</td>
-    <td>${priceSell ? formatGold(priceSell) : (isSinPrecio ? 'sin precio' : '-')}</td>
-    <td>${totalBuyIng > 0 ? formatGold(totalBuyIng) : (isSinPrecio ? 'sin precio' : '-')}</td>
-    <td>${totalSellIng > 0 ? formatGold(totalSellIng) : (isSinPrecio ? 'sin precio' : '-')}</td>
+    <td>${priceBuy ? formatGoldColored(priceBuy) : (isSinPrecio ? 'sin precio' : '-')}</td>
+    <td>${priceSell ? formatGoldColored(priceSell) : (isSinPrecio ? 'sin precio' : '-')}</td>
+    <td>${totalBuyIng > 0 ? formatGoldColored(totalBuyIng) : (isSinPrecio ? 'sin precio' : '-')}</td>
+    <td>${totalSellIng > 0 ? formatGoldColored(totalSellIng) : (isSinPrecio ? 'sin precio' : '-')}</td>
   </tr>`;
 
   // 5. HTML completo: fila padre + filas hijas
@@ -951,8 +951,8 @@ async function renderTributo() {
     // Mostrar los totales generales
     html += `<div class='table-modern-totales' style='margin-bottom:18px;'>
       <div class='precio-totales-dones'>
-        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGold(totalBuy)}</div>
-        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGold(totalSell)}</div>
+        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
+        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
       </div>
     </div>`;
 

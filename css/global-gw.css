@@ -2366,3 +2366,8 @@ p .info-text{
   vertical-align: middle;
   object-fit: contain;
 }
+
+.gold { color: #c99b5b; }
+.silver { color: #d1d5db; }
+.copper { color: #b87333; }
+

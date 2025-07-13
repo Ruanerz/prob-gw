@@ -101,17 +101,9 @@ TODO el contenido original ha sido comentado para evitar errores de sintaxis.
             itemElement.className = 'suggestion-item';
             itemElement.dataset.itemId = item.id;
             
-            // Formatear precios
-            const formatPrice = (price) => {
-                if (!price) return 'N/A';
-                const gold = Math.floor(price / 10000);
-                const silver = Math.floor((price % 10000) / 100);
-                const copper = price % 100;
-                return `${gold}<small>g</small> ${silver}<small>s</small> ${copper}<small>c</small>`;
-            };
-            
-            const buyPrice = formatPrice(item.buy_price);
-            const sellPrice = formatPrice(item.sell_price);
+            // Formatear precios usando formato con colores
+            const buyPrice = window.formatGoldColored(item.buy_price);
+            const sellPrice = window.formatGoldColored(item.sell_price);
             
             // Crear elemento de ícono
             const iconElement = document.createElement('img');

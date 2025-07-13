@@ -33,9 +33,9 @@ function formatGoldColored(value) {
 
   let result = '';
   if (gold > 0) {
-    result += `<span class="gold">${gold}<img src="img/Gold_coin.png"   alt="Gold"   width="16"></span> ` +
-              `<span class="silver">${silver.toString().padStart(2, '0')}s</span> ` +
-              `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;
+    result += `<span class="gold">${gold}<img src="img/Gold_coin.png" alt="Gold" width="16"></span> ` +
+              `<span class="silver">${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="16"></span> ` +
+              `<span class="copper">${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="16"></span>`;
   } else if (silver > 0) {
     result += `<span class="silver">${silver}s</span> ` +
               `<span class="copper">${copper.toString().padStart(2, '0')}c</span>`;

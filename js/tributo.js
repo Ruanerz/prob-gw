@@ -122,10 +122,10 @@ async function renderIngredientRowWithComponents(ing, level) {
     <td><img src='${info.icon}' style='height:28px;'></td>
     <td>${info.name}</td>
     <td>${ing.count}</td>
-    <td>${price ? formatGold(price.buys.unit_price) : '-'}</td>
-    <td>${price ? formatGold(price.sells.unit_price) : '-'}</td>
-    <td>${totalBuyIng ? formatGold(totalBuyIng) : '-'}</td>
-    <td>${totalSellIng ? formatGold(totalSellIng) : '-'}</td>
+    <td>${price ? formatGoldColored(price.buys.unit_price) : '-'}</td>
+    <td>${price ? formatGoldColored(price.sells.unit_price) : '-'}</td>
+    <td>${totalBuyIng ? formatGoldColored(totalBuyIng) : '-'}</td>
+    <td>${totalSellIng ? formatGoldColored(totalSellIng) : '-'}</td>
   </tr>`;
 }
 
@@ -174,16 +174,16 @@ async function renderTributo() {
           <td><img src='${ing.icon}' style='height:28px;'></td>
           <td>${ing.name}</td>
           <td>${ing.count}</td>
-          <td>${ing.priceBuy ? formatGold(ing.priceBuy) : '-'}</td>
-          <td>${ing.priceSell ? formatGold(ing.priceSell) : '-'}</td>
-          <td>${totalBuyIng ? formatGold(totalBuyIng) : '-'}</td>
-          <td>${totalSellIng ? formatGold(totalSellIng) : '-'}</td>
+          <td>${ing.priceBuy ? formatGoldColored(ing.priceBuy) : '-'}</td>
+          <td>${ing.priceSell ? formatGoldColored(ing.priceSell) : '-'}</td>
+          <td>${totalBuyIng ? formatGoldColored(totalBuyIng) : '-'}</td>
+          <td>${totalSellIng ? formatGoldColored(totalSellIng) : '-'}</td>
         </tr>`;
       }
       html += `</tbody></table>`;
       html += `<div class='table-modern-totales' style='margin-bottom:18px;'>
-        <b>Total Buy estimado:</b> ${formatGold(totalBuy)}<br>
-        <b>Total Sell estimado:</b> ${formatGold(totalSell)}
+        <b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}<br>
+        <b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}
       </div>`;
     }
   }

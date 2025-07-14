@@ -2369,8 +2369,7 @@ p .info-text{
 
 .gold { 
   color: #c99b5b; 
-  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
-  align-items: center;      /* centra verticalmente la imagen y el texto */
+  vertical-align: middle;;      /* centra verticalmente la imagen y el texto */
   }
 .silver { 
   color: #d1d5db;

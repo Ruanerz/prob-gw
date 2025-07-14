@@ -47,48 +47,8 @@
           
           
           
-          <table class="table-modern">
-            <tbody>
-              <tr><th colspan="2"><div class="dato-item"><p>Por la apertura de un stack de encriptación fractal se obtiene.</p></div></th></tr>
-              <tr>
-                <td><div class="dato-item">Puñado de reliquias fractales x stack</div></td>
-                <td><div class="dato-item-info">16.82</div></td>
-              </tr>
-              <tr>
-                <td><div class="dato-item">Abriendo "Puñado de reliquias fractales"</div></td>
-                <td><div class="dato-item-info">3 reliquias fractales</div></td>
-              </tr>
-              <tr>
-                <td><div class="dato-item">Reliquias fractales x stack de encriptación</div></td>
-                <td><div class="dato-item-info">50.46</div></td>
-              </tr>
-              <tr><th><div class="dato-item"><p>Con las reliquias puedes comprar el item "Diario del experimento de Dessa"<br> con el NPC de fractales COM-4373 y obtener esquirlas espirituales (moneda necesaria para craftear y/o convertir items).</p></div></th></tr>
-            </tbody>
-          </table>
-          
-          
-          <table class="table-modern">
-            <tbody>
-              <tr><th colspan="4"><div class="dato-item">
-                <p>Transformación de materiales t5 a t6 con el siguiente método.</p></div>
-              </th></tr>
-              <tr>
-                <td><div class="dato-item">Material t5 (sangre, veneno, hueso, escama, colmillo, garra)</div></td>
-                <td><div class="dato-item-info"> Cantidad 50</div></td>
-                <td><div class="dato-item">Material t6 (el equivalente al t5 pero en t6)</div></td>
-                <td><div class="dato-item-info"> Cantidad 1</div></td>
-              </tr>
-              
-              <tr>
-                <td><div class="dato-item">Montón de polvo cristalino (material t6)</div></td>
-                <td><div class="dato-item-info"> Cantidad 5</div></td>
-                <td><div class="dato-item">Piedra filosofal (comparado en la Forja Mística)</div></td>
-                <td><div class="dato-item-info"> Cantidad 5</div></td>
-              </tr>
-              <tr><th><div class="dato-item"><p>Ver sección de "Forma Mística".</p></div></th></tr>
-            </tbody>
-          </table>
-                   
+        
+
         </div>
       </div>
         </div>
@@ -110,34 +70,7 @@
       });
     });
   </script>
-  <script type="module">
-    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, renderExtras, fetchItemPrices, fetchIconsFor, ICON_ID_MAP } from './js/fractales-gold-ui.js';
 
-    async function fetchPreciosFractales() {
-      const priceMap = await fetchItemPrices([75919, 73248]);
-      return {
-        compra75919: priceMap[75919]?.buy_price || 0,
-        venta75919: priceMap[75919]?.sell_price || 0,
-        compra73248: priceMap[73248]?.buy_price || 0,
-        venta73248: priceMap[73248]?.sell_price || 0
-      };
-    }
-
-
-    async function renderTodo() {
-      const preciosFractales = await fetchPreciosFractales();
-      await fetchIconsFor(Object.values(ICON_ID_MAP));
-      await renderTablaPromedios();
-      await renderTablaPrecios();
-      const resumenData = await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
-      renderGraficoContribuciones(resumenData.contribuciones);
-      renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales, resumenData);
-      renderGraficoAbrirVsVender('abrir-vs-vender-chart', preciosFractales, resumenData);
-      renderExtras(preciosFractales, 24.96);
-    }
-
-    renderTodo();
-  </script>
   <script src="js/auth.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/feedback-modal.js"></script>

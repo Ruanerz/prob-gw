@@ -13,67 +13,12 @@
     <!-- El menú de navegación se insertará aquí automáticamente -->
   </header>
   <nav class="item-tabs-nav">
-    <button class="item-tab-btn active" data-tab="tab-promedios">Promedios</button>
-    <button class="item-tab-btn" data-tab="tab-precios">Precios y Materiales</button>
-    <button class="item-tab-btn" data-tab="tab-resumen">Resumen y Profit</button>
     <button class="item-tab-btn" data-tab="tab-extras">Extras</button>
   </nav>
   <div class="container">
     <main>
-      <div id="tab-promedios">
-        <div style="text-align: center;margin-bottom: 25px;">
-          <h2>Promedios por STACK de encriptaciones fractales</h2>
-          <p>Promedio de materiales obtenidos por apertura de un stack de encriptaciones fractales</p>
-        </div>
-        
-        <div class="card">
-          <table class="table-modern" id="tabla-fractales-gold">
-            
-            <tbody id="tabla-promedios"></tbody>
-          </table>
-        </div>
-      </div>
-      <div id="tab-precios" style="display:none;">
-        <div class="card" style="margin-top:32px;">
-          <div style="text-align: center;margin-bottom: 25px;">
-            <h2>Precios unitarios de Materiales</h2>
-            <p>Promedio de ORO por materiales obtenidos por apertura de un stack de encriptaciones fractales</p>
-          </div>
-          <div id="tabla-precios-fractales"></div>
-        </div>
-      </div>
-      <div id="tab-resumen" style="display:none;">
-        <div class="card" style="margin-top:32px;">
-          <div style="text-align: center;margin-bottom: 25px;">
-          <h2>Resumen total (Oro crudo + materiales)</h2>
-          <p>Oro promedio por apertura de un stack de encriptaciones fractales</p>
-          </div>
-          <div id="tabla-resumen-oro"></div>
-        </div>
-        <div class="card" style="margin-top:32px;">
-          <div style="text-align: center;margin-bottom: 25px;">
-            <h2>Contribución de oro por material</h2>
-          </div>
-          <canvas id="contribuciones-chart" height="120"></canvas>
-        </div>
-        <div class="card" style="margin-top:32px;">
-          <div style="text-align: center;margin-bottom: 25px;">
-          <h2>Referencias para profit</h2>
-          <p>Valores de referencia para comparar el profit</p>
-          </div>
-          <p>Precio de referencia para saber si es mejor abrir o vender.</p>
-          <div id="tabla-referencias-profit"></div>
-          <p>NOTA: Las matrices estabilizadoras fungen el papel de llaves, ya que se puede cambiar por llaves con el NPC de fractales. Y así obtener un valor por llave.
-          Y se toma como referencia para asignarle un valor a las llaves de encriptación. </p>
-        </div>
-        <div class="card" style="margin-top:32px;">
-          <div style="text-align: center;margin-bottom: 25px;">
-            <h2>Abrir vs Vender Encriptaciones</h2>
-          </div>
-          <canvas id="abrir-vs-vender-chart" height="120"></canvas>
-        </div>
-      </div>
-      <!-- inicio EXTRAS -->
+
+      <!-- INICIO extras -->
       <div id="tab-extras" style="display:none;">
         <div class="card" style="margin-top:32px;">
           <div style="text-align: center;margin-bottom: 25px;">
@@ -143,17 +88,11 @@
               <tr><th><div class="dato-item"><p>Ver sección de "Forma Mística".</p></div></th></tr>
             </tbody>
           </table>
-
-          <table class="table-modern">
-            <tbody>
-              <tr><th><div class="dato-item"><p>Infusión de +1 de Resistencia a la Agonía se puede transformar en infusiones de +2, +3, etc. Pueden dar más profit dependiendo de la elección.</p></div></th></tr>
-              <tr><td><div class="dato-item"><p>Ver sección de <a href="compare-craft.html" class="link-random">"Comparativa de items"</a> y crear tabla comparativa.</p></div></td></tr>
-            </tbody>
-          </table>          
+                   
         </div>
       </div>
         </div>
-<!-- fin EXTRAS -->
+<!-- FIN extras -->
     </main>
   </div>
   <script src="js/formatGold.js"></script>

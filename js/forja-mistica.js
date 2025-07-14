@@ -100,7 +100,7 @@ export async function renderTablaForja() {
 
     const sumMats = (50 * precioT5) + (5 * precioPolvo) + (5 * precioPiedra) + precioT6Buy;
     const resultado = 6.91 * precioT6Sell;
-    const profit = sumMats - resultado;
+    const profit = resultado - sumMats;
 
     if (sumEl) sumEl.innerHTML = window.formatGoldColored(sumMats);
     if (resEl) resEl.innerHTML = window.formatGoldColored(resultado);
@@ -140,7 +140,7 @@ export async function renderTablaLodestones() {
     const precioCristal = priceMap[LODESTONE_IDS.cristal]?.buy_price || 0;
 
     const sumMats = (2 * precioCore) + precioPolvo + precioBotella + precioCristal;
-    const profit = sumMats - precioLodestoneSell;
+    const profit = precioLodestoneSell - sumMats;
 
     if (sumEl) sumEl.innerHTML = window.formatGoldColored(sumMats);
     if (profitEl) profitEl.innerHTML = window.formatGoldColored(profit);

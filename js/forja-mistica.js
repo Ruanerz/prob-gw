@@ -1,5 +1,23 @@
 import { fetchItemPrices } from './fractales-gold-ui.js';
 
+const GW2_API_ITEMS = 'https://api.guildwars2.com/v2/items?ids=';
+const iconCache = {};
+
+async function fetchIconsFor(ids = []) {
+  if (!ids.length) return;
+  try {
+    const res = await fetch(GW2_API_ITEMS + ids.join(','));
+    const data = await res.json();
+    data.forEach(item => {
+      if (item && item.id) iconCache[item.id] = item.icon;
+    });
+  } catch {}
+}
+
+function getIcon(id) {
+  return iconCache[id] || '';
+}
+
 export const MATERIAL_IDS = {
   t6: {
     sangre: 24295,
@@ -31,7 +49,9 @@ export async function renderTablaForja() {
     MATERIAL_IDS.polvo,
     MATERIAL_IDS.piedra
   ];
-  const priceMap = await fetchItemPrices(ids);
+  const pricePromise = fetchItemPrices(ids);
+  await fetchIconsFor(ids);
+  const priceMap = await pricePromise;
 
   keys.forEach(key => {
     const row = document.querySelector(`#matt5t6 tr[data-key="${key}"]`);
@@ -39,6 +59,21 @@ export async function renderTablaForja() {
     const sumEl = row.querySelector('.sum-mats');
     const resEl = row.querySelector('.resultado');
     const profitEl = row.querySelector('.profit');
+    const t5Cell = row.children[0]?.querySelector('.dato-item');
+    const t6Cell = row.children[1]?.querySelector('.dato-item');
+    const polvoCell = row.children[2]?.querySelector('.dato-item');
+    const piedraCell = row.children[3]?.querySelector('.dato-item');
+
+    const insertIcon = (cell, icon) => {
+      if (!cell) return;
+      const text = cell.textContent.trim();
+      cell.innerHTML = (icon ? `<img src="${icon}" class="item-icon"> ` : '') + text;
+    };
+
+    insertIcon(t5Cell, getIcon(MATERIAL_IDS.t5[key]));
+    insertIcon(t6Cell, getIcon(MATERIAL_IDS.t6[key]));
+    insertIcon(polvoCell, getIcon(MATERIAL_IDS.polvo));
+    insertIcon(piedraCell, getIcon(MATERIAL_IDS.piedra));
 
     const precioT5 = priceMap[MATERIAL_IDS.t5[key]]?.buy_price || 0;
     const precioT6Buy = priceMap[MATERIAL_IDS.t6[key]]?.buy_price || 0;
@@ -57,3 +92,4 @@ export async function renderTablaForja() {
 }
 
 document.addEventListener('DOMContentLoaded', renderTablaForja);
+

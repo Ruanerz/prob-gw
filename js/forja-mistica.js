@@ -50,6 +50,30 @@ export const MATERIAL_IDS = {
   piedra: 20796
 };
 
+export const LODESTONE_IDS = {
+  cores: {
+    glacial: 24319,
+    cristal: 24329,
+    destructor: 24324,
+    cargado: 24304,
+    corrupto: 24339,
+    onice: 24309,
+    fundido: 24314
+  },
+  stones: {
+    glacial: 24326,
+    cristal: 24315,
+    destructor: 24320,
+    cargado: 24306,
+    corrupto: 24325,
+    onice: 24319,
+    fundido: 24318
+  },
+  polvo: 24277,
+  botella: 19663,
+  cristal: 20799
+};
+
 export async function renderTablaForja() {
   const keys = Object.keys(MATERIAL_IDS.t5);
   const ids = [
@@ -90,6 +114,47 @@ export async function renderTablaForja() {
   });
 }
 
+export async function renderTablaLodestones() {
+  const keys = Object.keys(LODESTONE_IDS.cores);
+  const ids = [
+    ...keys.map(k => LODESTONE_IDS.cores[k]),
+    ...keys.map(k => LODESTONE_IDS.stones[k]),
+    LODESTONE_IDS.polvo,
+    LODESTONE_IDS.botella,
+    LODESTONE_IDS.cristal
+  ];
+
+  const priceMap = await fetchItemPrices(ids);
+  await fetchIcons(ids);
+
+  keys.forEach(key => {
+    const row = document.querySelector(`#tabla-lodestones tr[data-key="${key}"]`);
+    if (!row) return;
+    const sumEl = row.querySelector('.sum-mats');
+    const profitEl = row.querySelector('.profit');
+
+    const precioCore = priceMap[LODESTONE_IDS.cores[key]]?.buy_price || 0;
+    const precioLodestoneSell = priceMap[LODESTONE_IDS.stones[key]]?.sell_price || 0;
+    const precioPolvo = priceMap[LODESTONE_IDS.polvo]?.buy_price || 0;
+    const precioBotella = priceMap[LODESTONE_IDS.botella]?.buy_price || 0;
+    const precioCristal = priceMap[LODESTONE_IDS.cristal]?.buy_price || 0;
+
+    const sumMats = (2 * precioCore) + precioPolvo + precioBotella + precioCristal;
+    const profit = sumMats - precioLodestoneSell;
+
+    if (sumEl) sumEl.innerHTML = window.formatGoldColored(sumMats);
+    if (profitEl) profitEl.innerHTML = window.formatGoldColored(profit);
+
+    const cells = row.querySelectorAll('td');
+    addIconToCell(cells[0], iconCache[LODESTONE_IDS.cores[key]]);
+    addIconToCell(cells[1], iconCache[LODESTONE_IDS.polvo]);
+    addIconToCell(cells[2], iconCache[LODESTONE_IDS.botella]);
+    addIconToCell(cells[3], iconCache[LODESTONE_IDS.cristal]);
+    addIconToCell(cells[4], iconCache[LODESTONE_IDS.stones[key]]);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderTablaForja();
+  renderTablaLodestones();
 });

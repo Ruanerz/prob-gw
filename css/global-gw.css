@@ -2367,7 +2367,19 @@ p .info-text{
   object-fit: contain;
 }
 
-.gold { color: #c99b5b; }
-.silver { color: #d1d5db; }
-.copper { color: #b87333; }
+.gold { 
+  color: #c99b5b; 
+  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
+  align-items: center;      /* centra verticalmente la imagen y el texto */
+  }
+.silver { 
+  color: #d1d5db;
+  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
+  align-items: center; 
+}
+.copper { 
+  color: #b87333;
+  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
+  align-items: center; 
+}
 

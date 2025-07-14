@@ -2369,16 +2369,14 @@ p .info-text{
 
 .gold { 
   color: #c99b5b; 
-  vertical-align: middle;;      /* centra verticalmente la imagen y el texto */
+  vertical-align: middle;      
   }
 .silver { 
   color: #d1d5db;
-  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
-  align-items: center; 
+  vertical-align: middle; 
 }
 .copper { 
   color: #b87333;
-  display: inline-flex;     /* el contenedor sigue ocupando solo su ancho */
-  align-items: center; 
+  vertical-align: middle;
 }
 

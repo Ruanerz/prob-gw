@@ -31,6 +31,7 @@ const navigationData = {
         { text: 'Comparativa', href: 'compare-craft.html', target: 'tab-comparativa', class: '' },
         { text: 'Fractales', href: 'fractales-gold.html', target: 'tab-fractales', class: '' },
         { text: 'Legendarias', href: 'leg-craft.html', target: 'tab-leg-craft', class: '' },
+        { text: 'Forja Mística', href: 'forja-mistica.html', target: 'tab-forja-mistica', class: '' },
     ],
     rightMenuItems: [
         { 

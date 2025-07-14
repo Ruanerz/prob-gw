@@ -66,7 +66,7 @@ export const LODESTONE_IDS = {
     destructor: 24320,
     cargado: 24306,
     corrupto: 24325,
-    onice: 24319,
+    onice: 24310,
     fundido: 24318
   },
   polvo: 24277,

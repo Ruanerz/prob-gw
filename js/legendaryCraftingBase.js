@@ -202,8 +202,8 @@ export class LegendaryCraftingBase {
       if (customText) {
         priceTooltip = customText.display;
       } else if ((ingredient.isPriceLoaded() || isLegendary || hasComponents) && (totalBuyPrice > 0 || totalSellPrice > 0)) {
-        const buyText = totalBuyPrice > 0 ? `Compra: ${formatGoldColored(totalBuyPrice)}` : 'Compra: N/A';
-        const sellText = totalSellPrice > 0 ? `Venta: ${formatGoldColored(totalSellPrice)}` : 'Venta: N/A';
+        const buyText = totalBuyPrice > 0 ? `Compra: ${formatGold(totalBuyPrice)}` : 'Compra: N/A';
+        const sellText = totalSellPrice > 0 ? `Venta: ${formatGold(totalSellPrice)}` : 'Venta: N/A';
         priceTooltip = `${buyText} | ${sellText}${(!hasBuyPrice || !hasSellPrice) && hasComponents ? ' (calculado de componentes)' : ''}`;
       } else if (hasComponents) {
         priceTooltip = 'Precio calculado de los componentes';

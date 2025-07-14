@@ -8,16 +8,20 @@ function formatGold(value) {
   const silver = Math.floor((absValue % 10000) / 100);
   const copper = absValue % 100;
 
-  let result = '';
+  let parts = [];
   if (gold > 0) {
-    result += `${gold}<img src="img/Gold_coin.png" alt="Gold" width="12"> ${silver.toString().padStart(2, '0')}<img src="img/Silver_coin.png" alt="Silver" width="12"> ${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
+    parts.push(`${gold}g`);
+    parts.push(`${silver.toString().padStart(2, '0')}s`);
+    parts.push(`${copper.toString().padStart(2, '0')}c`);
   } else if (silver > 0) {
-    result += `${silver}<img src="img/Silver_coin.png" alt="Silver" width="12"> ${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
+    parts.push(`${silver}s`);
+    parts.push(`${copper.toString().padStart(2, '0')}c`);
   } else {
-    result += `${copper.toString().padStart(2, '0')}<img src="img/Copper_coin.png" alt="Copper" width="12">`;
+    parts.push(`${copper}c`);
   }
 
-  if (isNegative) result = '-' + result.trim();
+  let result = parts.join(' ');
+  if (isNegative) result = '-' + result;
   return result.trim();
 }
 

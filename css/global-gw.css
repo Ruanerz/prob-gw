@@ -1355,10 +1355,10 @@ table tr {
   background: #232a36;
 }
 .search-modal-content .item-name {
-  color: #16c198;
   font-size: var(--font-size);
   font-weight: 500;
   text-align: center;
+  color: inherit;
 }
 .search-modal-content .item-card img {
   width: 48px;
@@ -1448,9 +1448,9 @@ table tr {
   background: #232a36;
 }
 #modal-results .item-name {
-  color: #f3f4f6;
   font-size: var(--font-size);
   font-weight: 500;
+  color: inherit;
 }
 
 

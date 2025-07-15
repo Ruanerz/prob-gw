@@ -281,7 +281,7 @@ header {
 
 /* Estilos para hover en filas de tablas */
 .light-theme tr:hover {
-  background-color: #e9ecef;
+  background-color: #c4c5c7;
 }
 
 /* Estilos para filas alternas en tema claro */
@@ -881,13 +881,6 @@ tr.subrow td,
 tr.subrow-2 td {
   background: unset !important;
 }
-
-
-/*tr:hover td {
-  background: #222324;
-}*/
-
-
 
 
 @media (max-width: 700px) {

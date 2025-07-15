@@ -13,8 +13,9 @@ export function setValoresFractales({ compra75919, venta75919, compra73248, vent
 }
 import { FRACTALES_ITEMS, FRACTAL_STACKS, getItemsConMercado, keyToNombre } from './fractales-gold-logic.js';
 
-// Cache para iconos
+// Cache para iconos y rarezas
 const iconCache = {};
+const rarityCache = {};
 // Mapeo simple de key a ID para obtener iconos
 export const ICON_ID_MAP = {
   garra: 24350,
@@ -43,7 +44,10 @@ export async function fetchIconsFor(ids = []) {
     const res = await fetch(`https://api.guildwars2.com/v2/items?ids=${ids.join(',')}&lang=es`);
     const data = await res.json();
     data.forEach(item => {
-      if (item && item.id) iconCache[item.id] = item.icon;
+      if (item && item.id) {
+        iconCache[item.id] = item.icon;
+        rarityCache[item.id] = item.rarity;
+      }
     });
   } catch {}
 }
@@ -51,6 +55,11 @@ export async function fetchIconsFor(ids = []) {
 function getIconByKey(key) {
   const id = ICON_ID_MAP[key];
   return id ? iconCache[id] || '' : '';
+}
+
+function getRarityByKey(key) {
+  const id = ICON_ID_MAP[key];
+  return id ? rarityCache[id] || '' : '';
 }
 
 let contribucionesChart = null;
@@ -137,10 +146,11 @@ export async function renderTablaPromedios(containerId = 'tabla-promedios') {
       <tbody>
         ${claves.map(({ key, nombre }) => {
           const icon = getIconByKey(key);
+          const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(getRarityByKey(key)) : '';
           const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
           return `
           <tr>
-            <td><div class="dato-item">${iconHtml}${nombre}</div></td>
+            <td><div class="dato-item">${iconHtml}<span class="${rarityClass}">${nombre}</span></div></td>
             <td><div class="dato-item-info">${promedios[key] !== undefined ? (key === 'oro_de_basura' ? window.formatGoldColored(promedios[key]) : promedios[key].toFixed(2)) : '-'}</div></td>
           </tr>
           `;
@@ -207,10 +217,11 @@ export async function renderTablaPrecios(containerId = 'tabla-precios-fractales'
           const totalCompra = (promedio !== undefined) ? window.formatGoldColored(Math.round(item.buy_price * promedio)) : '-';
           const totalVenta = (promedio !== undefined) ? window.formatGoldColored(Math.round(item.sell_price * promedio)) : '-';
           const icon = getIconByKey(item.key);
+          const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(rarityCache[item.id]) : '';
           const iconHtml = icon ? `<img src="${icon}" class="item-icon">` : '';
           return `
             <tr>
-              <td><div class="dato-item">${iconHtml}${keyToNombre(item.key)}</div></td>
+              <td><div class="dato-item">${iconHtml}<span class="${rarityClass}">${keyToNombre(item.key)}</span></div></td>
               <td><div class="dato-item-info">${window.formatGoldColored(item.buy_price)}</div></td>
               <td><div class="dato-item-info">${window.formatGoldColored(item.sell_price)}</div></td>
               <td><div class="dato-item-info">${totalCompra}</div></td>

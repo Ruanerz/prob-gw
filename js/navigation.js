@@ -23,7 +23,7 @@ const ThemeManager = {
             bg.classList.toggle('dark', this.theme === 'dark');
         }
         if (overlay) {
-            overlay.style.background = this.theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.6)';
+            overlay.style.background = this.theme === 'dark' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)';
         }
 
         // Actualizar el ícono del botón

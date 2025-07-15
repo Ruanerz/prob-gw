@@ -2,11 +2,12 @@
 // Lógica compartida para cálculo de crafteo y estructura de ingredientes
 
 class CraftIngredient {
-  constructor({id, name, icon, count, parentMultiplier = 1, buy_price, sell_price, crafted_price, is_craftable, recipe, children}) {
+  constructor({id, name, icon, rarity, count, parentMultiplier = 1, buy_price, sell_price, crafted_price, is_craftable, recipe, children}) {
     this.modeForParentCrafted = "buy";
     this.id = id;
     this.name = name;
     this.icon = icon;
+    this.rarity = rarity;
     this.count = count;
     this.parentMultiplier = parentMultiplier || 1;
     this.buy_price = buy_price;

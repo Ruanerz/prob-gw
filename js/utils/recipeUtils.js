@@ -30,6 +30,7 @@ window.transformRecipeToIngredient = async function(recipe, count = 1, parentMul
             id: recipe.output_item_id,
             name: outputItem?.name || 'Ítem desconocido',
             icon: outputItem?.icon || '',
+            rarity: outputItem?.rarity,
             count: count,
             parentMultiplier: parentMultiplier,
             buy_price: prices?.buys?.unit_price || 0,
@@ -67,6 +68,7 @@ window.transformRecipeToIngredient = async function(recipe, count = 1, parentMul
                         id: ing.item_id,
                         name: itemDetails?.name || 'Ítem desconocido',
                         icon: itemDetails?.icon || '',
+                        rarity: itemDetails?.rarity,
                         count: ing.count,
                         parentMultiplier: 1, // Se ajustará en la recursión
                         buy_price: prices?.buys?.unit_price || 0,
@@ -152,6 +154,7 @@ window.loadIngredientTree = async function(ingredient, depth = 0, maxDepth = 3) 
                         id: ing.item_id,
                         name: itemDetails?.name || '',
                         icon: itemDetails?.icon || '',
+                        rarity: itemDetails?.rarity,
                         count: ing.count,
                         parentMultiplier: 1,
                         buy_price: prices?.buys?.unit_price || 0,

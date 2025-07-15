@@ -24,6 +24,7 @@ if (typeof window.comparativa === 'undefined') {
             id: itemData.id,
             name: itemData.name,
             icon: itemData.icon,
+            rarity: itemData.rarity,
             count: 1,
             buy_price: marketData.buy_price,
             sell_price: marketData.sell_price,
@@ -41,6 +42,7 @@ if (typeof window.comparativa === 'undefined') {
             id: itemData.id,
             name: itemData.name,
             icon: itemData.icon,
+            rarity: itemData.rarity,
             count: 1,
             buy_price: marketData.buy_price,
             sell_price: marketData.sell_price,
@@ -208,6 +210,7 @@ async function prepareIngredientTreeData(mainItemId, mainRecipeData) {
             id: itemDetail.id,
             name: itemDetail.name,
             icon: itemDetail.icon,
+            rarity: itemDetail.rarity,
             count: ingredientRecipeInfo.count,
             parentMultiplier: currentParentMultiplier,
             buy_price: marketInfo.buy_price !== undefined ? marketInfo.buy_price : null,
@@ -271,10 +274,11 @@ async function mainCompareUI() {
 mainCompareUI();
 
 export class CraftIngredient {
-  constructor({id, name, icon, count, parentMultiplier = 1, buy_price, sell_price, is_craftable, recipe, children, _parentId = null}) {
+  constructor({id, name, icon, rarity, count, parentMultiplier = 1, buy_price, sell_price, is_craftable, recipe, children, _parentId = null}) {
     this.id = id;
     this.name = name;
     this.icon = icon;
+    this.rarity = rarity;
     this.count = count; // Cantidad requerida por la receta padre
     this.parentMultiplier = parentMultiplier || 1;
     this.buy_price = buy_price;

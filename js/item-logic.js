@@ -17,11 +17,12 @@ export class CraftIngredient {
    * Estructura de datos para ingredientes de crafteo y lógica de cálculo
    * @param {_parentId} string|null - Identificador del padre inmediato en el árbol, esencial para distinguir instancias compartidas.
    */
-  constructor({id, name, icon, count, parentMultiplier = 1, buy_price, sell_price, crafted_price, is_craftable, recipe, children, _parentId = null}) {
+  constructor({id, name, icon, rarity, count, parentMultiplier = 1, buy_price, sell_price, crafted_price, is_craftable, recipe, children, _parentId = null}) {
     this.modeForParentCrafted = "buy";
     this.id = id;
     this.name = name;
     this.icon = icon;
+    this.rarity = rarity;
     this.count = count;
     this.parentMultiplier = parentMultiplier || 1;
     this.buy_price = buy_price;
@@ -207,6 +208,7 @@ async function buildTreeRecursive(ingredientRecipeInfo, currentParentMultiplier,
       id: itemDetail.id,
       name: itemDetail.name,
       icon: itemDetail.icon,
+      rarity: itemDetail.rarity,
       count: ingredientRecipeInfo.count,
       parentMultiplier: currentParentMultiplier,
       buy_price: marketInfo.buy_price !== undefined ? marketInfo.buy_price : null,
@@ -309,6 +311,7 @@ async function prepareIngredientTreeData(mainItemId, mainRecipeData) {
     id: mainItemDetail.id,
     name: mainItemDetail.name,
     icon: mainItemDetail.icon,
+    rarity: mainItemDetail.rarity,
     count: 1,
     parentMultiplier: 1,
     buy_price: mainMarketInfo.buy_price,

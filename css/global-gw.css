@@ -2404,11 +2404,11 @@ p .info-text{
 .rarity-legendary { color: #9d58fe; }
 
 /* Colores por rareza en tema claro */
-.light-theme .rarity-basic { color: #AAA; }
-.light-theme .rarity-fine { color: #62A4DA; }
-.light-theme .rarity-masterwork { color: #1a9306; }
-.light-theme .rarity-rare { color: #fcd00b; }
-.light-theme .rarity-exotic { color: #ffa405; }
-.light-theme .rarity-ascended { color: #fb3e8d; }
-.light-theme .rarity-legendary { color: #6428b9; }
+.light-theme .rarity-basic { color: #8e8e8e; }
+.light-theme .rarity-fine { color: #4e8dc1; }
+.light-theme .rarity-masterwork { color: #1a7b09; }
+.light-theme .rarity-rare { color: #dab303; }
+.light-theme .rarity-exotic { color: #de8e04; }
+.light-theme .rarity-ascended { color: #e22f79; }
+.light-theme .rarity-legendary { color: #5b21ac; }
 

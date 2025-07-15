@@ -494,7 +494,7 @@ th {
 }
 
 tr:hover {
-  background-color: var(--secondary-color);
+  background-color: #000000;
 }
 
 

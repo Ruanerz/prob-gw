@@ -115,10 +115,10 @@ export async function renderTablaForja() {
 }
 
 export async function renderTablaLodestones() {
-  const keys = Object.keys(LODESTONE_IDS.cores);
+  const coreKeys = Object.keys(LODESTONE_IDS.cores);
   const ids = [
-    ...keys.map(k => LODESTONE_IDS.cores[k]),
-    ...keys.map(k => LODESTONE_IDS.stones[k]),
+    ...coreKeys.map(k => LODESTONE_IDS.cores[k]),
+    ...coreKeys.map(k => LODESTONE_IDS.stones[k]),
     LODESTONE_IDS.polvo,
     LODESTONE_IDS.botella,
     LODESTONE_IDS.cristal
@@ -127,7 +127,7 @@ export async function renderTablaLodestones() {
   const priceMap = await fetchItemPrices(ids);
   await fetchIcons(ids);
 
-  keys.forEach(key => {
+  coreKeys.forEach(key => {
     const row = document.querySelector(`#tabla-lodestones tr[data-key="${key}"]`);
     if (!row) return;
     const sumEl = row.querySelector('.sum-mats');

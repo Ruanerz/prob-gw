@@ -360,6 +360,14 @@ select {
   text-align: right;
 }
 
+.light-theme.item-price-container.custom-text {
+  opacity: 0.9;
+  color: #717e8f;
+  font-style: italic;
+  padding: 4px 8px;
+  text-align: right;
+}
+
 .item-price-container .price-row {
   display: flex;
   align-items: center;

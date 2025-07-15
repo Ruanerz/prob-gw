@@ -14,6 +14,7 @@
   </header>
   <nav class="item-tabs-nav">
     <button class="item-tab-btn active" data-tab="matt5t6">Materiales T5 a T6</button>
+    <button class="item-tab-btn" data-tab="lodestones">Piedra imán</button>
   </nav>
   <div class="container">
     <main>
@@ -207,17 +208,34 @@
   </div>
   <script src="js/formatGold.js"></script>
   <script>
-    // Tabs visuales como en item.html
-    document.addEventListener('DOMContentLoaded', function() {
+    // Tabs: mostrar únicamente la información correspondiente (Materiales o Lodestones)
+    document.addEventListener('DOMContentLoaded', () => {
       const tabBtns = document.querySelectorAll('.item-tab-btn');
+      // Elementos a alternar
+      const matTable = document.querySelector('#matt5t6 table.table-modern');
+      const lodestoneTable = document.getElementById('tabla-lodestones');
+      const matParagraph = matTable?.previousElementSibling;
+      const lodestoneParagraph = lodestoneTable?.previousElementSibling;
+
+      function toggle(tab) {
+        const showMat = tab === 'matt5t6';
+        if (matTable) matTable.style.display = showMat ? 'table' : 'none';
+        if (lodestoneTable) lodestoneTable.style.display = showMat ? 'none' : 'table';
+        if (matParagraph) matParagraph.style.display = showMat ? 'block' : 'none';
+        if (lodestoneParagraph) lodestoneParagraph.style.display = showMat ? 'none' : 'block';
+      }
+
       tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', () => {
           tabBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          document.querySelectorAll('main > div[id^="tab-"]').forEach(div => div.style.display = 'none');
-          document.getElementById(btn.dataset.tab).style.display = 'block';
+          toggle(btn.dataset.tab);
         });
       });
+
+      // Estado inicial
+      const activeBtn = document.querySelector('.item-tab-btn.active') || tabBtns[0];
+      toggle(activeBtn.dataset.tab);
     });
   </script>
   <script type="module" src="js/forja-mistica.js"></script>

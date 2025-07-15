@@ -61,13 +61,13 @@ export const LODESTONE_IDS = {
     fundido: 24314
   },
   stones: {
-    glacial: 24326,
-    cristal: 24315,
-    destructor: 24320,
-    cargado: 24306,
-    corrupto: 24325,
+    glacial: 24320,
+    cristal: 24330,
+    destructor: 24325,
+    cargado: 24305,
+    corrupto: 24340,
     onice: 24310,
-    fundido: 24318
+    fundido: 24315
   },
   polvo: 24277,
   botella: 19663,

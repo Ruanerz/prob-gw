@@ -798,6 +798,7 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   if (typeof ing.id === 'number' && ing.id < 1000000) {
     try { info = await fetchItemData(ing.id); } catch (e) {}
   }
+  const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(info?.rarity) : '';
 
   const finalName = (info && info.name) ? info.name : ing.name;
   if (!isGift) isGift = isGiftName(finalName);
@@ -839,7 +840,7 @@ async function renderIngredientRowWithComponents(ing, level = 0) {
   const displayName = isCalculatedFromChildren ? `${finalName} (componentes)` : finalName;
   let rowHtml = `<tr>
     <td style='${indent}'>${icon ? `<img src='${icon}' style='height:28px;'>` : '-'}</td>
-    <td>${displayName}</td>
+    <td><span class="${rarityClass}">${displayName}</span></td>
     <td>${count}</td>
     <td>${priceBuy ? formatGoldColored(priceBuy) : (isSinPrecio ? 'sin precio' : '-')}</td>
     <td>${priceSell ? formatGoldColored(priceSell) : (isSinPrecio ? 'sin precio' : '-')}</td>

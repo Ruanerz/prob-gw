@@ -22,7 +22,8 @@ function createFeedbackModal() {
         <div class="mb-18-0-8-0">
           ¿Tienes dudas, sugerencias o comentarios?<br>
           Escríbeme por discord <a href="https://discord.gg/rtAEcMys" class="item-link">SERVER RUANERZ</a>
-          <br>en el canal general o por privado.<br>
+          <br>en el canal general.<br>
+          Por privado puedes escribirme a Ruanerz#0220 por discord.
         </div>
       </div>`;
     document.body.appendChild(modal);

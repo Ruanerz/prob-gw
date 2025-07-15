@@ -269,10 +269,11 @@ function renderMainItemRow(mainItem, qty, totalBuy, totalSell, totalCrafted) {
   const btnExpand = `<button class="btn-expand btn-expand-main" id="btn-expand-main-${mainItem.id}" data-id="${mainItem.id}">${expanded ? '▴' : '▾'}</button>`;
   const btnDelete = `<button class="btn-delete-main" data-id="${mainItem.id}" title="Eliminar">-</button>`;
   const btn = `${btnExpand} ${btnDelete}`;
+  const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(mainItem.rarity) : '';
   return `
     <tr class="row-bg-main">
       <td class="th-border-left-items"><img src="${mainItem.icon}" width="32"></td>
-      <td><a href="item.html?id=${mainItem.id}" class="item-link" target="_blank">${(mainItem.recipe && mainItem.recipe.output_item_count && mainItem.recipe.output_item_count > 1) ? `<span style='color:#a1a1aa;font-size:0.95em;display:block;margin-bottom:2px;'>Receta produce <b>${mainItem.recipe.output_item_count}</b> unidades<br>Profit mostrado es por unidad</span>` : ''}${mainItem.name}</a></td>
+      <td><a href="item.html?id=${mainItem.id}" class="item-link ${rarityClass}" target="_blank">${(mainItem.recipe && mainItem.recipe.output_item_count && mainItem.recipe.output_item_count > 1) ? `<span style='color:#a1a1aa;font-size:0.95em;display:block;margin-bottom:2px;'>Receta produce <b>${mainItem.recipe.output_item_count}</b> unidades<br>Profit mostrado es por unidad</span>` : ''}${mainItem.name}</a></td>
       <td>${qty}</td>
       <td class="item-unit-sell">${formatGoldColored(Number(mainItem.sell_price))} <span style="color: #c99b5b">c/u</span></td>
       <td class="item-solo-buy"><div>${formatGoldColored(realTotals.totalBuy)}</div></td>
@@ -305,6 +306,7 @@ function renderRows(ings, nivel = 0, parentId = null, rowGroupIndex = 0, parentE
     const groupIdx = nivel === 0 ? idx : rowGroupIndex;
     const rowBgClass = groupIdx % 2 === 0 ? 'row-bg-a' : 'row-bg-b';
     const indent = nivel > 0 ? `style="padding-left:${nivel * 30}px"` : '';
+    const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(ing.rarity) : '';
     const currentPath = [...path, ing.id].join('-');
     const expandButton = (ing.children && ing.children.length)
       ? `<button class="btn-expand" data-path="${currentPath}">${ing.expanded ? '▴' : '▾'}</button>` : '';
@@ -340,7 +342,7 @@ function renderRows(ings, nivel = 0, parentId = null, rowGroupIndex = 0, parentE
     return `
       <tr data-path="${currentPath}" class="${isChild ? `subrow subrow-${nivel} child-of-${parentId}` : ''} ${rowBgClass}" ${extraStyle}>
         <td class="th-border-left-items" ${indent}><img src="${ing.icon}" width="32"></td>
-        <td><a href="item.html?id=${ing.id}" class="item-link" target="_blank">${ing.name}</a></td>
+        <td><a href="item.html?id=${ing.id}" class="item-link ${rarityClass}" target="_blank">${ing.name}</a></td>
         <td>${ing.countTotal ? (Number.isInteger(ing.countTotal) ? ing.countTotal : ing.countTotal.toFixed(2)) : ing.count}</td>
         <td class="item-unit-sell">${formatGoldColored(ing.sell_price)} <span style="color: #c99b5b">c/u</span></td>
         

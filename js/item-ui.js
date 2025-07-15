@@ -79,11 +79,12 @@ function renderRows(ings, nivel = 1, parentId = null, rowGroupIndex = 0, parentE
 
     // Precio de referencia seguro (0 si no es número válido)
     const craftedPriceSafe = (typeof ing.crafted_price === 'number' && !isNaN(ing.crafted_price) && ing.crafted_price > 0) ? ing.crafted_price : 0;
+    const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(ing.rarity) : '';
     
     return `
       <tr data-path="${currentPath}" class="${isChild ? `subrow subrow-${nivel} ${extraClass}` : ''} ${rowBgClass}" ${extraStyle}>
         <td class="th-border-left-items" ${indent}><img src="${ing.icon}" width="32"></td>
-        <td><a href="item.html?id=${ing.id}" class="item-link" target="_blank">${ing.name}</a></td>
+        <td><a href="item.html?id=${ing.id}" class="item-link ${rarityClass}" target="_blank">${ing.name}</a></td>
         <td>${ing.countTotal || ing.count}</td>
         <td class="item-solo-buy">
           <div>${formatGoldColored(ing.total_buy)}</div>
@@ -135,6 +136,7 @@ function renderMainItemRow(mainNode, nivel = 0) {
     // 🚫 Prohibido: usar mainNode.total_buy, mainNode.total_sell, mainNode.total_crafted para la UI
     const buyPriceUnit = mainNode.buy_price || 0;
     const sellPriceUnit = mainNode.sell_price || 0;
+    const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(mainNode.rarity) : '';
     const indent = nivel > 0 ? 'style="margin-left: ' + (nivel * 20) + 'px;"' : '';
     const filaMainItem = `
     <tr class="ingred-row ${mainNode.expanded ? 'expanded' : ''}" data-item-id="${mainNode.id}">

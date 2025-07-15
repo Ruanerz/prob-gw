@@ -207,6 +207,7 @@ async function prepareIngredientTreeData(mainItemId, mainRecipeData) {
             id: itemDetail.id,
             name: itemDetail.name,
             icon: itemDetail.icon,
+            rarity: itemDetail.rarity,
             count: ingredientRecipeInfo.count, // Cantidad necesaria para la receta padre
             parentMultiplier: currentParentMultiplier, // Output_count de la receta que produce este item
             buy_price: marketInfo.buy_price !== undefined ? marketInfo.buy_price : null,

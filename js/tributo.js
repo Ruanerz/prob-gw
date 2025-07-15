@@ -115,12 +115,13 @@ async function fetchPriceData(id) {
 
 async function renderIngredientRowWithComponents(ing, level) {
   const info = await fetchItemData(ing.id);
+  const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(info?.rarity) : '';
   const price = await fetchPriceData(ing.id);
   const totalBuyIng = price ? price.buys.unit_price * ing.count : null;
   const totalSellIng = price ? price.sells.unit_price * ing.count : null;
   return `<tr>
     <td><img src='${info.icon}' style='height:28px;'></td>
-    <td>${info.name}</td>
+    <td><span class="${rarityClass}">${info.name}</span></td>
     <td>${ing.count}</td>
     <td>${price ? formatGoldColored(price.buys.unit_price) : '-'}</td>
     <td>${price ? formatGoldColored(price.sells.unit_price) : '-'}</td>

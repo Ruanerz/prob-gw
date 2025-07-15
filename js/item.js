@@ -143,11 +143,12 @@
       const apiRes = await fetch(`https://api.guildwars2.com/v2/items/${itemId}`);
       const apiData = await apiRes.json();
   
-      // Renderizar encabezado y datos básicos
+      // Renderizar encabezado y datos básicos con color por rareza
+      const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(apiData.rarity) : '';
       itemHeader.innerHTML = `
         <img src="${apiData.icon}" alt=""/>
         <div>
-          <h2>${apiData.name}</h2>
+          <h2 class="${rarityClass}">${apiData.name}</h2>
           <div style="color:#a1a1aa;font-size:1.05rem;">ID: ${apiData.id} &nbsp;|&nbsp; ${apiData.type} ${apiData.rarity ? ' - ' + apiData.rarity : ''}</div>
         </div>
       `;

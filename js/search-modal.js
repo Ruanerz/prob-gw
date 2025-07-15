@@ -81,12 +81,14 @@ function renderResults(items, showNoResults = false) {
   }
   const fragment = document.createDocumentFragment();
   items.forEach(item => {
+    const iconInfo = iconCache[item.id] || {};
+    const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(iconInfo.rarity) : '';
     const card = document.createElement('div');
     card.className = 'item-card';
     card.onclick = () => selectItem(item.id);
     card.innerHTML = `
-      <img src="${iconCache[item.id] || ''}" alt=""/>
-      <div class="item-name">${item.name_es}</div>
+      <img src="${iconInfo.icon || ''}" alt=""/>
+      <div class="item-name ${rarityClass}">${item.name_es}</div>
       <div class="item-price" style="display:none;">Compra: ${formatGoldColored(item.buy_price)} | Venta: ${formatGoldColored(item.sell_price)}</div>
     `;
     fragment.appendChild(card);
@@ -114,7 +116,7 @@ async function fetchIconsFor(ids) {
     const res = await fetch(GW2_API_ITEMS + ids.join(','));
     const data = await res.json();
     data.forEach(item => {
-      iconCache[item.id] = item.icon;
+      iconCache[item.id] = { icon: item.icon, rarity: item.rarity };
     });
   } catch {}
 }

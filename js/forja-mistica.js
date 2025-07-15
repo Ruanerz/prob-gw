@@ -99,11 +99,12 @@ export async function renderTablaForja() {
     const precioPiedra = priceMap[MATERIAL_IDS.piedra]?.buy_price || 0;
 
     const sumMats = (50 * precioT5) + (5 * precioPolvo) + (5 * precioPiedra) + precioT6Buy;
-    const resultado = 6.91 * precioT6Sell;
-    const profit = resultado - sumMats;
+    const resultadoBruto = 6.91 * precioT6Sell;
+    const resultadoNeto = resultadoBruto * 0.85; // 15% comisión bazar
+    const profit = resultadoNeto - sumMats;
 
     if (sumEl) sumEl.innerHTML = window.formatGoldColored(sumMats);
-    if (resEl) resEl.innerHTML = window.formatGoldColored(resultado);
+    if (resEl) resEl.innerHTML = window.formatGoldColored(resultadoNeto);
     if (profitEl) profitEl.innerHTML = window.formatGoldColored(profit);
 
     const cells = row.querySelectorAll('td');
@@ -140,7 +141,8 @@ export async function renderTablaLodestones() {
     const precioCristal = priceMap[LODESTONE_IDS.cristal]?.buy_price || 0;
 
     const sumMats = (2 * precioCore) + precioPolvo + precioBotella + precioCristal;
-    const profit = precioLodestoneSell - sumMats;
+    const resultadoNeto = precioLodestoneSell * 0.85; // comisión bazar 15%
+    const profit = resultadoNeto - sumMats;
 
     if (sumEl) sumEl.innerHTML = window.formatGoldColored(sumMats);
     if (profitEl) profitEl.innerHTML = window.formatGoldColored(profit);

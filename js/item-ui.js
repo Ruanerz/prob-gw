@@ -477,10 +477,11 @@ async function renderItemUI(itemData, marketData) {
     `;
   }
 
+  const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(itemData.rarity) : '';
   itemHeader.innerHTML = `
     <img src="${itemData.icon}" alt=""/>
     <div>
-      <h2>${itemData.name}</h2>
+      <h2 class="${rarityClass}">${itemData.name}</h2>
       <div style="color:#a1a1aa;font-size:1.05rem;">
         ID: ${itemData.id} &nbsp;|&nbsp; ${itemData.type} ${itemData.rarity ? ' - ' + itemData.rarity : ''}
       </div>

@@ -2388,9 +2388,18 @@ p .info-text{
   display: inline-flex;    
   align-items: center; 
 }
-.copper { 
+.copper {
   color: #b87333;
-  display: inline-flex;    
-  align-items: center; 
+  display: inline-flex;
+  align-items: center;
 }
+
+/* Colores por rareza */
+.rarity-basic { color: #AAA; }
+.rarity-fine { color: #62A4DA; }
+.rarity-masterwork { color: #1a9306; }
+.rarity-rare { color: #fcd00b; }
+.rarity-exotic { color: #ffa405; }
+.rarity-ascended { color: #fb3e8d; }
+.rarity-legendary { color: #4C139D; }
 

@@ -166,6 +166,7 @@ export class LegendaryCraftingBase {
 
     try {
       const iconUrl = await this.getIconUrl(ingredient);
+      const rarityClass = typeof getRarityClass === 'function' ? getRarityClass(ingredient.rarity) : '';
       const normalizedName = ingredient.name ? ingredient.name.toLowerCase() : '';
       // Buscar si este ingrediente tiene un mensaje de precio personalizado
       const customText = this.customPriceTexts.find(ct => {
@@ -223,7 +224,7 @@ export class LegendaryCraftingBase {
         <div class="${itemClass}">
           ${hasChildren ? `<button class="toggle-children" data-expanded="${isExpanded}">${isExpanded ? '−' : '+'}</button>` : '<div style="width: 24px;"></div>'}
           <img class="item-icon" src="${iconUrl}" alt="${ingredient.name || 'Item'}" title="${ingredient.name || 'Item'}" onerror="this.onerror=null;this.src='${this._getDefaultIconUrl()}';">
-          <div class="item-name">${ingredient.name || 'Item'}</div>
+          <div class="item-name ${rarityClass}">${ingredient.name || 'Item'}</div>
           <div class="item-details">
             ${ingredient.count > 1 ? `<span class="item-count">x${ingredient.count}</span>` : ''}
             <div class="item-price-container ${priceClass}" title="${priceTooltip}">

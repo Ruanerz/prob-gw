@@ -21,10 +21,10 @@ function createFeedbackModal() {
         <div class="text-center"><h2>¿Mejoras?¿Bugs?</h2></div>
         <div class="mb-18-0-8-0">
           ¿Tienes dudas, sugerencias o comentarios?<br>
-          Escríbeme por discord <a href="https://discord.gg/rtAEcMys" class="item-link">SERVER RUANERZ</a>
+          Escríbeme por discord <a href="https://discord.gg/rtAEcMys" target="_blank" class="item-link">SERVER RUANERZ</a>
           <br>en el canal general.<br>
           <p>Por privado puedes escribirme a Ruanerz#0220 en discord.</p>
-          <p>También puedes escribirme en mi canala de <a href="https://www.youtube.com/@Ruanerz?sub_confirmation=1" class="item-link">Youtube</a>.</p>
+          <p>También puedes escribirme en mi canal de <a href="https://www.youtube.com/@Ruanerz?sub_confirmation=1" target="_blank" class="item-link">Youtube</a>.</p>
         </div>
       </div>`;
     document.body.appendChild(modal);

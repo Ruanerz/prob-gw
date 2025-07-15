@@ -9,17 +9,18 @@
     window.globalQty = 1;
   }
   export class CraftIngredient {
-    constructor(id, name, icon, count, recipe, buy_price, sell_price, is_craftable, children = [], parentId = null, mode = 'buy') {
+    constructor(id, name, icon, rarity, count, recipe, buy_price, sell_price, is_craftable, children = [], parentId = null, mode = 'buy') {
       this._uid = CraftIngredient.nextUid++;
       this.id = id;
       this.name = name;
       this.icon = icon;
+      this.rarity = rarity;
       this.count = count;
       this.recipe = recipe;
       this.buy_price = buy_price;
       this.sell_price = sell_price;
       this.is_craftable = is_craftable;
-      this.children = (children || []).map(c => new CraftIngredient(c.id, c.name, c.icon, c.count, c.recipe, c.buy_price, c.sell_price, c.is_craftable, c.children, this.id, c.modeForParentCrafted));
+      this.children = (children || []).map(c => new CraftIngredient(c.id, c.name, c.icon, c.rarity, c.count, c.recipe, c.buy_price, c.sell_price, c.is_craftable, c.children, this.id, c.modeForParentCrafted));
       this._parentId = parentId;
       this.modeForParentCrafted = mode;
   
@@ -287,6 +288,7 @@ function asignarParentIds(nodos, parentId = "") {
         recipe.id,
         recipe.name,
         recipe.icon,
+        recipe.rarity,
         recipe.count || 1,
         recipe.recipe || null,
         recipe.buy_price || 0,

@@ -2,10 +2,11 @@
  * Clase que representa un ingrediente en el árbol de crafteo
  */
 export class Ingredient {
-  constructor(id, name, type, count = 1, parent = null) {
+  constructor(id, name, type, rarity = null, count = 1, parent = null) {
     this.id = id;
     this.name = name;
     this.type = type || 'crafting_material';
+    this.rarity = rarity;
     this.count = count;
     this.parent = parent;
     this.components = [];
@@ -212,6 +213,7 @@ export class Ingredient {
       id: this.id,
       name: this.name,
       type: this.type,
+      rarity: this.rarity,
       count: this.count,
       buyPrice: this._buyPrice,
       sellPrice: this._sellPrice,
@@ -227,12 +229,15 @@ export class Ingredient {
  */
 export async function createIngredientTree(itemData, parent = null) {
   if (!itemData) return null;
-  
+
+  const apiDetails = await gw2API.getItemDetails(itemData.id);
+
   // Crear el ingrediente con los datos básicos
   const ingredient = new Ingredient(
     itemData.id,
     itemData.name,
     itemData.type,
+    apiDetails?.rarity || itemData.rarity || null,
     itemData.count || 1,
     parent
   );

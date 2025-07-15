@@ -711,7 +711,7 @@ input[type="text"]:focus {
 .item-card .item-name {
   font-size: var(--font-size);
   font-weight: 500;
-  color: var(--accent);
+  /*color: var(--accent);*/
 }
 .item-card .item-price {
   font-size: var(--font-size);
@@ -1355,7 +1355,7 @@ table tr {
   background: #232a36;
 }
 .search-modal-content .item-name {
-  color: #16c198;
+  /*color: #16c198;*/
   font-size: var(--font-size);
   font-weight: 500;
   text-align: center;
@@ -1448,7 +1448,7 @@ table tr {
   background: #232a36;
 }
 #modal-results .item-name {
-  color: #f3f4f6;
+  /*color: #f3f4f6;*/
   font-size: var(--font-size);
   font-weight: 500;
 }

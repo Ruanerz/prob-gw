@@ -12,6 +12,7 @@ const errorMessage = document.getElementById('modal-error-message');
 
 let allItems = [];
 let iconCache = {};
+let rarityCache = {};
 
 function showLoader(show) {
   loader.style.display = show ? 'block' : 'none';
@@ -84,9 +85,12 @@ function renderResults(items, showNoResults = false) {
     const card = document.createElement('div');
     card.className = 'item-card';
     card.onclick = () => selectItem(item.id);
+    const rarityClass = typeof getRarityClass === 'function'
+        ? getRarityClass(rarityCache[item.id])
+        : '';
     card.innerHTML = `
       <img src="${iconCache[item.id] || ''}" alt=""/>
-      <div class="item-name">${item.name_es}</div>
+      <div class="item-name ${rarityClass}">${item.name_es}</div>
       <div class="item-price" style="display:none;">Compra: ${formatGoldColored(item.buy_price)} | Venta: ${formatGoldColored(item.sell_price)}</div>
     `;
     fragment.appendChild(card);
@@ -115,6 +119,7 @@ async function fetchIconsFor(ids) {
     const data = await res.json();
     data.forEach(item => {
       iconCache[item.id] = item.icon;
+      rarityCache[item.id] = item.rarity;
     });
   } catch {}
 }

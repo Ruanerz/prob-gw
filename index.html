@@ -22,6 +22,19 @@
     #bg-video.dark{
       filter:brightness(0.2);
     }
+
+    /* Capa de atenuación sobre el video */
+    #bg-overlay{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100vw;
+      height:100vh;
+      pointer-events:none;
+      z-index:-1; /* Encima del video pero debajo del contenido */
+      background:rgba(0,0,0,0.3); /* valor por defecto (dark) */
+      transition:background 0.6s ease;
+    }
     /* Ocultar contenido al inicio */
     .initial-hidden{
       opacity:0;
@@ -41,6 +54,8 @@
       <source src="img/Secuencia 01.mp4" type="video/mp4">
       Tu navegador no soporta video HTML5.
     </video>
+    <!-- Overlay para atenuar video -->
+    <div id="bg-overlay"></div>
   <header>
     <!-- El menú de navegación se insertará aquí automáticamente -->
   </header>
@@ -253,7 +268,7 @@
           el.classList.add('show');
         });
         const bg = document.getElementById('bg-video');
-        if(bg){ bg.classList.add('dark'); }
+        if(bg){ bg.classList.add('light'); }
       }, 500);
     });
   </script>

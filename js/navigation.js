@@ -12,9 +12,20 @@ const ThemeManager = {
     },
     
     applyTheme() {
+        // Cambiar clases en el <body>
         document.body.classList.toggle('light-theme', this.theme === 'light');
         document.body.classList.toggle('dark-theme', this.theme === 'dark');
-        
+
+        // Cambiar clases en el video de fondo
+        const bg = document.getElementById('bg-video');
+        const overlay = document.getElementById('bg-overlay');
+        if (bg) {
+            bg.classList.toggle('dark', this.theme === 'dark');
+        }
+        if (overlay) {
+            overlay.style.background = this.theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.6)';
+        }
+
         // Actualizar el ícono del botón
         const themeButtons = document.querySelectorAll('.theme-toggle');
         themeButtons.forEach(btn => {

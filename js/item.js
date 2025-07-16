@@ -424,9 +424,9 @@ const precioVentaTotal = (mainNode && typeof mainNode.sell_price === 'number') ?
             <h3>Profit si se craftea y se vende (ganancia estimada)</h3>
             <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
               <tr style='text-align:center;'>
-                <td>${formatGoldColored(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></td>
-                <td>${formatGoldColored(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></td>
-                <td>${formatGoldColored(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></td>
+                <td>${formatGoldColored(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit "Comprar"</span></td>
+                <td>${formatGoldColored(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit "Vender"</span></td>
+                <td>${formatGoldColored(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit "Craftear"</span></td>
               </tr>
               <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia se calcula como: (Precio venta - 15% comisión) - costo total</td></tr>
             </table>

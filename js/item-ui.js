@@ -258,9 +258,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         </div>
         <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
           <tr style='text-align:center;'>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyTotal))} <br><span style='font-size:0.93em;'>Profit "Comprar"</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellTotal))} <br><span style='font-size:0.93em;'>Profit "Vender"</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedTotal))} <br><span style='font-size:0.93em;'>Profit "Craftear"</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia se calcula como: (Precio venta - 15% comisión) - costo total</td></tr>
         </table>

@@ -218,7 +218,7 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
   let mensaje = '';
   if (minIdx === 0) mensaje = 'Mejor comprar (Buy)';
   else if (minIdx === 1) mensaje = 'Mejor vender (Sell)';
-  else mensaje = 'Mejor craftear (Crafted)';
+  else mensaje = 'Mejor craftear (Crafteo)';
 
   // --- Renderizar tabla de ingredientes con separación de nodo raíz ---
   // 🔥 Checklist de buenas prácticas de renderizado:
@@ -331,7 +331,7 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
             <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
           </div></th>
           <td class="item-solo-sell">${formatGoldColored(totals.totalSell)}</td>
-          <th><div class="tooltip-modern">Total Crafted
+          <th><div class="tooltip-modern">Total Crafteo
             <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
           </div></th>
           <td class="item-solo-crafted">${formatGoldColored(totals.totalCrafted)}</td>
@@ -360,7 +360,7 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
               <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
             </div></th>
             <td class="item-solo-sell">${formatGoldColored(totals.totalSell / outputCount)}</td>
-            <th><div class="tooltip-modern">Total Crafted
+            <th><div class="tooltip-modern">Total Crafteo
               <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
             </div></th>
             <td class="item-solo-crafted">${formatGoldColored(totals.totalCrafted / outputCount)}</td>

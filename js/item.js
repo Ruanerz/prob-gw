@@ -402,7 +402,7 @@ const precioVentaTotal = (mainNode && typeof mainNode.sell_price === 'number') ?
       let mensaje = '';
       if (minIdx === 0) mensaje = 'Mejor comprar (Buy)';
       else if (minIdx === 1) mensaje = 'Mejor vender (Sell)';
-      else mensaje = 'Mejor craftear (Crafted)';
+      else mensaje = 'Mejor craftear (Crafteo)';
   
       // Sección 10: profit mejorada - 3 profits distintos
       let profitHtml = '';
@@ -473,7 +473,7 @@ const ventaTrasComisionUnidadMercado = precioVentaUnidadMercado - (precioVentaUn
     <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
   </div></th>
               <td class="item-solo-sell">${formatGoldColored(totals.tSell)}</td>
-              <th><div class="tooltip-modern">Total Crafted
+              <th><div class="tooltip-modern">Total "Crafteo"
     <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
   </div></th>
               <td class="item-solo-crafted">${formatGoldColored(totals.tCrafted)}</td>
@@ -498,7 +498,7 @@ const ventaTrasComisionUnidadMercado = precioVentaUnidadMercado - (precioVentaUn
     <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
   </div></th>
                 <td class="item-solo-sell">${formatGoldColored(totals.tSell / outputCount)}</td>
-                <th><div class="tooltip-modern">Total Crafted
+                <th><div class="tooltip-modern">Total "Crafteo"
     <span class="tooltiptext-modern">Suma total si CRAFTEAS todos los materiales posibles desde cero.</span>
   </div></th>
                 <td class="item-solo-crafted">${formatGoldColored(totals.tCrafted / outputCount)}</td>

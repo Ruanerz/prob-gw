@@ -333,13 +333,54 @@ export async function renderTablaResumenOro(containerId = 'tabla-resumen-oro', p
       </tbody>
     </table>
   `;
-    document.getElementById(containerId).innerHTML = htmlResumen;
+    if (containerId) {
+      const el = document.getElementById(containerId);
+      if (el) el.innerHTML = htmlResumen;
+    }
     return { sumaCompra, sumaVenta, contribuciones };
   } catch (err) {
     console.error('Error en renderTablaResumenOro:', err);
   }
 }
 
+// --- Renderiza la tabla resumen POR ENCRIPTACIÓN (divide valores finales entre 250) ---
+export async function renderTablaResumenOroIndividual(containerId = 'tabla-resumen-oro-individual', preciosFractales = {}) {
+  try {
+    // Reutilizamos la lógica de renderTablaResumenOro pero dividimos el resultado final entre 250
+    const resumen = await renderTablaResumenOro(undefined, preciosFractales);
+    if (!resumen) return;
+    const divisor = 250;
+    const sumaCompraInd = resumen.sumaCompra / divisor;
+    const sumaVentaInd = resumen.sumaVenta / divisor;
+
+    const htmlResumenInd = `
+      <table class="table-modern" style="margin-top:12px;">
+        <thead>
+          <tr>
+            <th><div class="dato-item">Resumen</div></th>
+            <th><div class="dato-item">Valor total</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="dato-item">Oro crudo + (Total compra × 0.85) ÷ 250</div></td>
+            <td><div class="dato-item-info">${window.formatGoldColored(Math.round(sumaCompraInd))}</div></td>
+          </tr>
+          <tr>
+            <td><div class="dato-item">Oro crudo + (Total venta × 0.85) ÷ 250</div></td>
+            <td><div class="dato-item-info">${window.formatGoldColored(Math.round(sumaVentaInd))}</div></td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+    if (containerId) {
+      document.getElementById(containerId).innerHTML = htmlResumenInd;
+    }
+    return { sumaCompra: sumaCompraInd, sumaVenta: sumaVentaInd };
+  } catch (err) {
+    console.error('Error en renderTablaResumenOroIndividual:', err);
+  }
+}
 
 
 export function renderTablaReferenciasProfit(containerId = 'tabla-referencias-profit', preciosFractales = {}, resumen = {}) {

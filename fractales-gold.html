@@ -49,6 +49,9 @@
           <p>Oro promedio por apertura de un stack de encriptaciones fractales</p>
           </div>
           <div id="tabla-resumen-oro"></div>
+          <p>Oro promedio por encriptación fractal</p>
+          </div>
+          <div id="tabla-resumen-oro-individual"></div>
         </div>
         <div class="card" style="margin-top:32px;">
           <div style="text-align: center;margin-bottom: 25px;">
@@ -173,7 +176,7 @@
     });
   </script>
   <script type="module">
-    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaReferenciasProfit, renderExtras, fetchItemPrices, fetchIconsFor, ICON_ID_MAP } from './js/fractales-gold-ui.js';
+    import { renderGraficoContribuciones, renderGraficoAbrirVsVender, renderTablaPrecios, renderTablaPromedios, renderTablaResumenOro, renderTablaResumenOroIndividual, renderTablaReferenciasProfit, renderExtras, fetchItemPrices, fetchIconsFor, ICON_ID_MAP } from './js/fractales-gold-ui.js';
 
     async function fetchPreciosFractales() {
       const priceMap = await fetchItemPrices([75919, 73248]);
@@ -192,6 +195,7 @@
       await renderTablaPromedios();
       await renderTablaPrecios();
       const resumenData = await renderTablaResumenOro('tabla-resumen-oro', preciosFractales);
+      await renderTablaResumenOroIndividual('tabla-resumen-oro-individual', preciosFractales);
       renderGraficoContribuciones(resumenData.contribuciones);
       renderTablaReferenciasProfit('tabla-referencias-profit', preciosFractales, resumenData);
       renderGraficoAbrirVsVender('abrir-vs-vender-chart', preciosFractales, resumenData);

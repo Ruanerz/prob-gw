@@ -186,7 +186,7 @@ async function renderDon(don, container) {
     if (esDonSimple) {
       if (don.mainIngredients && don.mainIngredients.length > 0) {
         html += `<table class='table-modern-dones tabla-tarjetas'>
-          <thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Buy (u)</th><th>Precio Sell (u)</th><th>Total Buy</th><th>Total Sell</th></tr></thead><tbody>`;
+          <thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Compra (u)</th><th>Precio Venta (u)</th><th>Total Compra</th><th>Total Venta</th></tr></thead><tbody>`;
         let totalBuy = 0;
         let totalSell = 0;
         for (const ing of don.mainIngredients) {
@@ -214,7 +214,7 @@ async function renderDon(don, container) {
     }
     if (don.mainIngredients && don.mainIngredients.length > 0) {
       html += `<table class='table-modern-dones tabla-tarjetas'>
-        <thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Buy (u)</th><th>Precio Sell (u)</th><th>Total Buy</th><th>Total Sell</th></tr></thead><tbody>`;
+        <thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Compra (u)</th><th>Precio Venta (u)</th><th>Total Compra</th><th>Total Venta</th></tr></thead><tbody>`;
       
       let totalBuy = 0;
       let totalSell = 0;
@@ -465,7 +465,7 @@ async function renderTributoDraconico() {
   try {
     if (TRIBUTO_DRACONICO.mainIngredients && TRIBUTO_DRACONICO.mainIngredients.length > 0) {
       let html = `<h3>Ingredientes principales</h3>`;
-      html += `<table class='table-modern-dones tabla-tarjetas'><thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Buy (u)</th><th>Precio Sell (u)</th><th>Total Buy</th><th>Total Sell</th></tr></thead><tbody>`;
+      html += `<table class='table-modern-dones tabla-tarjetas'><thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Compra (u)</th><th>Precio Venta (u)</th><th>Total Compra</th><th>Total Venta</th></tr></thead><tbody>`;
       
       // Variables para acumular totales
       let totalBuy = 0;
@@ -534,7 +534,7 @@ async function renderTributoDraconico() {
         }));
         // Renderizar tabla
         let html = `<table class='table-modern-dones tabla-tarjetas'>`;
-        html += `<thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Buy (u)</th><th>Precio Sell (u)</th><th>Total Buy</th><th>Total Sell</th></tr></thead><tbody>`;
+        html += `<thead class='header-items'><tr><th>Ícono</th><th>Nombre</th><th>Cantidad</th><th>Precio Compra (u)</th><th>Precio Venta (u)</th><th>Total Compra</th><th>Total Venta</th></tr></thead><tbody>`;
         let totalBuy = 0;
         let totalSell = 0;
         let rowIdx = 0;
@@ -928,10 +928,10 @@ async function renderTributo() {
           <th>Ícono</th>
           <th>Nombre</th>
           <th>Cantidad</th>
-          <th>Precio Buy (u)</th>
-          <th>Precio Sell (u)</th>
-          <th>Total Buy</th>
-          <th>Total Sell</th>
+          <th>Precio Compra (u)</th>
+          <th>Precio Venta (u)</th>
+          <th>Total Compra</th>
+          <th>Total Venta</th>
         </tr>
       </thead>
       <tbody>`;

@@ -447,9 +447,9 @@ const ventaTrasComisionUnidadMercado = precioVentaUnidadMercado - (precioVentaUn
             <div style='margin-bottom:8px;color:#a1a1aa;font-size:1em;'>Esta receta produce <b>${outputCount}</b> unidades por crafteo. Los siguientes cálculos son por unidad.</div>
             <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
               <tr style='text-align:center;'>
-                <td>${formatGoldColored(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></td>
-                <td>${formatGoldColored(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></td>
-                <td>${formatGoldColored(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></td>
+                <td>${formatGoldColored(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Compra"</span></td>
+                <td>${formatGoldColored(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Venta"</span></td>
+                <td>${formatGoldColored(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Crafteo"</span></td>
               </tr>
               <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia por unidad se calcula como: (Precio venta unitario - 15% comisión) - costo unitario</td></tr>
             </table>
@@ -465,11 +465,11 @@ const ventaTrasComisionUnidadMercado = precioVentaUnidadMercado - (precioVentaUn
           <table class="table-totales" style="margin-top:12px;">
             
             <tr>
-              <th><div class="tooltip-modern">Total Buy
+              <th><div class="tooltip-modern">Total "Compra"
     <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
   </div></th>
               <td class="item-solo-buy">${formatGoldColored(totals.tBuy)}</td>
-              <th><div class="tooltip-modern">Total Sell
+              <th><div class="tooltip-modern">Total "Venta"
     <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
   </div></th>
               <td class="item-solo-sell">${formatGoldColored(totals.tSell)}</td>
@@ -490,11 +490,11 @@ const ventaTrasComisionUnidadMercado = precioVentaUnidadMercado - (precioVentaUn
             
             <table class="table-totales" style="margin-top:12px;">
               <tr>
-                <th><div class="tooltip-modern">Total Buy
+                <th><div class="tooltip-modern">Total "Compra"
     <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
   </div></th>
                 <td class="item-solo-buy">${formatGoldColored(totals.tBuy / outputCount)}</td>
-                <th><div class="tooltip-modern">Total Sell
+                <th><div class="tooltip-modern">Total "Venta"
     <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
   </div></th>
                 <td class="item-solo-sell">${formatGoldColored(totals.tSell / outputCount)}</td>
@@ -560,9 +560,9 @@ const precioVentaUnidadMercado = (mainNode && typeof mainNode.sell_price === 'nu
               <th class="th-border-left">Ícono</th>
               <th>Nombre</th>
               <th>Cantidad</th>
-              <th>Total Buy</th>
-              <th>Total Sell</th>
-              <th>Total Crafted</th>
+              <th>Total Compra</th>
+              <th>Total Venta</th>
+              <th>Total Crafteo</th>
               <th class="th-border-right"></th>
             </tr>
           </thead>

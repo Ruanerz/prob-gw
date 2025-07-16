@@ -279,9 +279,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
         <div style='margin-bottom:8px;color:#a1a1aa;font-size:1em;'>Esta receta produce <b>${outputCount}</b> unidades por crafteo. Los siguientes cálculos son por unidad.</div>
         <table class='table-totales totales-crafting-comparativa' style='margin-bottom: 8px;'>
           <tr style='text-align:center;'>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit comprando materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit vendiendo materiales</span></div></td>
-            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit crafteando materiales</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitBuyUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Comprar"</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitSellUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Vender"</span></div></td>
+            <td><div class='base-comparativa'>${formatGoldColored(Math.round(profitCraftedUnidadMercado))} <br><span style='font-size:0.93em;'>Profit "Craftear"</span></div></td>
           </tr>
           <tr><td colspan='3' style='text-align:center;font-size:0.98em;color:#a1a1aa;'>La ganancia por unidad se calcula como: (Precio venta unitario - 15% comisión) - costo unitario</td></tr>
         </table>
@@ -296,9 +296,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
       <tr>
         <th>Ítem</th>
         <th>Cantidad</th>
-        <th>Total Buy</th>
-        <th>Total Sell</th>
-        <th>Total Crafted</th>
+        <th>Total Compra</th>
+        <th>Total Venta</th>
+        <th>Total Crafteo</th>
         <th>Modo</th>
       </tr>
     </thead>
@@ -323,11 +323,11 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
     <div id="totales-crafting">      
       <table class="table-totales" style="margin-top:12px;">
         <tr>
-          <th><div class="tooltip-modern">Total Buy
+          <th><div class="tooltip-modern">Total Compra
             <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
           </div></th>
           <td class="item-solo-buy">${formatGoldColored(totals.totalBuy)} </td>
-          <th><div class="tooltip-modern">Total Sell
+          <th><div class="tooltip-modern">Total Venta
             <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
           </div></th>
           <td class="item-solo-sell">${formatGoldColored(totals.totalSell)}</td>
@@ -352,11 +352,11 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
       <div id="totales-crafting">
         <table class="table-totales" style="margin-top:12px;">
           <tr>
-            <th><div class="tooltip-modern">Total Buy
+            <th><div class="tooltip-modern">Total Compra
               <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
             </div></th>
             <td class="item-solo-buy">${formatGoldColored(totals.totalBuy / outputCount)}</td>
-            <th><div class="tooltip-modern">Total Sell
+            <th><div class="tooltip-modern">Total Venta
               <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
             </div></th>
             <td class="item-solo-sell">${formatGoldColored(totals.totalSell / outputCount)}</td>
@@ -427,9 +427,9 @@ const precioVentaTotal = mainNode && typeof mainNode.sell_price === 'number' ? m
           <th class="th-border-left">Ícono</th>
           <th>Nombre</th>
           <th>Cantidad</th>
-          <th>Total Buy</th>
-          <th>Total Sell</th>
-          <th>Total Crafted</th>
+          <th>Total Compra</th>
+          <th>Total Venta</th>
+          <th>Total Crafteo</th>
           <th class="th-border-right"></th>
         </tr>
       </thead>

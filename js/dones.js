@@ -199,8 +199,8 @@ async function renderDon(don, container) {
         if (totalBuy > 0 || totalSell > 0) {
           html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
             <div class='precio-totales-dones'>
-              <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-              <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+              <div class='total-dones'><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+              <div class='total-dones'><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
             </div>
           </div>`;
         }
@@ -231,8 +231,8 @@ async function renderDon(don, container) {
       if (totalBuy > 0 || totalSell > 0) {
         html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
           <div class='precio-totales-dones'>
-            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+            <div class='total-dones'><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+            <div class='total-dones'><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
           </div>
         </div>`;
       }
@@ -381,10 +381,10 @@ async function renderDraconicTribute() {
           <th>Ícono</th>
           <th>Nombre</th>
           <th>Cantidad</th>
-          <th>Precio Buy (u)</th>
-          <th>Precio Sell (u)</th>
-          <th>Total Buy</th>
-          <th>Total Sell</th>
+          <th>Precio Compra (u)</th>
+          <th>Precio Venta (u)</th>
+          <th>Total Compra</th>
+          <th>Total Venta</th>
         </tr>
       </thead>
       <tbody>`;
@@ -403,8 +403,8 @@ async function renderDraconicTribute() {
     html += `</tbody></table>`;
     html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
       <div class='precio-totales-dones'>
-        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+        <div class='total-dones'><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+        <div class='total-dones'><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
       </div>
     </div>`;
 
@@ -499,8 +499,8 @@ async function renderTributoDraconico() {
       html += `</tbody></table>`;
       html += `<div class="table-modern-totales" style="margin-bottom:50px;">
         <div class="precio-totales-dones">
-          <div class="total-dones"><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-          <div class="total-dones"><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+          <div class="total-dones"><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+          <div class="total-dones"><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
         </div>
       </div>`;
       document.getElementById('tributo-draconico-content').insertAdjacentHTML('beforeend', html);
@@ -558,8 +558,8 @@ async function renderTributoDraconico() {
         html += `</tbody></table>`;
         html += `<div class='table-modern-totales' style='margin-bottom:50px;'>
           <div class='precio-totales-dones'>
-            <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-            <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+            <div class='total-dones'><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+            <div class='total-dones'><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
           </div>
         </div>`;
         subdonDiv.innerHTML += html;
@@ -952,8 +952,8 @@ async function renderTributo() {
     // Mostrar los totales generales
     html += `<div class='table-modern-totales' style='margin-bottom:18px;'>
       <div class='precio-totales-dones'>
-        <div class='total-dones'><b>Total Buy estimado:</b> ${formatGoldColored(totalBuy)}</div>
-        <div class='total-dones'><b>Total Sell estimado:</b> ${formatGoldColored(totalSell)}</div>
+        <div class='total-dones'><b>Total Compra estimado:</b> ${formatGoldColored(totalBuy)}</div>
+        <div class='total-dones'><b>Total Venta estimado:</b> ${formatGoldColored(totalSell)}</div>
       </div>
     </div>`;
 

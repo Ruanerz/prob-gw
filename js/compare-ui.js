@@ -467,11 +467,11 @@ function renderCraftingSectionUI() {
     <div id="totales-crafting">      
       <table class="table-totales" style="margin-top:12px;">
         <tr>
-          <th><div class="tooltip-modern">Total Buy
+          <th><div class="tooltip-modern">Total Compra
             <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
           </div></th>
           <td class="item-solo-buy">${formatGoldColored(totals.totalBuy)}</td>
-          <th><div class="tooltip-modern">Total Sell
+          <th><div class="tooltip-modern">Total Venta
             <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
           </div></th>
           <td class="item-solo-sell">${formatGoldColored(totals.totalSell)}</td>
@@ -490,11 +490,11 @@ function renderCraftingSectionUI() {
       <div id="totales-crafting">
         <table class="table-totales" style="margin-top:12px;">
           <tr>
-            <th><div class="tooltip-modern">Total Buy
+            <th><div class="tooltip-modern">Total Compra
               <span class="tooltiptext-modern">Suma total si haces PEDIDO de materiales en el mercado.</span>
             </div></th>
             <td class="item-solo-buy">${formatGoldColored(totals.totalBuy / outputCount)}</td>
-            <th><div class="tooltip-modern">Total Sell
+            <th><div class="tooltip-modern">Total Venta
               <span class="tooltiptext-modern">Suma total si COMPRAS materiales en el mercado.</span>
             </div></th>
             <td class="item-solo-sell">${formatGoldColored(totals.totalSell / outputCount)}</td>
@@ -558,8 +558,8 @@ function renderCraftingSectionUI() {
           <th>Nombre</th>
           <th>Cantidad</th>
           <th>Precio de venta</th>
-          <th>Total Buy</th>
-          <th>Total Sell</th>
+          <th>Total Compra</th>
+          <th>Total Venta</th>
           <th>Total Crafted</th>
           <th>Mejor Profit</th>
           <th class="th-border-right"></th>

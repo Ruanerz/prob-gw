@@ -2171,6 +2171,30 @@ p .info-text{
   z-index: 9999;
 }
 
+/* Dropdown de cuenta dentro de la barra de navegación */
+.account-dropdown {
+  position: absolute;
+  top: 65px;
+  right: 32px;
+  background: #1e1e1e;
+  padding: 24px;
+  border-radius: 8px;
+  min-width: 280px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--transition), transform var(--transition);
+  z-index: 1000;
+}
+
+.account-dropdown.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 .account-modal-content {
   background: #1e1e1e;
   padding: 24px;

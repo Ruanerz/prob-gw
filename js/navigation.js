@@ -153,10 +153,24 @@ function showAuthOptions() {
 }
 
 // Mostrar modal con información de la cuenta
+let outsideClickHandler;
+
+function removeAccountDropdown() {
+    const dropdown = document.getElementById('account-dropdown');
+    if (dropdown) {
+        dropdown.remove();
+        if (outsideClickHandler) {
+            document.removeEventListener('click', outsideClickHandler);
+            outsideClickHandler = null;
+        }
+    }
+}
+
+// Mostrar modal con información de la cuenta
 function showAccountModal() {
     const existing = document.getElementById('account-dropdown');
     if (existing) {
-        existing.remove();
+        removeAccountDropdown();
         return;
     }
 
@@ -165,7 +179,7 @@ function showAccountModal() {
 
     const dropdown = document.createElement('div');
     dropdown.id = 'account-dropdown';
-    dropdown.className = 'account-dropdown visible';
+    dropdown.className = 'account-dropdown';
     dropdown.innerHTML = `
         <div class="account-modal-content">
             <img src="${user.picture || 'https://via.placeholder.com/64'}" class="account-avatar" alt="avatar">
@@ -186,19 +200,18 @@ function showAccountModal() {
         dropdown.style.left = rect.left + window.scrollX + 'px';
     }
 
-    const close = () => {
-        dropdown.remove();
-        document.removeEventListener('click', outsideClick);
-    };
-
     const outsideClick = (e) => {
         if (!dropdown.contains(e.target) && e.target !== userInfo) {
-            close();
+            removeAccountDropdown();
         }
     };
 
+    outsideClickHandler = outsideClick;
     setTimeout(() => document.addEventListener('click', outsideClick));
-    dropdown.querySelector('.close-account-btn').addEventListener('click', close);
+    dropdown.querySelector('.close-account-btn').addEventListener('click', removeAccountDropdown);
+
+    // Trigger CSS transition
+    requestAnimationFrame(() => dropdown.classList.add('visible'));
 }
 
 // Function to create the navigation HTML
@@ -266,8 +279,7 @@ function initNavigation() {
         nav.querySelectorAll('a.item-tab').forEach(link => {
             if (link.id !== 'userInfo') {
                 link.addEventListener('click', () => {
-                    const modal = document.getElementById('account-dropdown');
-                    if (modal) modal.remove();
+                    removeAccountDropdown();
                 });
             }
         });

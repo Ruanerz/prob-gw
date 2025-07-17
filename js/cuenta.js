@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
         greetingElement.textContent = `Hola ${user.name || 'Usuario'}`;
     }
 
+    // Mostrar el avatar del usuario en la ilustración de bienvenida
+    const welcomeImg = document.querySelector('.welcome-illustration img');
+    if (welcomeImg && user.picture) {
+        welcomeImg.src = user.picture;
+        welcomeImg.alt = `Avatar de ${user.name || 'usuario'}`;
+    }
+
     // Registrar eventos de refresco
     const refreshBtn = document.getElementById('refreshFavoritos');
     if (refreshBtn) {

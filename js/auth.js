@@ -5,7 +5,55 @@ const GOOGLE_REDIRECT_URI = `${window.location.origin}/auth.html`;
 
 let currentUser = JSON.parse(localStorage.getItem('user')) || null;
 
-function initAuth() {
+// Procesa el fragmento OAuth (`#access_token=...`) que Discord devuelve cuando se usa response_type=token
+async function processOAuthFragment() {
+    const hash = window.location.hash.startsWith('#') ? window.location.hash.substring(1) : '';
+    if (!hash) return;
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+    if (!accessToken) return;
+    const state = params.get('state') || 'discord';
+    try {
+        let user = null;
+        if (state === 'discord') {
+            const resp = await fetch('https://discord.com/api/users/@me', {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!resp.ok) throw new Error('Error al obtener perfil de Discord');
+            const profile = await resp.json();
+            let avatarUrl;
+            if (profile.avatar) {
+                avatarUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`;
+            } else {
+                const index = profile.discriminator ? parseInt(profile.discriminator) % 5 : (parseInt(profile.id) >> 22) % 6;
+                avatarUrl = `https://cdn.discordapp.com/embed/avatars/${index}.png`;
+            }
+            user = {
+                id: profile.id,
+                name: profile.global_name || profile.username,
+                email: profile.email || '',
+                picture: avatarUrl
+            };
+        } else {
+            // Otros proveedores (Google usa auth.html) no se manejan aquí por ahora
+            return;
+        }
+        // Guardar en localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('auth_token', accessToken);
+        currentUser = user;
+        // Limpiar fragmento para evitar exponer el token
+        history.replaceState(null, null, window.location.pathname + window.location.search);
+    } catch (err) {
+        console.error('Error procesando OAuth fragment:', err);
+    }
+}
+
+
+async function initAuth() {
+        // Procesar fragmento OAuth antes de nada (Discord)
+    await processOAuthFragment();
+
     // Actualizar currentUser desde localStorage
     currentUser = JSON.parse(localStorage.getItem('user')) || null;
     // Actualizar la UI

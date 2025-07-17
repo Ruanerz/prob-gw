@@ -116,6 +116,7 @@ function loginWithDiscord() {
 
 window.Auth = {
     get currentUser() { return currentUser; },
+    initAuth,
     loginWithGoogle,
     loginWithFacebook,
     loginWithDiscord,

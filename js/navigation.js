@@ -82,40 +82,58 @@ const navigationData = {
     ]
 };
 
+let accountDropdown = null;
+let accountDropdownListener = null;
+
 // Mostrar menú de cuenta con opciones de usuario
 function showAccountMenu() {
-    let modal = document.getElementById('account-modal');
-    if (modal) modal.remove(); // Remover si ya existe
-    
+    const userInfo = document.getElementById('userInfo');
+
+    // Si ya existe el dropdown, eliminarlo (toggle)
+    if (accountDropdown) {
+        accountDropdown.remove();
+        if (accountDropdownListener) {
+            document.removeEventListener('click', accountDropdownListener);
+            accountDropdownListener = null;
+        }
+        accountDropdown = null;
+        return;
+    }
+
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     if (!user) return;
-    
-    modal = document.createElement('div');
-    modal.id = 'account-modal';
-    modal.className = 'modal-overlay';
-    
-    modal.innerHTML = `
-        <div class="account-modal-content">
-            <img src="${user.picture || 'https://via.placeholder.com/50'}" class="account-avatar" alt="avatar">
-            <div class="account-name">${user.name || 'Usuario'}</div>
-            <div class="account-email">${user.email || ''}</div>
 
-            <a href="cuenta.html" class="account-link">Mi Cuenta</a>
-
-            <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" class="logout-btn">Cerrar sesión</button>
-
-            <div class="close-wrapper">
-                <button onclick="document.getElementById('account-modal').remove()" class="close-account-btn">Cerrar</button>
-            </div>
-        </div>
+    const dropdown = document.createElement('div');
+    dropdown.className = 'account-dropdown';
+    dropdown.innerHTML = `
+        <img src="${user.picture || 'https://via.placeholder.com/50'}" class="account-avatar" alt="avatar">
+        <div class="account-name">${user.name || 'Usuario'}</div>
+        <div class="account-email">${user.email || ''}</div>
+        <a href="cuenta.html" class="account-link">Mi Cuenta</a>
+        <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" class="logout-btn">Cerrar sesión</button>
     `;
-    
-    // Cerrar al hacer clic fuera del modal
-    modal.onclick = (e) => {
-        if (e.target === modal) modal.remove();
+
+    if (userInfo && userInfo.parentElement) {
+        userInfo.parentElement.insertBefore(dropdown, userInfo.nextSibling);
+    } else {
+        document.body.appendChild(dropdown);
+    }
+
+    // Mostrar con transición
+    requestAnimationFrame(() => dropdown.classList.add('visible'));
+
+    // Cerrar al hacer clic fuera
+    accountDropdownListener = (e) => {
+        if (!dropdown.contains(e.target) && e.target !== userInfo) {
+            dropdown.remove();
+            document.removeEventListener('click', accountDropdownListener);
+            accountDropdown = null;
+            accountDropdownListener = null;
+        }
     };
-    
-    document.body.appendChild(modal);
+    setTimeout(() => document.addEventListener('click', accountDropdownListener));
+
+    accountDropdown = dropdown;
 }
 
 // Actualizar el menú de autenticación según el estado
@@ -131,11 +149,15 @@ function updateAuthMenu() {
         if (userInfo) {
             userInfo.style.display = 'block';
             userInfo.innerHTML = `
-                <img src="${user.picture || 'https://via.placeholder.com/24'}" 
-                     alt="avatar" 
+                <img src="${user.picture || 'https://via.placeholder.com/24'}"
+                     alt="avatar"
                      style="width:24px;height:24px;border-radius:50%;vertical-align:middle;margin-right:5px;">
                 ${user.name || 'Usuario'}
             `;
+            userInfo.onclick = (e) => {
+                e.preventDefault();
+                showAccountMenu();
+            };
         }
     } else {
         // Usuario no autenticado
@@ -245,6 +267,20 @@ function initNavigation() {
         header.insertBefore(nav, header.firstChild);
         ThemeManager.init();
         updateAuthMenu();
+        nav.querySelectorAll('a.item-tab').forEach(link => {
+            if (link.id !== 'userInfo') {
+                link.addEventListener('click', () => {
+                    if (accountDropdown) {
+                        accountDropdown.remove();
+                        if (accountDropdownListener) {
+                            document.removeEventListener('click', accountDropdownListener);
+                            accountDropdownListener = null;
+                        }
+                        accountDropdown = null;
+                    }
+                });
+            }
+        });
     }
 }
 

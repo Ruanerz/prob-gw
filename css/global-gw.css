@@ -2174,6 +2174,8 @@ p .info-text{
 /* Dropdown de cuenta dentro de la barra de navegación */
 .account-dropdown {
   position: absolute;
+  top: 65px;
+  right: 32px;
   background: #1e1e1e;
   padding: 24px;
   border-radius: 8px;

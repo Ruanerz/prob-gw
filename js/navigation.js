@@ -153,34 +153,17 @@ function showAuthOptions() {
 }
 
 // Mostrar modal con información de la cuenta
-let outsideClickHandler;
-
-function removeAccountDropdown() {
-    const dropdown = document.getElementById('account-dropdown');
-    if (dropdown) {
-        dropdown.remove();
-        if (outsideClickHandler) {
-            document.removeEventListener('click', outsideClickHandler);
-            outsideClickHandler = null;
-        }
-    }
-}
-
-// Mostrar modal con información de la cuenta
 function showAccountModal() {
-    const existing = document.getElementById('account-dropdown');
-    if (existing) {
-        removeAccountDropdown();
-        return;
-    }
+    const existing = document.getElementById('account-modal');
+    if (existing) return;
 
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     if (!user) return;
 
-    const dropdown = document.createElement('div');
-    dropdown.id = 'account-dropdown';
-    dropdown.className = 'account-dropdown';
-    dropdown.innerHTML = `
+    const modal = document.createElement('div');
+    modal.id = 'account-modal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
         <div class="account-modal-content">
             <img src="${user.picture || 'https://via.placeholder.com/64'}" class="account-avatar" alt="avatar">
             <div class="account-name">${user.name || 'Usuario'}</div>
@@ -190,28 +173,13 @@ function showAccountModal() {
             <button class="close-account-btn">Cerrar</button>
         </div>
     `;
+    document.body.appendChild(modal);
 
-    document.body.appendChild(dropdown);
-
-    const userInfo = document.getElementById('userInfo');
-    if (userInfo) {
-        const rect = userInfo.getBoundingClientRect();
-        dropdown.style.top = rect.bottom + window.scrollY + 'px';
-        dropdown.style.left = rect.left + window.scrollX + 'px';
-    }
-
-    const outsideClick = (e) => {
-        if (!dropdown.contains(e.target) && e.target !== userInfo) {
-            removeAccountDropdown();
-        }
-    };
-
-    outsideClickHandler = outsideClick;
-    setTimeout(() => document.addEventListener('click', outsideClick));
-    dropdown.querySelector('.close-account-btn').addEventListener('click', removeAccountDropdown);
-
-    // Trigger CSS transition
-    requestAnimationFrame(() => dropdown.classList.add('visible'));
+    const close = () => modal.remove();
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+    });
+    modal.querySelector('.close-account-btn').addEventListener('click', close);
 }
 
 // Function to create the navigation HTML
@@ -279,7 +247,8 @@ function initNavigation() {
         nav.querySelectorAll('a.item-tab').forEach(link => {
             if (link.id !== 'userInfo') {
                 link.addEventListener('click', () => {
-                    removeAccountDropdown();
+                    const modal = document.getElementById('account-modal');
+                    if (modal) modal.remove();
                 });
             }
         });

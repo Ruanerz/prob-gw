@@ -59,10 +59,10 @@ function requireAuth() {
 document.addEventListener('DOMContentLoaded', initAuth);
 
 const DISCORD_CLIENT_ID = '1391252012561207386';
-const DISCORD_REDIRECT_URI = `${window.location.origin}/auth.html`;
+const DISCORD_REDIRECT_URI = "https://ruanerz.github.io/prob-gw/index.html";
 
 function loginWithDiscord() {
-    const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=token&scope=identify&state=discord`;
+    const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=code&scope=identify&state=discord`;
     window.location.href = authUrl;
 }
 

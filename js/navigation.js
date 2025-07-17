@@ -38,11 +38,11 @@ const ThemeManager = {
 const navigationData = {
     menuItems: [
         { text: 'Inicio', href: '/', target: 'tab-detalles', class: '' },
-        { text: 'Dones', href: '/dones', target: 'tab-crafteo', class: '' },
-        { text: 'Comparativa', href: '/compare-craft', target: 'tab-comparativa', class: '' },
-        { text: 'Fractales', href: '/fractales-gold', target: 'tab-fractales', class: '' },
-        { text: 'Legendarias', href: '/leg-craft', target: 'tab-leg-craft', class: '' },
-        { text: 'Forja Mística', href: '/forja-mistica', target: 'tab-forja-mistica', class: '' },
+        { text: 'Dones', href: 'dones.html', target: 'tab-crafteo', class: '' },
+        { text: 'Comparativa', href: 'compare-craft.html', target: 'tab-comparativa', class: '' },
+        { text: 'Fractales', href: 'fractales-gold.html', target: 'tab-fractales', class: '' },
+        { text: 'Legendarias', href: 'leg-craft.html', target: 'tab-leg-craft', class: '' },
+        { text: 'Forja Mística', href: 'forja-mistica.html', target: 'tab-forja-mistica', class: '' },
     ],
     rightMenuItems: [
         { 
@@ -64,7 +64,7 @@ const navigationData = {
             id: 'loginBtn',
             onClick: (e) => {
                 e.preventDefault();
-                window.location.href = '/login';
+                window.location.href = 'login.html';
             }
         },
         {

@@ -76,65 +76,12 @@ const navigationData = {
             style: 'display: none; padding: 0 10px;',
             onClick: (e) => {
                 e.preventDefault();
-                showAccountMenu();
+                showAccountModal();
             }
         }
     ]
 };
 
-let accountDropdown = null;
-let accountDropdownListener = null;
-
-// Mostrar menú de cuenta con opciones de usuario
-function showAccountMenu() {
-    const userInfo = document.getElementById('userInfo');
-
-    // Si ya existe el dropdown, eliminarlo (toggle)
-    if (accountDropdown) {
-        accountDropdown.remove();
-        if (accountDropdownListener) {
-            document.removeEventListener('click', accountDropdownListener);
-            accountDropdownListener = null;
-        }
-        accountDropdown = null;
-        return;
-    }
-
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (!user) return;
-
-    const dropdown = document.createElement('div');
-    dropdown.className = 'account-dropdown';
-    dropdown.innerHTML = `
-        <img src="${user.picture || 'https://via.placeholder.com/50'}" class="account-avatar" alt="avatar">
-        <div class="account-name">${user.name || 'Usuario'}</div>
-        <div class="account-email">${user.email || ''}</div>
-        <a href="cuenta.html" class="account-link">Mi Cuenta</a>
-        <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" class="logout-btn">Cerrar sesión</button>
-    `;
-
-    if (userInfo && userInfo.parentElement) {
-        userInfo.parentElement.insertBefore(dropdown, userInfo.nextSibling);
-    } else {
-        document.body.appendChild(dropdown);
-    }
-
-    // Mostrar con transición
-    requestAnimationFrame(() => dropdown.classList.add('visible'));
-
-    // Cerrar al hacer clic fuera
-    accountDropdownListener = (e) => {
-        if (!dropdown.contains(e.target) && e.target !== userInfo) {
-            dropdown.remove();
-            document.removeEventListener('click', accountDropdownListener);
-            accountDropdown = null;
-            accountDropdownListener = null;
-        }
-    };
-    setTimeout(() => document.addEventListener('click', accountDropdownListener));
-
-    accountDropdown = dropdown;
-}
 
 // Actualizar el menú de autenticación según el estado
 function updateAuthMenu() {
@@ -156,7 +103,7 @@ function updateAuthMenu() {
             `;
             userInfo.onclick = (e) => {
                 e.preventDefault();
-                showAccountMenu();
+                showAccountModal();
             };
         }
     } else {
@@ -203,6 +150,36 @@ function showAuthOptions() {
             if (window.Auth && window.Auth.loginWithDiscord) window.Auth.loginWithDiscord();
         };
     }
+}
+
+// Mostrar modal con información de la cuenta
+function showAccountModal() {
+    const existing = document.getElementById('account-modal');
+    if (existing) return;
+
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user) return;
+
+    const modal = document.createElement('div');
+    modal.id = 'account-modal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="account-modal-content">
+            <img src="${user.picture || 'https://via.placeholder.com/64'}" class="account-avatar" alt="avatar">
+            <div class="account-name">${user.name || 'Usuario'}</div>
+            <div class="account-email">${user.email || ''}</div>
+            <a href="cuenta.html" class="account-link">Mi Cuenta</a>
+            <button onclick="window.Auth && window.Auth.logout && window.Auth.logout()" class="logout-btn">Cerrar sesión</button>
+            <button class="close-account-btn">Cerrar</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const close = () => modal.remove();
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+    });
+    modal.querySelector('.close-account-btn').addEventListener('click', close);
 }
 
 // Function to create the navigation HTML
@@ -270,14 +247,8 @@ function initNavigation() {
         nav.querySelectorAll('a.item-tab').forEach(link => {
             if (link.id !== 'userInfo') {
                 link.addEventListener('click', () => {
-                    if (accountDropdown) {
-                        accountDropdown.remove();
-                        if (accountDropdownListener) {
-                            document.removeEventListener('click', accountDropdownListener);
-                            accountDropdownListener = null;
-                        }
-                        accountDropdown = null;
-                    }
+                    const modal = document.getElementById('account-modal');
+                    if (modal) modal.remove();
                 });
             }
         });

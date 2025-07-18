@@ -2245,7 +2245,7 @@ p .info-text{
 
 .logout-btn {
   width: 100%;
-  background: #c00;
+  background: #ff4545;
   color: #fff;
   padding: 10px;
   border: none;
@@ -2268,6 +2268,7 @@ p .info-text{
   cursor: pointer;
   font-size: 13px;
   transition: all 0.2s;
+  margin-top: 6px;
 }
 
 .close-account-btn:hover {

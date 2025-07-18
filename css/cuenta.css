@@ -569,6 +569,13 @@ body {
     border-left: 4px solid var(--primary-color);
 }
 
+.light-theme .favorito-item {
+    background-color: #f5f5f5;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+}
+
 .favorito-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

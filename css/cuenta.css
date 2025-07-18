@@ -95,7 +95,7 @@ body {
 
 /* Sección de bienvenida */
 .welcome-section {
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #16294b 0%, #2a5298 100%);
     color: white;
     padding: 2.5rem !important;
     position: relative;
@@ -103,7 +103,7 @@ body {
 }
 
 .light-theme .welcome-section {
-    background: linear-gradient(135deg, #ffffff 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #637492 100%);
     color: white;
     padding: 2.5rem !important;
     position: relative;

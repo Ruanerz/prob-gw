@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar y mostrar los ítems y comparativas guardadas
     loadAndDisplayFavoritos();
     loadAndDisplayComparativas();
+
+    // Inicializar estadísticas al cargar
+    updateStats();
 });
 
 function hideLoadingOverlay() {
@@ -72,6 +75,21 @@ function hideLoadingOverlay() {
 }
 
 window.addEventListener('load', hideLoadingOverlay);
+
+/**
+ * Actualiza los contadores de la sección de estadísticas (favoritos y comparaciones)
+ */
+function updateStats() {
+    const favs = window.StorageUtils?.getFavoritos('gw2_favoritos_items') || [];
+    const comps = window.StorageUtils?.getComparativas('gw2_comparativas') || [];
+
+    const favSpan = document.getElementById('favoritosCount');
+    if (favSpan) favSpan.textContent = favs.length;
+
+    const compSpan = document.getElementById('comparacionesCount');
+    if (compSpan) compSpan.textContent = comps.length;
+}
+
 
 /**
  * Carga y muestra los ítems guardados en la lista de favoritos
@@ -171,6 +189,9 @@ function loadAndDisplayFavoritos() {
                 
                 // Mostrar notificación
                 window.StorageUtils?.showToast('Ítem eliminado de favoritos');
+
+                // Actualizar estadísticas después de eliminar
+                updateStats();
             }
         };
         
@@ -195,6 +216,9 @@ function loadAndDisplayFavoritos() {
     counter.className = 'favoritos-counter';
     counter.textContent = `${favoritos.length} ${favoritos.length === 1 ? 'ítem' : 'ítems'} guardados`;
     container.prepend(counter);
+
+    // Actualizar estadísticas globales
+    updateStats();
 }
 
 // ------------------ COMPARATIVAS ------------------
@@ -259,6 +283,9 @@ function loadAndDisplayComparativas() {
                     container.innerHTML = '<p>No hay comparativas guardadas.</p>';
                 }
                 window.StorageUtils?.showToast('Comparativa eliminada');
+
+                // Actualizar estadísticas después de eliminar
+                updateStats();
             }
         };
 

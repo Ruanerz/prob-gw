@@ -2205,7 +2205,7 @@ p .info-text{
   border: 1px solid #333;
 }
 
-.light-theme.account-modal-content {
+.light-theme .account-modal-content {
   background: #e2dfdf;
   padding: 24px;
   border-radius: 8px;

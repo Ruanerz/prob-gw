@@ -43,7 +43,15 @@ body {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: var(--box-shadow);
-    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.light-theme .videos-board-section {
+    background-color: #f5f5f5;
+    border-radius: var(--border-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--box-shadow);
     transition: var(--transition);
 }
 
@@ -685,3 +693,11 @@ body {
     color: #aaa;
     font-style: italic;
 }
+
+.light-theme #lista-comparaciones {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    color: #aaa;
+    font-style: italic;
+}
+

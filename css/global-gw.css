@@ -2248,6 +2248,17 @@ p .info-text{
   transition: all 0.2s;
 }
 
+.light-theme .account-link {
+  display: block;
+  background: #adaaaa;
+  color: #93f9e1;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+
 .account-link:hover {
   background: #333;
   color: #b8fff0;

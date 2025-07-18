@@ -107,7 +107,7 @@ function loadAndDisplayFavoritos() {
     if (!favoritos.length) {
         container.innerHTML = `
             <div class="no-items">
-                <img src="img/empty-state.svg" alt="Sin ítems guardados" class="empty-state">
+                <span class="empty-icon" aria-hidden="true">📦</span>
                 <p>No hay ítems guardados aún.</p>
                 <p>Guarda ítems desde la página de detalles para verlos aquí.</p>
             </div>`;
@@ -182,7 +182,7 @@ function loadAndDisplayFavoritos() {
                 if (document.querySelectorAll('.favorito-item').length === 0) {
                     container.innerHTML = `
                         <div class="no-items">
-                            <img src="img/empty-state.svg" alt="Sin ítems guardados" class="empty-state">
+                            <span class="empty-icon" aria-hidden="true">📦</span>
                             <p>No hay ítems guardados.</p>
                         </div>`;
                 }
@@ -237,7 +237,7 @@ function loadAndDisplayComparativas() {
     if (!comparativas.length) {
         container.innerHTML = `
             <div class="no-items">
-                <img src="img/empty-state.svg" alt="Sin comparativas" class="empty-state">
+                <span class="empty-icon" aria-hidden="true">📦</span>
                 <p>No hay comparativas guardadas.</p>
                 <p>Guarda una comparativa desde la sección de comparativa para verla aquí.</p>
             </div>`;

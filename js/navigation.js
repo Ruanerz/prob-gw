@@ -39,8 +39,8 @@ const navigationData = {
     menuItems: [
         { text: 'Inicio', href: '/', target: 'tab-detalles', class: '' },
         { text: 'Dones', href: 'dones.html', target: 'tab-crafteo', class: '' },
-        { text: 'Comparativa', href: 'compare-craft.html', target: 'tab-comparativa', class: '' },
-        { text: 'Fractales', href: 'fractales-gold.html', target: 'tab-fractales', class: '' },
+        { text: 'Comparativa', href: 'compare-craft.html', target: 'tab-comparativa', class: '', requiresLogin: true },
+        { text: 'Fractales', href: 'fractales-gold.html', target: 'tab-fractales', class: '', requiresLogin: true },
         { text: 'Legendarias', href: 'leg-craft.html', target: 'tab-leg-craft', class: '' },
         { text: 'Forja Mística', href: 'forja-mistica.html', target: 'tab-forja-mistica', class: '' },
     ],
@@ -89,6 +89,11 @@ function updateAuthMenu() {
     const userInfo = document.getElementById('userInfo');
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     const isLoggedIn = !!localStorage.getItem('auth_token');
+
+    document.querySelectorAll('.item-tab[data-requires-login]')
+        .forEach(link => {
+            link.style.display = isLoggedIn ? '' : 'none';
+        });
     
     if (isLoggedIn && user) {
         // Usuario autenticado
@@ -199,6 +204,9 @@ function createNavigation() {
         link.className = `item-tab ${item.class}`.trim();
         if (item.target) {
             link.setAttribute('data-target', item.target);
+        }
+        if (item.requiresLogin) {
+            link.setAttribute('data-requires-login', 'true');
         }
         link.textContent = item.text;
         menuCenter.appendChild(link);

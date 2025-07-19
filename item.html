@@ -95,15 +95,7 @@
   </script>
 
 <script src="js/formatGold.js"></script>
-<script src="js/auth.js"></script>
-<script>
-  // Inicializar autenticación cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', function() {
-    if (window.Auth && typeof window.Auth.initAuth === 'function') {
-      window.Auth.initAuth();
-    }
-  });
-</script>
+<script defer src="js/auth.js"></script>
 <script>
   // Ocultar pestañas de mercado y actividad si no hay usuario autenticado
   document.addEventListener('DOMContentLoaded', function() {

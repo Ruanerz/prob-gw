@@ -76,39 +76,8 @@
       <div id="modal-results" class="item-list"></div>
     </div>
   </div>
-  <script src="js/modal-utils.js"></script>
-
-<script src="js/formatGold.js"></script>
-<script defer src="js/auth.js"></script>
-<script>
-  // Ocultar pestañas de mercado y actividad si no hay usuario autenticado
-  document.addEventListener('DOMContentLoaded', function() {
-    const loggedIn = !!localStorage.getItem('auth_token');
-    if (!loggedIn) {
-      document.querySelectorAll(
-        '.item-tab-btn[data-tab="resumen-mercado"],\
-        .item-tab-btn[data-tab="tab-mejores-horas-content"]'
-      ).forEach(el => el.style.display = 'none');
-
-      const resumen = document.getElementById('resumen-mercado');
-      if (resumen) resumen.style.display = 'none';
-
-      const mejores = document.getElementById('tab-mejores-horas-content');
-      if (mejores) mejores.style.display = 'none';
-    }
-  });
-</script>
-<script src="js/navigation.js"></script>
-<script src="js/feedback-modal.js"></script>
-<script src="js/item-tabs.js"></script>
-<script src="js/services/recipeService.js"></script>
-<script src="js/utils/recipeUtils.js"></script>
-<script src="js/item-mejores.js"></script>
-<script src="js/itemHandlers.js"></script>
-<script src="js/storageUtils.js"></script>
-<script src="js/rarityUtils.js"></script>
-<script src="js/item-ui.js"></script>
-<script type="module" src="js/item.js"></script>
+  <script defer src="dist/core.js"></script>
+  <script defer src="dist/item.bundle.js"></script>
   
   <!-- Inicialización -->
   <script>

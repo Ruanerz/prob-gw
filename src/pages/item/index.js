@@ -1,0 +1,10 @@
+import '../../core';
+import '../../../js/item-tabs.js';
+import '../../../js/services/recipeService.js';
+import '../../../js/utils/recipeUtils.js';
+import '../../../js/item-mejores.js';
+import '../../../js/itemHandlers.js';
+import '../../../js/storageUtils.js';
+import '../../../js/rarityUtils.js';
+import '../../../js/item-ui.js';
+import '../../../js/item.js';

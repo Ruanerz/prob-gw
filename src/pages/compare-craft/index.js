@@ -1,0 +1,9 @@
+import '../../core';
+import '../../../js/rarityUtils.js';
+import '../../../js/modal-utils.js';
+import '../../../js/item-tabs.js';
+import '../../../js/feedback-modal.js';
+import '../../../js/compare-logic.js';
+import '../../../js/compare-ui.js';
+import '../../../js/storageUtils.js';
+import '../../../js/compareHandlers.js';

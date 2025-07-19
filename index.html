@@ -85,22 +85,6 @@
       </div>
       <script src="js/rarityUtils.js"></script>
       <script src="js/modal-utils.js"></script>
-      <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const openBtn = document.getElementById('open-search-modal');
-        const modal = document.getElementById('search-modal');
-        const closeBtn = document.getElementById('close-search-modal');
-        openBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          openSearchModal();
-        });
-        closeBtn.addEventListener('click', closeSearchModal);
-        modal.querySelector('.search-modal-backdrop').addEventListener('click', closeSearchModal);
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') closeSearchModal();
-        });
-      });
-      </script>
 
 
       <a href="mundo-viviente-3.html" class="menu-card">

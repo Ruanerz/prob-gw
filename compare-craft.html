@@ -13,7 +13,7 @@
   </header>
   <section class="services-menu">
     <div class="menu-grid-craft">
-      <a href="#" class="menu-card-search-craft" id="open-search-modal">
+      <a href="#" class="menu-card-search-craft" id="open-search-modal" data-script="js/search-modal-compare-craft.js">
         <div class="card-icon-craft">
           <img src="img/search.svg" alt="Buscador">
         </div>
@@ -79,22 +79,6 @@
   </div>
   <script src="js/rarityUtils.js"></script>
   <script src="js/modal-utils.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const openBtn = document.getElementById('open-search-modal');
-    const modal = document.getElementById('search-modal');
-    const closeBtn = document.getElementById('close-search-modal');
-    openBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      openSearchModal('js/search-modal-compare-craft.js');
-    });
-    closeBtn.addEventListener('click', closeSearchModal);
-    modal.querySelector('.search-modal-backdrop').addEventListener('click', closeSearchModal);
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeSearchModal();
-    });
-  });
-  </script>
 
   <script src="js/item-tabs.js"></script>
   <script src="js/feedback-modal.js"></script>

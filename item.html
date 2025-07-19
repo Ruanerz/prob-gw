@@ -104,6 +104,24 @@
     }
   });
 </script>
+<script>
+  // Ocultar pestañas de mercado y actividad si no hay usuario autenticado
+  document.addEventListener('DOMContentLoaded', function() {
+    const loggedIn = !!localStorage.getItem('auth_token');
+    if (!loggedIn) {
+      document.querySelectorAll(
+        '.item-tab-btn[data-tab="resumen-mercado"],\
+        .item-tab-btn[data-tab="tab-mejores-horas-content"]'
+      ).forEach(el => el.style.display = 'none');
+
+      const resumen = document.getElementById('resumen-mercado');
+      if (resumen) resumen.style.display = 'none';
+
+      const mejores = document.getElementById('tab-mejores-horas-content');
+      if (mejores) mejores.style.display = 'none';
+    }
+  });
+</script>
 <script src="js/navigation.js"></script>
 <script src="js/feedback-modal.js"></script>
 <script src="js/item-tabs.js"></script>

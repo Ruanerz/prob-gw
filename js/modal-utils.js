@@ -30,4 +30,32 @@
     if (!modal) return;
     modal.style.display = 'none';
   };
+
+  window.initSearchModal = function() {
+    var openBtn = document.getElementById('open-search-modal');
+    var modal = document.getElementById('search-modal');
+    if (!openBtn || !modal) return;
+
+    var closeBtn = document.getElementById('close-search-modal');
+    var backdrop = modal.querySelector('.search-modal-backdrop');
+    var scriptUrl = openBtn.dataset.script || 'js/search-modal.js';
+
+    openBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openSearchModal(scriptUrl);
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeSearchModal);
+    if (backdrop) backdrop.addEventListener('click', closeSearchModal);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeSearchModal();
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.initSearchModal);
+  } else {
+    window.initSearchModal();
+  }
 })();

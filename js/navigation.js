@@ -90,9 +90,9 @@ function updateAuthMenu() {
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     const isLoggedIn = !!localStorage.getItem('auth_token');
 
-    document.querySelectorAll('.item-tab[data-requires-login]')
-        .forEach(link => {
-            link.style.display = isLoggedIn ? '' : 'none';
+    document.querySelectorAll('[data-requires-login]')
+        .forEach(el => {
+            el.style.display = isLoggedIn ? '' : 'none';
         });
     
     if (isLoggedIn && user) {

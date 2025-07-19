@@ -56,16 +56,6 @@
       </section>
     </main>
   </div>
-  <script src="js/auth.js"></script>
-  <script>
-    // Inicializar autenticación cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-      if (window.Auth && typeof window.Auth.initAuth === 'function') {
-        window.Auth.initAuth();
-      }
-    });
-  </script>
-  <script src="js/navigation.js"></script>
-  <script src="js/feedback-modal.js"></script>
+  <script defer src="dist/core.js"></script>
 </body>
 </html>
